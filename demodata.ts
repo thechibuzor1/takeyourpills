@@ -2,184 +2,316 @@
 
 export var monPills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
-    time: '7h30AM',
+    time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
   {
-    id: 3,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
-    time: '7h30AM',
-  },
-  {
-    id: 4,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
-    time: '7h30AM',
+    time: '14h30PM',
+    pills: [
+      {
+        id: 1,
+        name: 'Paracetamol',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];
 
 export var tuePills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        time: '7h30AM',
+      },
+      {
+        id: 2,
+        name: 'Feosol',
+        desc: 'ferrous sulpahte - 600mg',
+        time: '8h30AM',
+      },
+      {
+        id: 3,
+        name: 'Indus',
+        desc: 'Indinous Prophate - 35mg',
+        time: '11h30AM',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 3,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
     time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];
 
 export var wedPills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        time: '7h30AM',
+      },
+      {
+        id: 2,
+        name: 'Feosol',
+        desc: 'ferrous sulpahte - 600mg',
+        time: '8h30AM',
+      },
+      {
+        id: 3,
+        name: 'Indus',
+        desc: 'Indinous Prophate - 35mg',
+        time: '11h30AM',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 3,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
     time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];
 
 export var thuPills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        time: '7h30AM',
+      },
+      {
+        id: 2,
+        name: 'Feosol',
+        desc: 'ferrous sulpahte - 600mg',
+        time: '8h30AM',
+      },
+      {
+        id: 3,
+        name: 'Indus',
+        desc: 'Indinous Prophate - 35mg',
+        time: '11h30AM',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 3,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
     time: '11h30AM',
-  },
-  {
-    id: 4,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
-    time: '7h30AM',
-  },
-  {
-    id: 5,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 6,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
-    time: '11h30AM',
-  },
-  {
-    id: 7,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
-    time: '7h30AM',
-  },
-  {
-    id: 8,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 9,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
-    time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];
 
 export var friPills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        time: '7h30AM',
+      },
+      {
+        id: 2,
+        name: 'Feosol',
+        desc: 'ferrous sulpahte - 600mg',
+        time: '8h30AM',
+      },
+      {
+        id: 3,
+        name: 'Indus',
+        desc: 'Indinous Prophate - 35mg',
+        time: '11h30AM',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 3,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
     time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];
 
 export var satPills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        time: '7h30AM',
+      },
+      {
+        id: 2,
+        name: 'Feosol',
+        desc: 'ferrous sulpahte - 600mg',
+        time: '8h30AM',
+      },
+      {
+        id: 3,
+        name: 'Indus',
+        desc: 'Indinous Prophate - 35mg',
+        time: '11h30AM',
+      },
+    ],
   },
   {
-    id: 2,
-    name: 'Feosol',
-    desc: 'ferrous sulpahte - 600mg',
-    time: '8h30AM',
-  },
-  {
-    id: 3,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
     time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];
 
 export var sunPills = [
   {
-    id: 1,
-    name: 'Nora - BE',
-    desc: 'Norenthindrone - 0.35mg',
     time: '7h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        time: '7h30AM',
+      },
+      {
+        id: 2,
+        name: 'Feosol',
+        desc: 'ferrous sulpahte - 600mg',
+        time: '8h30AM',
+      },
+      {
+        id: 3,
+        name: 'Indus',
+        desc: 'Indinous Prophate - 35mg',
+        time: '11h30AM',
+      },
+    ],
   },
-
   {
-    id: 2,
-    name: 'Indus',
-    desc: 'Indinous Prophate - 35mg',
     time: '11h30AM',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
   },
 ];

@@ -42,7 +42,7 @@ const Home = () => {
   const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
 
-  useEffect(() => {
+  /* useEffect(() => {
     switch (day) {
       case 'Monday':
         setPillData(monPills);
@@ -68,7 +68,7 @@ const Home = () => {
       default:
         setPillData([]);
     }
-  }, [day]);
+  }, [day]); */
   useEffect(() => {
     if (fullDate === d.format('dddd MMM D')) {
       setHeader('today');
@@ -126,50 +126,49 @@ const Home = () => {
   );
 
   const MedicineContainer = ({props}) => {
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const Medcolor = colors[Math.floor(Math.random() * colors.length)];
     return (
       <View
-        key={props.id}
         style={{
-          height: 300,
           borderRadius: 15,
-          backgroundColor: color,
+          backgroundColor: Medcolor,
           display: 'flex',
           width: '95%',
           alignSelf: 'center',
           justifyContent: 'space-between',
         }}>
-        <View>
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 20,
-              fontWeight: 'bold',
-              marginLeft: 15,
-              marginTop: 15,
-            }}>
-            {props.name}
-          </Text>
-          <Text
-            style={{
-              color: 'black',
-              marginLeft: 15,
-              fontSize: 14,
-              fontWeight: 'bold',
-            }}>
-            {props.desc}
-          </Text>
-        </View>
-
-        <FontAwesomeIcon
-          icon={solid('pills')}
-          size={50}
-          style={{
-            alignSelf: 'center',
-            bottom: 10,
-          }}
-          color={'white'}
-        />
+        {props.pills.map(pill => (
+          <View key={pill.id} style={{height: 270, marginTop: 10}}>
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 26,
+                fontWeight: 'bold',
+                marginLeft: 15,
+                marginTop: 15,
+              }}>
+              {pill.name}
+            </Text>
+            <Text
+              style={{
+                color: 'black',
+                marginLeft: 15,
+                fontSize: 14,
+                fontWeight: 'bold',
+              }}>
+              {pill.desc}
+            </Text>
+            <FontAwesomeIcon
+              icon={solid('pills')}
+              size={50}
+              style={{
+                alignSelf: 'center',
+                marginTop: 60,
+              }}
+              color={'white'}
+            />
+          </View>
+        ))}
 
         <Text
           style={{
@@ -200,7 +199,7 @@ const Home = () => {
         <Text
           style={{
             color: 'black',
-            fontSize: 16,
+            fontSize: 20,
             marginRight: 5,
             fontWeight: 'bold',
           }}>
@@ -233,54 +232,62 @@ const Home = () => {
           />
         </View>
       )}
-
-      <Text
-        style={{
-          color: 'black',
-          fontSize: 20,
-          textAlign: 'center',
-          marginTop: 20,
-          fontWeight: 'bold',
-        }}>
-        Hello, Chibuzor!
-      </Text>
-      <Text
-        style={{
-          color: 'black',
-          fontSize: 20,
-          textAlign: 'center',
-          fontWeight: 'bold',
-        }}>
-        Your medicine for {header}
-      </Text>
-
-      <CalendarStrip
-        scrollable
-        scrollerPaging
-        calendarHeaderStyle={{display: 'none'}}
-        style={{
-          height: 150,
-          paddingTop: 20,
-          paddingBottom: 10,
-          marginBottom: 20,
-        }}
-        dateNumberStyle={{color: 'black', marginTop: 5, fontWeight: 'bold'}}
-        dateNameStyle={{color: 'black', fontWeight: 'bold'}}
-        highlightDateNumberStyle={{color: 'black', marginTop: 5}}
-        highlightDateNameStyle={{color: 'black'}}
-        highlightDateContainerStyle={{
-          borderRadius: 15,
-          backgroundColor: color,
-        }}
-        iconStyle={{display: 'none'}}
-        selectedDate={moment()}
-        onDateSelected={date => {
-          setDay(date.format('dddd'));
-          setFullDate(date.format('dddd MMM D'));
-        }}
-      />
+      <View>
+        <ImageBackground source={require('../assets/body.png')}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 25,
+              textAlign: 'center',
+              marginTop: 20,
+              fontWeight: 'bold',
+            }}>
+            Hello, Chibuzor!
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 25,
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}>
+            Your medicine for {header}
+          </Text>
+        </ImageBackground>
+      </View>
 
       <SwipeListView
+        ListHeaderComponent={() => (
+          <CalendarStrip
+            scrollable
+            scrollerPaging
+            calendarHeaderStyle={{display: 'none'}}
+            style={{
+              height: 150,
+              paddingTop: 20,
+              paddingBottom: 10,
+              marginBottom: 20,
+            }}
+            dateNumberStyle={{
+              color: 'black',
+              marginTop: 5,
+              fontWeight: 'bold',
+            }}
+            dateNameStyle={{color: 'black', fontWeight: 'bold'}}
+            highlightDateNumberStyle={{color: 'black', marginTop: 5}}
+            highlightDateNameStyle={{color: 'black'}}
+            highlightDateContainerStyle={{
+              borderRadius: 15,
+              backgroundColor: color,
+            }}
+            iconStyle={{display: 'none'}}
+            selectedDate={moment()}
+            onDateSelected={date => {
+              setDay(date.format('dddd'));
+              setFullDate(date.format('dddd MMM D'));
+            }}
+          />
+        )}
         style={{marginTop: 30}}
         data={pillData}
         renderItem={renderItem}
