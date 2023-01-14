@@ -42,7 +42,7 @@ const Home = () => {
   const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
 
-  /* useEffect(() => {
+  useEffect(() => {
     switch (day) {
       case 'Monday':
         setPillData(monPills);
@@ -68,7 +68,7 @@ const Home = () => {
       default:
         setPillData([]);
     }
-  }, [day]); */
+  }, [day]);
   useEffect(() => {
     if (fullDate === d.format('dddd MMM D')) {
       setHeader('today');
@@ -111,9 +111,23 @@ const Home = () => {
   );
   const renderHiddenItem = (data, rowMap) => (
     <>
-      <View style={styles.rowBack}>
+      {/* <View style={styles.rowBack}>
+        <TickButton props={data.item} />
+      </View> */}
+      {data.item.pills.map(pill => (
         <TouchableOpacity
-          style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+          key={pill.id}
+          style={{
+            alignSelf: 'flex-end',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            width: 150,
+            height: 280,
+            borderRadius: 15,
+            backgroundColor: '#2584ec',
+            marginRight: 15,
+            marginTop: 3,
+          }}>
           <FontAwesomeIcon
             icon={solid('check')}
             style={{marginRight: 25}}
@@ -121,7 +135,7 @@ const Home = () => {
             color={'black'}
           />
         </TouchableOpacity>
-      </View>
+      ))}
     </>
   );
 
@@ -138,12 +152,12 @@ const Home = () => {
           justifyContent: 'space-between',
         }}>
         {props.pills.map(pill => (
-          <View key={pill.id} style={{height: 270, marginTop: 10}}>
+          <TouchableOpacity key={pill.id} style={{height: 270, marginTop: 10}}>
             <Text
               style={{
                 color: 'black',
                 fontSize: 26,
-                fontWeight: 'bold',
+                fontFamily: 'Satoshi-Bold',
                 marginLeft: 15,
                 marginTop: 15,
               }}>
@@ -154,7 +168,7 @@ const Home = () => {
                 color: 'black',
                 marginLeft: 15,
                 fontSize: 14,
-                fontWeight: 'bold',
+                fontFamily: 'Satoshi-Bold',
               }}>
               {pill.desc}
             </Text>
@@ -167,13 +181,13 @@ const Home = () => {
               }}
               color={'white'}
             />
-          </View>
+          </TouchableOpacity>
         ))}
 
         <Text
           style={{
             color: 'black',
-
+            fontFamily: 'Satoshi-Bold',
             bottom: 15,
             marginLeft: 15,
           }}>
@@ -183,6 +197,21 @@ const Home = () => {
     );
   };
 
+  const TickButton = ({props}) => {
+    return (
+      <>
+        <TouchableOpacity
+          style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+          <FontAwesomeIcon
+            icon={solid('check')}
+            style={{marginRight: 25}}
+            size={24}
+            color={'black'}
+          />
+        </TouchableOpacity>
+      </>
+    );
+  };
   return (
     <ImageBackground
       source={require('../assets/body.png')}
@@ -199,9 +228,9 @@ const Home = () => {
         <Text
           style={{
             color: 'black',
-            fontSize: 20,
+            fontSize: 18,
             marginRight: 5,
-            fontWeight: 'bold',
+            fontFamily: 'Satoshi-Bold',
           }}>
           {d.format('MMM YYYY')}
         </Text>
@@ -220,6 +249,10 @@ const Home = () => {
         <View style={{marginTop: 30, backgroundColor: 'transparent'}}>
           <Calendar
             style={{backgroundColor: 'transparent'}}
+            enableSwipeMonths={true}
+            onDayPress={date => {
+              console.log(date);
+            }}
             markingType={'multi-dot'}
             markedDates={{
               '2023-01-25': {
@@ -237,10 +270,10 @@ const Home = () => {
           <Text
             style={{
               color: 'black',
-              fontSize: 25,
+              fontSize: 23,
               textAlign: 'center',
               marginTop: 20,
-              fontWeight: 'bold',
+              fontFamily: 'Satoshi-Bold',
             }}>
             Hello, Chibuzor!
           </Text>
@@ -249,7 +282,7 @@ const Home = () => {
               color: 'black',
               fontSize: 25,
               textAlign: 'center',
-              fontWeight: 'bold',
+              fontFamily: 'Satoshi-Bold',
             }}>
             Your medicine for {header}
           </Text>
@@ -263,18 +296,21 @@ const Home = () => {
             scrollerPaging
             calendarHeaderStyle={{display: 'none'}}
             style={{
-              height: 150,
-              paddingTop: 20,
+              height: 100,
+              paddingTop: 10,
               paddingBottom: 10,
               marginBottom: 20,
             }}
             dateNumberStyle={{
               color: 'black',
               marginTop: 5,
-              fontWeight: 'bold',
+              fontFamily: 'Satoshi-Bold',
             }}
-            dateNameStyle={{color: 'black', fontWeight: 'bold'}}
-            highlightDateNumberStyle={{color: 'black', marginTop: 5}}
+            dateNameStyle={{color: 'black', fontFamily: 'Satoshi-Bold'}}
+            highlightDateNumberStyle={{
+              color: 'black',
+              marginTop: 5,
+            }}
             highlightDateNameStyle={{color: 'black'}}
             highlightDateContainerStyle={{
               borderRadius: 15,
@@ -323,14 +359,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: 90,
   },
-  backMore: {
-    backgroundColor: 'rgba(118, 118, 128, 0.02)',
-    right: 225,
-  },
-  backPin: {
-    backgroundColor: 'rgba(118, 118, 128, 0.08)',
-    right: 150,
-  },
+
   backRightBtn: {
     alignItems: 'flex-end',
     bottom: 0,
@@ -338,15 +367,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width: 150,
-    height: 300,
+    height: 298,
     borderRadius: 15,
   },
   backRightBtnLeft: {
     backgroundColor: '#2584ec',
     right: 15,
-  },
-  backRightBtnRight: {
-    backgroundColor: '#ffffff',
-    right: 90,
   },
 });
