@@ -19,6 +19,7 @@ export var monPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -38,6 +39,7 @@ export var monPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '14h30PM',
@@ -50,6 +52,7 @@ export var monPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
 
@@ -65,6 +68,7 @@ export var tuePills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -84,6 +88,7 @@ export var tuePills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '14h30PM',
@@ -96,6 +101,7 @@ export var tuePills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
 
@@ -118,6 +124,7 @@ export var wedPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -137,6 +144,7 @@ export var wedPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '14h30PM',
@@ -149,6 +157,7 @@ export var wedPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
 
@@ -164,6 +173,7 @@ export var thuPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -176,6 +186,7 @@ export var thuPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '14h30PM',
@@ -195,6 +206,7 @@ export var thuPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
 
@@ -224,6 +236,7 @@ export var friPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -243,6 +256,7 @@ export var friPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
 
@@ -265,6 +279,7 @@ export var satPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -284,6 +299,7 @@ export var satPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
 
@@ -306,6 +322,7 @@ export var sunPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
   {
     time: '11h30AM',
@@ -325,5 +342,6 @@ export var sunPills = [
         dosage: 2,
       },
     ],
+    taken: false,
   },
 ];
