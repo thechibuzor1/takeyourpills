@@ -33,7 +33,6 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_swipe_list_view_1 = require("react-native-swipe-list-view");
 var demodata_1 = require("../demodata");
 var Home = function () {
-    var _a;
     var colors = [
         '#4D4DFF',
         '#E5E1E6',
@@ -50,11 +49,11 @@ var Home = function () {
     var date = new Date();
     var d = moment_1["default"](date);
     d.month(); // 1
-    var _b = react_1.useState(demodata_1.monPills), pillData = _b[0], setPillData = _b[1];
-    var _c = react_1.useState(d.format('dddd')), day = _c[0], setDay = _c[1];
-    var _d = react_1.useState(d.format('dddd MMM D')), fullDate = _d[0], setFullDate = _d[1];
-    var _e = react_1.useState('today'), header = _e[0], setHeader = _e[1];
-    var _f = react_1.useState(moment_1["default"]()), selectedDate = _f[0], setSelectedDate = _f[1];
+    var _a = react_1.useState(demodata_1.monPills), pillData = _a[0], setPillData = _a[1];
+    var _b = react_1.useState(d.format('dddd')), day = _b[0], setDay = _b[1];
+    var _c = react_1.useState(d.format('dddd MMM D')), fullDate = _c[0], setFullDate = _c[1];
+    var _d = react_1.useState('today'), header = _d[0], setHeader = _d[1];
+    var _e = react_1.useState(moment_1["default"]()), selectedDate = _e[0], setSelectedDate = _e[1];
     react_1.useEffect(function () {
         switch (day) {
             case 'Monday':
@@ -90,7 +89,7 @@ var Home = function () {
             setHeader(fullDate);
         }
     }, [fullDate]);
-    var _g = react_1.useState(false), showCalendar = _g[0], setShowCalendar = _g[1];
+    var _f = react_1.useState(false), showCalendar = _f[0], setShowCalendar = _f[1];
     /*  const [selectedDate, setSelectedDate] = useState(date.toISOString()); */
     var vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
     var massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
@@ -102,23 +101,9 @@ var Home = function () {
         '#FFBCD9',
     ];
     var color = colors[Math.floor(Math.random() * colors.length)];
-    /* const animation = new Animated.Value(0); */
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
         react_1["default"].createElement(MedicineContainer, { props: data.item }))); };
     var renderHiddenItem = function (data, rowMap) {
-        /*  const handleAnimation = () => {
-          Animated.timing(animation, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: false,
-          }).start(() => {
-            Animated.timing(animation, {
-              toValue: 0,
-              duration: 1000,
-              useNativeDriver: false,
-            }).start();
-          });
-        }; */
         function handleTaken() {
             var newPillData = __spreadArrays(pillData);
             var newData = {
@@ -160,15 +145,8 @@ var Home = function () {
                 justifyContent: 'space-between'
             }
         });
-        /*   const boxInterpolation = animation.interpolate({
-          inputRange: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-          outputRange: colors,
-        });
-        const animatedStyle = {
-          backgroundColor: boxInterpolation,
-        }; */
-        return (react_1["default"].createElement(react_native_1.Animated.View, { style: __assign({}, style.box /* ...animatedStyle */) },
-            props.pills.map(function (pill) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.8, key: pill.id, style: { height: 270, marginTop: 0 } },
+        return (react_1["default"].createElement(react_native_1.View, { style: __assign({}, style.box) },
+            props.pills.map(function (pill) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { height: 270, marginTop: 0 } },
                 react_1["default"].createElement(react_native_1.Text, { style: {
                         color: 'black',
                         fontSize: 28,
@@ -185,7 +163,7 @@ var Home = function () {
                 react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: props.pills.length > 1 ? import_macro_1.solid('pills') : import_macro_1.solid('tablets'), size: 50, style: {
                         alignSelf: 'center',
                         marginTop: 60
-                    }, color: pillColor }))); }),
+                    }, color: '#2584ec' }))); }),
             react_1["default"].createElement(react_native_1.Text, { style: {
                     color: 'black',
                     fontFamily: 'Satoshi-Bold',
@@ -216,76 +194,78 @@ var Home = function () {
                 } }, d.format('MMM YYYY')),
             !showCalendar ? (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-down'), color: "gray" })) : (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-up'), color: "gray" }))),
         react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: { marginTop: 10, width: '95%', alignSelf: 'center' } }),
-        react_1["default"].createElement(react_native_1.ScrollView, { showsVerticalScrollIndicator: false, alwaysBounceVertical: true, scrollEventThrottle: 16, scrollEnabled: true, bounces: true, bouncesZoom: true, stickyHeaderIndices: showCalendar ? [1] : [0] },
-            showCalendar && (react_1["default"].createElement(react_native_1.View, { style: { marginTop: 30, backgroundColor: 'white' } },
-                react_1["default"].createElement(react_native_calendars_1.Calendar, { displayLoadingIndicator: true, 
-                    // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-                    disableAllTouchEventsForDisabledDays: true, style: { backgroundColor: 'transparent' }, theme: {
-                        backgroundColor: '#ffffff',
-                        calendarBackground: '#ffffff',
-                        arrowColor: 'black',
-                        monthTextColor: 'black',
-                        indicatorColor: 'black',
-                        textDayFontFamily: 'Satoshi-Light',
-                        textMonthFontFamily: 'Satoshi-Bold',
-                        textDayHeaderFontFamily: 'Satoshi-Light',
-                        textDayFontWeight: '300',
-                        textMonthFontWeight: 'bold',
-                        textDayHeaderFontWeight: '300',
-                        textDayFontSize: 16,
-                        textMonthFontSize: 16,
-                        textDayHeaderFontSize: 16
-                    }, enableSwipeMonths: true, onDayPress: function (date) {
-                        setDay(moment_1["default"](date.dateString.toLocaleString()).format('dddd'));
-                        setFullDate(moment_1["default"](date.dateString.toLocaleString()).format('dddd MMM D'));
-                        setSelectedDate(moment_1["default"](date.dateString.toLocaleString()));
-                    }, collapsable: true, markingType: 'period', markedDates: (_a = {},
-                        _a[selectedDate.format('YYYY-MM-DD').toString()] = {
-                            color: color,
-                            selected: true,
-                            startingDay: true,
-                            endingDay: true
-                        },
-                        _a) }))),
-            react_1["default"].createElement(react_native_1.View, null,
-                react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png') },
-                    react_1["default"].createElement(react_native_1.Text, { style: {
+        react_1["default"].createElement(react_native_1.View, null,
+            react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png') },
+                react_1["default"].createElement(react_native_1.Text, { style: {
+                        color: 'black',
+                        fontSize: 23,
+                        textAlign: 'center',
+                        marginTop: 20,
+                        fontFamily: 'Satoshi-Bold'
+                    } }, "Hello, Chibuzor,"),
+                react_1["default"].createElement(react_native_1.Text, { style: {
+                        color: 'black',
+                        fontSize: 25,
+                        textAlign: 'center',
+                        fontFamily: 'Satoshi-Bold',
+                        marginBottom: 5
+                    } },
+                    "Your medicine schedule for ",
+                    header))),
+        react_1["default"].createElement(react_native_swipe_list_view_1.SwipeListView, { ListHeaderComponent: function () {
+                var _a;
+                return (react_1["default"].createElement(react_native_1.View, null,
+                    showCalendar && (react_1["default"].createElement(react_native_1.View, { style: { marginTop: 30, backgroundColor: 'white' } },
+                        react_1["default"].createElement(react_native_calendars_1.Calendar, { displayLoadingIndicator: true, 
+                            // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+                            disableAllTouchEventsForDisabledDays: true, style: { backgroundColor: 'transparent' }, theme: {
+                                backgroundColor: '#ffffff',
+                                calendarBackground: '#ffffff',
+                                arrowColor: 'black',
+                                monthTextColor: 'black',
+                                indicatorColor: 'black',
+                                textDayFontFamily: 'Satoshi-Light',
+                                textMonthFontFamily: 'Satoshi-Bold',
+                                textDayHeaderFontFamily: 'Satoshi-Light',
+                                textDayFontWeight: '300',
+                                textMonthFontWeight: 'bold',
+                                textDayHeaderFontWeight: '300',
+                                textDayFontSize: 16,
+                                textMonthFontSize: 16,
+                                textDayHeaderFontSize: 16
+                            }, enableSwipeMonths: true, onDayPress: function (date) {
+                                setDay(moment_1["default"](date.dateString.toLocaleString()).format('dddd'));
+                                setFullDate(moment_1["default"](date.dateString.toLocaleString()).format('dddd MMM D'));
+                                setSelectedDate(moment_1["default"](date.dateString.toLocaleString()));
+                            }, collapsable: true, markingType: 'period', markedDates: (_a = {},
+                                _a[selectedDate.format('YYYY-MM-DD').toString()] = {
+                                    color: color,
+                                    selected: true,
+                                    startingDay: true,
+                                    endingDay: true
+                                },
+                                _a) }))),
+                    react_1["default"].createElement(react_native_calendar_strip_1["default"], { scrollable: true, scrollerPaging: true, calendarHeaderStyle: { display: 'none' }, style: {
+                            height: 100,
+                            paddingTop: 10,
+                            paddingBottom: 10,
+                            marginBottom: 20
+                        }, dateNumberStyle: {
                             color: 'black',
-                            fontSize: 23,
-                            textAlign: 'center',
-                            marginTop: 20,
+                            marginTop: 5,
                             fontFamily: 'Satoshi-Bold'
-                        } }, "Hello, Chibuzor,"),
-                    react_1["default"].createElement(react_native_1.Text, { style: {
+                        }, dateNameStyle: { color: 'black', fontFamily: 'Satoshi-Bold' }, highlightDateNumberStyle: {
                             color: 'black',
-                            fontSize: 25,
-                            textAlign: 'center',
-                            fontFamily: 'Satoshi-Bold',
-                            marginBottom: 5
-                        } },
-                        "Your medicine schedule for ",
-                        header))),
-            react_1["default"].createElement(react_native_calendar_strip_1["default"], { scrollable: true, scrollerPaging: true, calendarHeaderStyle: { display: 'none' }, style: {
-                    height: 100,
-                    paddingTop: 10,
-                    paddingBottom: 10,
-                    marginBottom: 20
-                }, dateNumberStyle: {
-                    color: 'black',
-                    marginTop: 5,
-                    fontFamily: 'Satoshi-Bold'
-                }, dateNameStyle: { color: 'black', fontFamily: 'Satoshi-Bold' }, highlightDateNumberStyle: {
-                    color: 'black',
-                    marginTop: 5
-                }, highlightDateNameStyle: { color: 'black' }, highlightDateContainerStyle: {
-                    borderRadius: 15,
-                    backgroundColor: color
-                }, iconStyle: { display: 'none' }, selectedDate: selectedDate, onDateSelected: function (date) {
-                    setDay(date.format('dddd'));
-                    setFullDate(date.format('dddd MMM D'));
-                    setSelectedDate(date);
-                } }),
-            react_1["default"].createElement(react_native_swipe_list_view_1.SwipeListView, { alwaysBounceVertical: true, scrollEventThrottle: 16, scrollEnabled: true, bounces: true, bouncesZoom: true, pagingEnabled: true, style: { marginTop: 30 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 }))));
+                            marginTop: 5
+                        }, highlightDateNameStyle: { color: 'black' }, highlightDateContainerStyle: {
+                            borderRadius: 15,
+                            backgroundColor: color
+                        }, iconStyle: { display: 'none' }, selectedDate: selectedDate, onDateSelected: function (date) {
+                            setDay(date.format('dddd'));
+                            setFullDate(date.format('dddd MMM D'));
+                            setSelectedDate(date);
+                        } })));
+            }, style: { marginTop: 30 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })));
 };
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({

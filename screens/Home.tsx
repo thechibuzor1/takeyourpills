@@ -6,11 +6,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
-  Animated,
   ImageBackground,
   StyleSheet,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
@@ -110,27 +107,13 @@ const Home = () => {
     '#FFBCD9', //pink
   ];
   const color = colors[Math.floor(Math.random() * colors.length)];
-  /* const animation = new Animated.Value(0); */
+
   const renderItem = data => (
     <View style={styles.rowFront}>
       <MedicineContainer props={data.item} />
     </View>
   );
   const renderHiddenItem = (data, rowMap) => {
-    /*  const handleAnimation = () => {
-      Animated.timing(animation, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start(() => {
-        Animated.timing(animation, {
-          toValue: 0,
-          duration: 1000,
-          useNativeDriver: false,
-        }).start();
-      });
-    }; */
-
     function handleTaken() {
       const newPillData = [...pillData];
       const newData = {
@@ -179,6 +162,7 @@ const Home = () => {
   const MedicineContainer = ({props}) => {
     const Medcolor = colors[Math.floor(Math.random() * colors.length)];
     const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
+
     const style = StyleSheet.create({
       box: {
         borderRadius: 15,
@@ -190,21 +174,10 @@ const Home = () => {
       },
     });
 
-    /*   const boxInterpolation = animation.interpolate({
-      inputRange: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      outputRange: colors,
-    });
-    const animatedStyle = {
-      backgroundColor: boxInterpolation,
-    }; */
-
     return (
-      <Animated.View style={{...style.box /* ...animatedStyle */}}>
+      <View style={{...style.box}}>
         {props.pills.map(pill => (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            key={pill.id}
-            style={{height: 270, marginTop: 0}}>
+          <TouchableOpacity key={pill.id} style={{height: 270, marginTop: 0}}>
             <Text
               style={{
                 color: 'black',
@@ -231,7 +204,7 @@ const Home = () => {
                 alignSelf: 'center',
                 marginTop: 60,
               }}
-              color={pillColor}
+              color={'#2584ec'}
             />
           </TouchableOpacity>
         ))}
@@ -245,7 +218,7 @@ const Home = () => {
           }}>
           {props.time}
         </Text>
-      </Animated.View>
+      </View>
     );
   };
 
@@ -298,134 +271,126 @@ const Home = () => {
         width={0.5}
         style={{marginTop: 10, width: '95%', alignSelf: 'center'}}
       />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        alwaysBounceVertical
-        scrollEventThrottle={16}
-        scrollEnabled
-        bounces
-        bouncesZoom
-        stickyHeaderIndices={showCalendar ? [1] : [0]}>
-        {showCalendar && (
-          <View style={{marginTop: 30, backgroundColor: 'white'}}>
-            <Calendar
-              displayLoadingIndicator
-              // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
-              disableAllTouchEventsForDisabledDays={true}
-              style={{backgroundColor: 'transparent'}}
-              theme={{
-                backgroundColor: '#ffffff',
-                calendarBackground: '#ffffff',
-                arrowColor: 'black',
-                monthTextColor: 'black',
-                indicatorColor: 'black',
-                textDayFontFamily: 'Satoshi-Light',
-                textMonthFontFamily: 'Satoshi-Bold',
-                textDayHeaderFontFamily: 'Satoshi-Light',
-                textDayFontWeight: '300',
-                textMonthFontWeight: 'bold',
-                textDayHeaderFontWeight: '300',
-                textDayFontSize: 16,
-                textMonthFontSize: 16,
-                textDayHeaderFontSize: 16,
+      <View>
+        <ImageBackground source={require('../assets/body.png')}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 23,
+              textAlign: 'center',
+              marginTop: 20,
+              fontFamily: 'Satoshi-Bold',
+            }}>
+            Hello, Chibuzor,
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 25,
+              textAlign: 'center',
+              fontFamily: 'Satoshi-Bold',
+              marginBottom: 5,
+            }}>
+            Your medicine schedule for {header}
+          </Text>
+        </ImageBackground>
+      </View>
+      <SwipeListView
+        ListHeaderComponent={() => (
+          <View>
+            {showCalendar && (
+              <View style={{marginTop: 30, backgroundColor: 'white'}}>
+                <Calendar
+                  displayLoadingIndicator
+                  // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
+                  disableAllTouchEventsForDisabledDays={true}
+                  style={{backgroundColor: 'transparent'}}
+                  theme={{
+                    backgroundColor: '#ffffff',
+                    calendarBackground: '#ffffff',
+                    arrowColor: 'black',
+                    monthTextColor: 'black',
+                    indicatorColor: 'black',
+                    textDayFontFamily: 'Satoshi-Light',
+                    textMonthFontFamily: 'Satoshi-Bold',
+                    textDayHeaderFontFamily: 'Satoshi-Light',
+                    textDayFontWeight: '300',
+                    textMonthFontWeight: 'bold',
+                    textDayHeaderFontWeight: '300',
+                    textDayFontSize: 16,
+                    textMonthFontSize: 16,
+                    textDayHeaderFontSize: 16,
+                  }}
+                  enableSwipeMonths={true}
+                  onDayPress={date => {
+                    setDay(
+                      moment(date.dateString.toLocaleString()).format('dddd'),
+                    );
+                    setFullDate(
+                      moment(date.dateString.toLocaleString()).format(
+                        'dddd MMM D',
+                      ),
+                    );
+                    setSelectedDate(moment(date.dateString.toLocaleString()));
+                  }}
+                  collapsable
+                  markingType={'period'}
+                  markedDates={{
+                    [selectedDate.format('YYYY-MM-DD').toString()]: {
+                      color: color,
+                      selected: true,
+                      startingDay: true,
+                      endingDay: true,
+                    },
+                  }}
+                />
+              </View>
+            )}
+
+            <CalendarStrip
+              scrollable
+              scrollerPaging
+              calendarHeaderStyle={{display: 'none'}}
+              style={{
+                height: 100,
+                paddingTop: 10,
+                paddingBottom: 10,
+                marginBottom: 20,
               }}
-              enableSwipeMonths={true}
-              onDayPress={date => {
-                setDay(moment(date.dateString.toLocaleString()).format('dddd'));
-                setFullDate(
-                  moment(date.dateString.toLocaleString()).format('dddd MMM D'),
-                );
-                setSelectedDate(moment(date.dateString.toLocaleString()));
+              dateNumberStyle={{
+                color: 'black',
+                marginTop: 5,
+                fontFamily: 'Satoshi-Bold',
               }}
-              collapsable
-              markingType={'period'}
-              markedDates={{
-                [selectedDate.format('YYYY-MM-DD').toString()]: {
-                  color: color,
-                  selected: true,
-                  startingDay: true,
-                  endingDay: true,
-                },
+              dateNameStyle={{color: 'black', fontFamily: 'Satoshi-Bold'}}
+              highlightDateNumberStyle={{
+                color: 'black',
+                marginTop: 5,
+              }}
+              highlightDateNameStyle={{color: 'black'}}
+              highlightDateContainerStyle={{
+                borderRadius: 15,
+                backgroundColor: color,
+              }}
+              iconStyle={{display: 'none'}}
+              selectedDate={selectedDate}
+              onDateSelected={date => {
+                setDay(date.format('dddd'));
+                setFullDate(date.format('dddd MMM D'));
+                setSelectedDate(date);
               }}
             />
           </View>
         )}
-        <View>
-          <ImageBackground source={require('../assets/body.png')}>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 23,
-                textAlign: 'center',
-                marginTop: 20,
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              Hello, Chibuzor,
-            </Text>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 25,
-                textAlign: 'center',
-                fontFamily: 'Satoshi-Bold',
-                marginBottom: 5,
-              }}>
-              Your medicine schedule for {header}
-            </Text>
-          </ImageBackground>
-        </View>
-
-        <CalendarStrip
-          scrollable
-          scrollerPaging
-          calendarHeaderStyle={{display: 'none'}}
-          style={{
-            height: 100,
-            paddingTop: 10,
-            paddingBottom: 10,
-            marginBottom: 20,
-          }}
-          dateNumberStyle={{
-            color: 'black',
-            marginTop: 5,
-            fontFamily: 'Satoshi-Bold',
-          }}
-          dateNameStyle={{color: 'black', fontFamily: 'Satoshi-Bold'}}
-          highlightDateNumberStyle={{
-            color: 'black',
-            marginTop: 5,
-          }}
-          highlightDateNameStyle={{color: 'black'}}
-          highlightDateContainerStyle={{
-            borderRadius: 15,
-            backgroundColor: color,
-          }}
-          iconStyle={{display: 'none'}}
-          selectedDate={selectedDate}
-          onDateSelected={date => {
-            setDay(date.format('dddd'));
-            setFullDate(date.format('dddd MMM D'));
-            setSelectedDate(date);
-          }}
-        />
-
-        <SwipeListView
-          alwaysBounceVertical
-          scrollEventThrottle={16}
-          scrollEnabled
-          bounces
-          bouncesZoom
-          pagingEnabled
-          style={{marginTop: 30}}
-          data={pillData}
-          renderItem={renderItem}
-          renderHiddenItem={renderHiddenItem}
-          rightOpenValue={-70}
-          previewRowKey={'0'}
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
-        />
-      </ScrollView>
+        style={{marginTop: 30}}
+        data={pillData}
+        renderItem={renderItem}
+        renderHiddenItem={renderHiddenItem}
+        rightOpenValue={-70}
+        previewRowKey={'0'}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
+      />
     </ImageBackground>
   );
 };
