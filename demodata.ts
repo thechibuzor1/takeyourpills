@@ -2,7 +2,7 @@
 
 export var monPills = [
   {
-    time: '7h30AM',
+    time: '7:30 am',
     pills: [
       {
         id: 1,
@@ -22,7 +22,7 @@ export var monPills = [
     taken: false,
   },
   {
-    time: '11h30AM',
+    time: '11:30 am',
     pills: [
       {
         id: 1,
@@ -42,7 +42,7 @@ export var monPills = [
     taken: false,
   },
   {
-    time: '14h30PM',
+    time: '14:30 pm',
     pills: [
       {
         id: 1,
@@ -58,7 +58,7 @@ export var monPills = [
 
 export var tuePills = [
   {
-    time: '7h30AM',
+    time: '7:30 am',
     pills: [
       {
         id: 1,
@@ -71,7 +71,7 @@ export var tuePills = [
     taken: false,
   },
   {
-    time: '11h30AM',
+    time: '11:30 am',
     pills: [
       {
         id: 1,
@@ -91,7 +91,7 @@ export var tuePills = [
     taken: false,
   },
   {
-    time: '14h30PM',
+    time: '14:30 pm',
     pills: [
       {
         id: 1,
@@ -107,7 +107,7 @@ export var tuePills = [
 
 export var wedPills = [
   {
-    time: '7h30AM',
+    time: '7:00 am',
     pills: [
       {
         id: 1,
@@ -127,7 +127,7 @@ export var wedPills = [
     taken: false,
   },
   {
-    time: '11h30AM',
+    time: '11:00 am',
     pills: [
       {
         id: 1,
@@ -147,7 +147,7 @@ export var wedPills = [
     taken: false,
   },
   {
-    time: '14h30PM',
+    time: '14:00 pm',
     pills: [
       {
         id: 1,
@@ -163,20 +163,20 @@ export var wedPills = [
 
 export var thuPills = [
   {
-    time: '7h30AM',
+    time: '7:00 am',
     pills: [
       {
         id: 1,
         name: 'Nora - BE',
         desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a meal',
+        instruction: 'Take 2 once a day after a mea Take 2 once a day after a meal',
         dosage: 2,
       },
     ],
     taken: false,
   },
   {
-    time: '11h30AM',
+    time: '11:00 am',
     pills: [
       {
         id: 1,
@@ -189,7 +189,7 @@ export var thuPills = [
     taken: false,
   },
   {
-    time: '14h30PM',
+    time: '17:00 pm',
     pills: [
       {
         id: 1,
@@ -212,7 +212,27 @@ export var thuPills = [
 
 export var friPills = [
   {
-    time: '7h30AM',
+    time: '7:00 am',
+    pills: [
+      {
+        id: 1,
+        name: 'Phenol H - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+      {
+        id: 2,
+        name: 'Nora - BE',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
+    taken: false,
+  },
+  {
+    time: '12:00 pm',
     pills: [
       {
         id: 1,
@@ -235,21 +255,28 @@ export var friPills = [
         instruction: 'Take 2 once a day after a meal',
         dosage: 2,
       },
-    ],
-    taken: false,
-  },
-  {
-    time: '11h30AM',
-    pills: [
       {
-        id: 1,
-        name: 'Phenol H - BE',
+        id: 4,
+        name: 'Nora - BE',
         desc: 'Norenthindrone - 0.35mg',
         instruction: 'Take 2 once a day after a meal',
         dosage: 2,
       },
       {
-        id: 2,
+        id: 5,
+        name: 'Noraphenol - JI',
+        desc: 'Norenthindrone - 0.35mg',
+        instruction: 'Take 2 once a day after a meal',
+        dosage: 2,
+      },
+    ],
+    taken: false,
+  },
+  {
+    time: '19:00 pm',
+    pills: [
+      {
+        id: 1,
         name: 'Nora - BE',
         desc: 'Norenthindrone - 0.35mg',
         instruction: 'Take 2 once a day after a meal',
@@ -262,7 +289,7 @@ export var friPills = [
 
 export var satPills = [
   {
-    time: '7h30AM',
+    time: '7:00 am',
     pills: [
       {
         id: 1,
@@ -282,7 +309,7 @@ export var satPills = [
     taken: false,
   },
   {
-    time: '11h30AM',
+    time: '20:00 pm',
     pills: [
       {
         id: 1,
@@ -305,7 +332,7 @@ export var satPills = [
 
 export var sunPills = [
   {
-    time: '7h30AM',
+    time: '7:00 am',
     pills: [
       {
         id: 1,
@@ -325,7 +352,7 @@ export var sunPills = [
     taken: false,
   },
   {
-    time: '11h30AM',
+    time: '12:00 pm',
     pills: [
       {
         id: 1,
@@ -345,3 +372,9 @@ export var sunPills = [
     taken: false,
   },
 ];
+
+
+/* 
+var Thur_Jan_19_2023 = [
+  
+] */

@@ -4,7 +4,7 @@ exports.__esModule = true;
 exports.sunPills = exports.satPills = exports.friPills = exports.thuPills = exports.wedPills = exports.tuePills = exports.monPills = void 0;
 exports.monPills = [
     {
-        time: '7h30AM',
+        time: '7:30 am',
         pills: [
             {
                 id: 1,
@@ -24,7 +24,7 @@ exports.monPills = [
         taken: false
     },
     {
-        time: '11h30AM',
+        time: '11:30 am',
         pills: [
             {
                 id: 1,
@@ -44,7 +44,7 @@ exports.monPills = [
         taken: false
     },
     {
-        time: '14h30PM',
+        time: '14:30 pm',
         pills: [
             {
                 id: 1,
@@ -59,7 +59,7 @@ exports.monPills = [
 ];
 exports.tuePills = [
     {
-        time: '7h30AM',
+        time: '7:30 am',
         pills: [
             {
                 id: 1,
@@ -72,7 +72,7 @@ exports.tuePills = [
         taken: false
     },
     {
-        time: '11h30AM',
+        time: '11:30 am',
         pills: [
             {
                 id: 1,
@@ -92,7 +92,7 @@ exports.tuePills = [
         taken: false
     },
     {
-        time: '14h30PM',
+        time: '14:30 pm',
         pills: [
             {
                 id: 1,
@@ -107,7 +107,7 @@ exports.tuePills = [
 ];
 exports.wedPills = [
     {
-        time: '7h30AM',
+        time: '7:00 am',
         pills: [
             {
                 id: 1,
@@ -127,7 +127,7 @@ exports.wedPills = [
         taken: false
     },
     {
-        time: '11h30AM',
+        time: '11:00 am',
         pills: [
             {
                 id: 1,
@@ -147,7 +147,7 @@ exports.wedPills = [
         taken: false
     },
     {
-        time: '14h30PM',
+        time: '14:00 pm',
         pills: [
             {
                 id: 1,
@@ -162,20 +162,20 @@ exports.wedPills = [
 ];
 exports.thuPills = [
     {
-        time: '7h30AM',
+        time: '7:00 am',
         pills: [
             {
                 id: 1,
                 name: 'Nora - BE',
                 desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
+                instruction: 'Take 2 once a day after a mea Take 2 once a day after a meal',
                 dosage: 2
             },
         ],
         taken: false
     },
     {
-        time: '11h30AM',
+        time: '11:00 am',
         pills: [
             {
                 id: 1,
@@ -188,7 +188,7 @@ exports.thuPills = [
         taken: false
     },
     {
-        time: '14h30PM',
+        time: '17:00 pm',
         pills: [
             {
                 id: 1,
@@ -210,7 +210,27 @@ exports.thuPills = [
 ];
 exports.friPills = [
     {
-        time: '7h30AM',
+        time: '7:00 am',
+        pills: [
+            {
+                id: 1,
+                name: 'Phenol H - BE',
+                desc: 'Norenthindrone - 0.35mg',
+                instruction: 'Take 2 once a day after a meal',
+                dosage: 2
+            },
+            {
+                id: 2,
+                name: 'Nora - BE',
+                desc: 'Norenthindrone - 0.35mg',
+                instruction: 'Take 2 once a day after a meal',
+                dosage: 2
+            },
+        ],
+        taken: false
+    },
+    {
+        time: '12:00 pm',
         pills: [
             {
                 id: 1,
@@ -233,21 +253,28 @@ exports.friPills = [
                 instruction: 'Take 2 once a day after a meal',
                 dosage: 2
             },
-        ],
-        taken: false
-    },
-    {
-        time: '11h30AM',
-        pills: [
             {
-                id: 1,
-                name: 'Phenol H - BE',
+                id: 4,
+                name: 'Nora - BE',
                 desc: 'Norenthindrone - 0.35mg',
                 instruction: 'Take 2 once a day after a meal',
                 dosage: 2
             },
             {
-                id: 2,
+                id: 5,
+                name: 'Noraphenol - JI',
+                desc: 'Norenthindrone - 0.35mg',
+                instruction: 'Take 2 once a day after a meal',
+                dosage: 2
+            },
+        ],
+        taken: false
+    },
+    {
+        time: '19:00 pm',
+        pills: [
+            {
+                id: 1,
                 name: 'Nora - BE',
                 desc: 'Norenthindrone - 0.35mg',
                 instruction: 'Take 2 once a day after a meal',
@@ -259,7 +286,7 @@ exports.friPills = [
 ];
 exports.satPills = [
     {
-        time: '7h30AM',
+        time: '7:00 am',
         pills: [
             {
                 id: 1,
@@ -279,7 +306,7 @@ exports.satPills = [
         taken: false
     },
     {
-        time: '11h30AM',
+        time: '20:00 pm',
         pills: [
             {
                 id: 1,
@@ -301,7 +328,7 @@ exports.satPills = [
 ];
 exports.sunPills = [
     {
-        time: '7h30AM',
+        time: '7:00 am',
         pills: [
             {
                 id: 1,
@@ -321,7 +348,7 @@ exports.sunPills = [
         taken: false
     },
     {
-        time: '11h30AM',
+        time: '12:00 pm',
         pills: [
             {
                 id: 1,
@@ -341,3 +368,7 @@ exports.sunPills = [
         taken: false
     },
 ];
+/*
+var Thur_Jan_19_2023 = [
+  
+] */ 

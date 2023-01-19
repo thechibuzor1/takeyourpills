@@ -46,6 +46,7 @@ var Home = function () {
         '#7da19d',
         '#1d9aa9',
     ];
+    var medicineConColor = ['#F9DD71', '#ECECEC', '#132342'];
     var date = new Date();
     var d = moment_1["default"](date);
     d.month(); // 1
@@ -90,16 +91,7 @@ var Home = function () {
         }
     }, [fullDate]);
     var _f = react_1.useState(false), showCalendar = _f[0], setShowCalendar = _f[1];
-    /*  const [selectedDate, setSelectedDate] = useState(date.toISOString()); */
-    var vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-    var massage = { key: 'massage', color: 'blue', selectedDotColor: 'blue' };
-    var workout = { key: 'workout', color: 'green' };
-    var pillColors = [
-        '#FFDE00',
-        '#fbd75c',
-        '#234df0',
-        '#FFBCD9',
-    ];
+    var pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
     var color = colors[Math.floor(Math.random() * colors.length)];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
         react_1["default"].createElement(MedicineContainer, { props: data.item }))); };
@@ -114,69 +106,134 @@ var Home = function () {
             newPillData[data.index] = newData;
             setPillData(newPillData);
         }
-        return (react_1["default"].createElement(react_1["default"].Fragment, null, data.item.pills.map(function (pill) { return (react_1["default"].createElement(react_native_1.TouchableOpacity
+        return (react_1["default"].createElement(react_native_1.TouchableOpacity
         /*  onPress={handleAnimation} */
         , { 
             /*  onPress={handleAnimation} */
-            onPress: handleTaken, activeOpacity: 0.8, key: pill.id, style: {
+            onPress: handleTaken, activeOpacity: 0.8, style: {
                 alignSelf: 'flex-end',
                 justifyContent: 'center',
                 alignItems: 'flex-end',
                 width: 150,
-                height: 270,
+                height: 300 * data.item.pills.length,
                 borderRadius: 15,
-                backgroundColor: '#2584ec',
-                marginRight: 15,
-                marginTop: 3
+                backgroundColor: '#2CA6FF',
+                marginRight: 15
             } },
-            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'white' }))); })));
+            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'white' })));
     };
     var MedicineContainer = function (_a) {
         var props = _a.props;
-        var Medcolor = colors[Math.floor(Math.random() * colors.length)];
+        var Medcolor = medicineConColor[Math.floor(Math.random() * medicineConColor.length)];
         var pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
         var style = react_native_1.StyleSheet.create({
             box: {
                 borderRadius: 15,
-                backgroundColor: props.taken ? '#26D07C' : '#E5E1E6',
+                backgroundColor: props.taken ? '#69CA90' : Medcolor,
                 display: 'flex',
                 width: '95%',
                 alignSelf: 'center',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                height: props.pills.length * 300
+            },
+            textColor: {
+                color: Medcolor === '#132342' ? 'white' : 'black'
             }
         });
+        var _b = react_1.useState(null), active = _b[0], setActive = _b[1];
+        function handleActive(pill) {
+            if (active !== pill) {
+                setActive(pill);
+                return;
+            }
+            setActive(null);
+        }
         return (react_1["default"].createElement(react_native_1.View, { style: __assign({}, style.box) },
-            props.pills.map(function (pill) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { height: 270, marginTop: 0 } },
-                react_1["default"].createElement(react_native_1.Text, { style: {
-                        color: 'black',
-                        fontSize: 28,
-                        fontFamily: 'Satoshi-Bold',
-                        marginLeft: 15,
-                        marginTop: 15
-                    } }, pill.name),
-                react_1["default"].createElement(react_native_1.Text, { style: {
-                        color: 'black',
-                        marginLeft: 15,
-                        fontSize: 14,
-                        fontFamily: 'Satoshi-Bold'
-                    } }, pill.desc),
+            props.pills.map(function (pill) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { marginTop: 0 }, onPress: function () { return handleActive(pill.id); } }, active !== pill.id ? (react_1["default"].createElement(react_native_1.View, null,
+                react_1["default"].createElement(react_native_1.Text, { style: [
+                        {
+                            fontSize: 28,
+                            fontFamily: 'Satoshi-Bold',
+                            marginLeft: 15,
+                            marginTop: 15
+                        },
+                        style.textColor,
+                    ] }, pill.name),
+                react_1["default"].createElement(react_native_1.Text, { style: [
+                        {
+                            marginLeft: 15,
+                            fontSize: 14,
+                            fontFamily: 'Satoshi-Bold'
+                        },
+                        style.textColor,
+                    ] }, pill.desc),
                 react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: props.pills.length > 1 ? import_macro_1.solid('pills') : import_macro_1.solid('tablets'), size: 50, style: {
                         alignSelf: 'center',
                         marginTop: 60
-                    }, color: '#2584ec' }))); }),
-            react_1["default"].createElement(react_native_1.Text, { style: {
-                    color: 'black',
-                    fontFamily: 'Satoshi-Bold',
-                    bottom: 15,
-                    marginLeft: 15
-                } }, props.time)));
+                    }, color: pillColor }))) : (react_1["default"].createElement(react_native_1.View, null,
+                react_1["default"].createElement(react_native_1.Text, { style: [
+                        {
+                            fontSize: 28,
+                            fontFamily: 'Satoshi-Bold',
+                            marginLeft: 15,
+                            marginTop: 15
+                        },
+                        style.textColor,
+                    ] }, pill.name),
+                react_1["default"].createElement(react_native_1.Text, { style: [
+                        {
+                            marginLeft: 15,
+                            fontSize: 14,
+                            marginBottom: 15,
+                            fontFamily: 'Satoshi-Bold'
+                        },
+                        style.textColor,
+                    ] }, pill.desc),
+                react_1["default"].createElement(react_native_1.Text, { style: [
+                        {
+                            marginLeft: 15,
+                            fontSize: 18,
+                            fontFamily: 'Satoshi-Bold',
+                            marginBottom: 15
+                        },
+                        style.textColor,
+                    ] },
+                    "Instructions: ",
+                    pill.instruction),
+                react_1["default"].createElement(react_native_1.Text, { style: [
+                        {
+                            marginLeft: 15,
+                            fontSize: 18,
+                            fontFamily: 'Satoshi-Bold'
+                        },
+                        style.textColor,
+                    ] },
+                    "Dosage: ",
+                    pill.dosage))))); }),
+            react_1["default"].createElement(react_native_1.Text, { style: [
+                    {
+                        fontFamily: 'Satoshi-Bold',
+                        bottom: 15,
+                        marginLeft: 15
+                    },
+                    style.textColor,
+                ] }, moment_1["default"]("" + props.time, ['h:m a', 'H:m']).format('H:mm'))));
     };
-    var TickButton = function (_a) {
-        var props = _a.props;
-        return (react_1["default"].createElement(react_1["default"].Fragment, null,
-            react_1["default"].createElement(react_native_1.TouchableOpacity, { style: [styles.backRightBtn, styles.backRightBtnLeft] },
-                react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'black' }))));
-    };
+    /*   const TickButton = ({props}) => {
+      return (
+        <>
+          <TouchableOpacity
+            style={[styles.backRightBtn, styles.backRightBtnLeft]}>
+            <FontAwesomeIcon
+              icon={solid('check')}
+              style={{marginRight: 25}}
+              size={24}
+              color={'black'}
+            />
+          </TouchableOpacity>
+        </>
+      );
+    }; */
     return (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: { display: 'flex', flex: 1 } },
         react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return setShowCalendar(!showCalendar); }, style: {
                 display: 'flex',
@@ -242,6 +299,26 @@ var Home = function () {
                                     color: color,
                                     selected: true,
                                     startingDay: true,
+                                    endingDay: false,
+                                    marked: true,
+                                    dotColor: '#132342'
+                                },
+                                _a['2023-01-20'] = {
+                                    color: color,
+                                    selected: true,
+                                    startingDay: false,
+                                    endingDay: false
+                                },
+                                _a['2023-01-21'] = {
+                                    color: color,
+                                    selected: true,
+                                    startingDay: false,
+                                    endingDay: false
+                                },
+                                _a['2023-01-22'] = {
+                                    color: color,
+                                    selected: true,
+                                    startingDay: false,
                                     endingDay: true
                                 },
                                 _a) }))),
@@ -265,7 +342,7 @@ var Home = function () {
                             setFullDate(date.format('dddd MMM D'));
                             setSelectedDate(date);
                         } })));
-            }, style: { marginTop: 30 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })));
+            }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { marginTop: 30 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })));
 };
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({
@@ -276,17 +353,6 @@ var styles = react_native_1.StyleSheet.create({
         borderBottomWidth: 1,
         justifyContent: 'center',
         marginBottom: 7
-    },
-    rowBack: {
-        alignItems: 'center',
-        backgroundColor: 'transparent',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingLeft: 15,
-        width: '100%',
-        alignSelf: 'center',
-        height: 90
     },
     backRightBtn: {
         alignItems: 'flex-end',

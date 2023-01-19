@@ -50,6 +50,8 @@ const Home = () => {
     '#7da19d', //gray
     '#1d9aa9', //light dark blue lol
   ];
+
+  const medicineConColor = ['#F9DD71', '#ECECEC', '#132342'];
   const date = new Date();
   var d = moment(date);
   d.month(); // 1
@@ -95,17 +97,8 @@ const Home = () => {
   }, [fullDate]);
 
   const [showCalendar, setShowCalendar] = useState<Boolean>(false);
-  /*  const [selectedDate, setSelectedDate] = useState(date.toISOString()); */
-  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'blue'};
-  const massage = {key: 'massage', color: 'blue', selectedDotColor: 'blue'};
-  const workout = {key: 'workout', color: 'green'};
 
-  const pillColors = [
-    '#FFDE00', //yellow. approaching orange
-    '#fbd75c', //light yellow
-    '#234df0', //blue
-    '#FFBCD9', //pink
-  ];
+  const pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
   const color = colors[Math.floor(Math.random() * colors.length)];
 
   const renderItem = data => (
@@ -126,103 +119,172 @@ const Home = () => {
     }
 
     return (
-      <>
-        {/* <View style={styles.rowBack}>
-        <TickButton props={data.item} />
-      </View> */}
-        {data.item.pills.map(pill => (
-          <TouchableOpacity
-            /*  onPress={handleAnimation} */
-            onPress={handleTaken}
-            activeOpacity={0.8}
-            key={pill.id}
-            style={{
-              alignSelf: 'flex-end',
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-              width: 150,
-              height: 270,
-              borderRadius: 15,
-              backgroundColor: '#2584ec',
-              marginRight: 15,
-              marginTop: 3,
-            }}>
-            <FontAwesomeIcon
-              icon={solid('check')}
-              style={{marginRight: 25}}
-              size={24}
-              color={'white'}
-            />
-          </TouchableOpacity>
-        ))}
-      </>
+      <TouchableOpacity
+        /*  onPress={handleAnimation} */
+        onPress={handleTaken}
+        activeOpacity={0.8}
+        style={{
+          alignSelf: 'flex-end',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+          width: 150,
+          height: 300 * data.item.pills.length,
+          borderRadius: 15,
+          backgroundColor: '#2CA6FF',
+          marginRight: 15,
+        }}>
+        <FontAwesomeIcon
+          icon={solid('check')}
+          style={{marginRight: 25}}
+          size={24}
+          color={'white'}
+        />
+      </TouchableOpacity>
     );
   };
 
   const MedicineContainer = ({props}) => {
-    const Medcolor = colors[Math.floor(Math.random() * colors.length)];
+    const Medcolor =
+      medicineConColor[Math.floor(Math.random() * medicineConColor.length)];
     const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
 
     const style = StyleSheet.create({
       box: {
         borderRadius: 15,
-        backgroundColor: props.taken ? '#26D07C' : '#E5E1E6',
+        backgroundColor: props.taken ? '#69CA90' : Medcolor,
         display: 'flex',
         width: '95%',
         alignSelf: 'center',
         justifyContent: 'space-between',
+        height: props.pills.length * 300,
+      },
+      textColor: {
+        color: Medcolor === '#132342' ? 'white' : 'black',
       },
     });
+    const [active, setActive] = useState(null);
+    function handleActive(pill) {
+      if (active !== pill) {
+        setActive(pill);
+        return;
+      }
+      setActive(null);
+    }
 
     return (
       <View style={{...style.box}}>
         {props.pills.map(pill => (
-          <TouchableOpacity key={pill.id} style={{height: 270, marginTop: 0}}>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 28,
-                fontFamily: 'Satoshi-Bold',
-                marginLeft: 15,
-                marginTop: 15,
-              }}>
-              {pill.name}
-            </Text>
-            <Text
-              style={{
-                color: 'black',
-                marginLeft: 15,
-                fontSize: 14,
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              {pill.desc}
-            </Text>
-            <FontAwesomeIcon
-              icon={props.pills.length > 1 ? solid('pills') : solid('tablets')}
-              size={50}
-              style={{
-                alignSelf: 'center',
-                marginTop: 60,
-              }}
-              color={'#2584ec'}
-            />
+          <TouchableOpacity
+            key={pill.id}
+            style={{marginTop: 0}}
+            onPress={() => handleActive(pill.id)}>
+            {active !== pill.id ? (
+              <View>
+                <Text
+                  style={[
+                    {
+                      fontSize: 28,
+                      fontFamily: 'Satoshi-Bold',
+                      marginLeft: 15,
+                      marginTop: 15,
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.name}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 14,
+                      fontFamily: 'Satoshi-Bold',
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.desc}
+                </Text>
+                <FontAwesomeIcon
+                  icon={
+                    props.pills.length > 1 ? solid('pills') : solid('tablets')
+                  }
+                  size={50}
+                  style={{
+                    alignSelf: 'center',
+                    marginTop: 60,
+                  }}
+                  color={pillColor}
+                />
+              </View>
+            ) : (
+              <View>
+                <Text
+                  style={[
+                    {
+                      fontSize: 28,
+                      fontFamily: 'Satoshi-Bold',
+                      marginLeft: 15,
+                      marginTop: 15,
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.name}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 14,
+                      marginBottom: 15,
+                      fontFamily: 'Satoshi-Bold',
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.desc}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 18,
+                      fontFamily: 'Satoshi-Bold',
+                      marginBottom: 15,
+                    },
+                    style.textColor,
+                  ]}>
+                  Instructions: {pill.instruction}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 18,
+                      fontFamily: 'Satoshi-Bold',
+                    },
+                    style.textColor,
+                  ]}>
+                  Dosage: {pill.dosage}
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
         ))}
 
         <Text
-          style={{
-            color: 'black',
-            fontFamily: 'Satoshi-Bold',
-            bottom: 15,
-            marginLeft: 15,
-          }}>
-          {props.time}
+          style={[
+            {
+              fontFamily: 'Satoshi-Bold',
+              bottom: 15,
+              marginLeft: 15,
+            },
+            style.textColor,
+          ]}>
+          {moment(`${props.time}`, ['h:m a', 'H:m']).format('H:mm')}
         </Text>
       </View>
     );
   };
 
-  const TickButton = ({props}) => {
+  /*   const TickButton = ({props}) => {
     return (
       <>
         <TouchableOpacity
@@ -236,7 +298,8 @@ const Home = () => {
         </TouchableOpacity>
       </>
     );
-  };
+  }; */
+
   return (
     <ImageBackground
       source={require('../assets/body.png')}
@@ -340,6 +403,26 @@ const Home = () => {
                       color: color,
                       selected: true,
                       startingDay: true,
+                      endingDay: false,
+                      marked: true,
+                      dotColor: '#132342',
+                    },
+                    '2023-01-20': {
+                      color: color,
+                      selected: true,
+                      startingDay: false,
+                      endingDay: false,
+                    },
+                    '2023-01-21': {
+                      color: color,
+                      selected: true,
+                      startingDay: false,
+                      endingDay: false,
+                    },
+                    '2023-01-22': {
+                      color: color,
+                      selected: true,
+                      startingDay: false,
                       endingDay: true,
                     },
                   }}
@@ -382,6 +465,16 @@ const Home = () => {
             />
           </View>
         )}
+        recalculateHiddenLayout={true}
+        alwaysBounceVertical
+        showsVerticalScrollIndicator={false}
+        bounces
+        focusable
+        closeOnRowBeginSwipe
+        closeOnScroll
+        bouncesZoom
+        scrollEnabled
+        useAnimatedList={true}
         style={{marginTop: 30}}
         data={pillData}
         renderItem={renderItem}
@@ -405,17 +498,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     justifyContent: 'center',
     marginBottom: 7,
-  },
-  rowBack: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingLeft: 15,
-    width: '100%',
-    alignSelf: 'center',
-    height: 90,
   },
 
   backRightBtn: {
