@@ -8,6 +8,7 @@
 
 import React from 'react';
 import Home from './screens/Home';
+import Test from './screens/Test';
 
 const App = () => {
   return <Home />;
