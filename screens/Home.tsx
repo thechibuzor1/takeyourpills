@@ -174,8 +174,8 @@ const Home = () => {
     var endTime = moment(props.time, 'HH:mm:ss a');
     var timeDiff = dateDifference(d, endTime);
 
-   /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
- */
+    /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
+     */
     const style = StyleSheet.create({
       box: {
         borderRadius: 15,
@@ -946,7 +946,8 @@ const Home = () => {
               style={{
                 display: 'flex',
                 alignSelf: 'center',
-                height: 50,
+                flexDirection: 'row',
+                height: 45,
                 width: 140,
                 backgroundColor: '#2CA6FF',
                 justifyContent: 'center',
@@ -954,6 +955,12 @@ const Home = () => {
                 marginTop: 30,
                 borderRadius: 15,
               }}>
+              <FontAwesomeIcon
+                icon={solid('check')}
+                style={{marginRight: 5}}
+                size={20}
+                color={'white'}
+              />
               <Text
                 style={{
                   color: '#ffffff',

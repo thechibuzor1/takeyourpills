@@ -149,7 +149,7 @@ var Home = function () {
         var endTime = moment_1["default"](props.time, 'HH:mm:ss a');
         var timeDiff = dateDifference(d, endTime);
         /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
-      */
+         */
         var style = react_native_1.StyleSheet.create({
             box: {
                 borderRadius: 15,
@@ -601,7 +601,8 @@ var Home = function () {
                     react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: {
                             display: 'flex',
                             alignSelf: 'center',
-                            height: 50,
+                            flexDirection: 'row',
+                            height: 45,
                             width: 140,
                             backgroundColor: '#2CA6FF',
                             justifyContent: 'center',
@@ -609,6 +610,7 @@ var Home = function () {
                             marginTop: 30,
                             borderRadius: 15
                         } },
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 5 }, size: 20, color: 'white' }),
                         react_1["default"].createElement(react_native_1.Text, { style: {
                                 color: '#ffffff',
                                 fontSize: 20,
