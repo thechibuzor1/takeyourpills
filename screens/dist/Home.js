@@ -148,6 +148,7 @@ var Home = function () {
         var props = _a.props;
         var endTime = moment_1["default"](props.time, 'HH:mm:ss a');
         var timeDiff = dateDifference(d, endTime);
+        timeDiff = Math.abs(timeDiff);
         /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
          */
         var style = react_native_1.StyleSheet.create({
@@ -155,9 +156,9 @@ var Home = function () {
                 borderRadius: 15,
                 backgroundColor: props.taken
                     ? '#69CA90'
-                    : timeDiff <= 3
+                    : timeDiff <= 3 && timeDiff > 0
                         ? '#F9DD71'
-                        : timeDiff > 3 && timeDiff <= 9
+                        : timeDiff > 3 && timeDiff <= 6
                             ? '#132342'
                             : '#ECECEC',
                 display: 'flex',
@@ -167,7 +168,7 @@ var Home = function () {
                 height: props.pills.length * 300
             },
             textColor: {
-                color: timeDiff > 3 && timeDiff <= 9 ? 'white' : 'black'
+                color: timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black'
             }
         });
         var _b = react_1.useState(null), active = _b[0], setActive = _b[1];
@@ -202,7 +203,7 @@ var Home = function () {
                         marginTop: 60
                     }, color: timeDiff <= 3
                         ? '#FFFFFF'
-                        : timeDiff > 3 && timeDiff <= 9
+                        : timeDiff > 3 && timeDiff <= 6
                             ? '#FF66CC'
                             : '#EF6F3A' }))) : (react_1["default"].createElement(react_native_1.View, null,
                 react_1["default"].createElement(react_native_1.View, { style: {
@@ -221,7 +222,7 @@ var Home = function () {
                             style.textColor,
                         ] }, pill.name),
                     react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5 },
-                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), style: { marginRight: 15 }, size: 24, color: timeDiff > 3 && timeDiff <= 9 ? 'white' : 'black' }))),
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), style: { marginRight: 15 }, size: 24, color: timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black' }))),
                 react_1["default"].createElement(react_native_1.Text, { style: [
                         {
                             marginLeft: 15,
@@ -262,6 +263,48 @@ var Home = function () {
                 ] }, moment_1["default"]("" + props.time, ['h:m a', 'H:m']).format('H:mm'))));
     };
     var _g = react_1.useState(false), newPill = _g[0], setPillModal = _g[1];
+    var _h = react_1.useState(false), settings = _h[0], setSettings = _h[1];
+    var settingsModal = function () {
+        return (react_1["default"].createElement(react_native_1.View, { style: styles.modalContainer },
+            react_1["default"].createElement(react_native_1.ImageBackground, { style: {
+                    alignSelf: 'center',
+                    marginBottom: 5
+                }, source: require('../assets/body.png') },
+                react_1["default"].createElement(react_native_1.View, { style: styles.modalItemsContainer },
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            color: 'gray',
+                            fontSize: 20,
+                            fontFamily: 'Satoshi-Bold',
+                            alignSelf: 'center',
+                            textAlign: 'center'
+                        } }, "\u2500\u2500\u2500\u2500\u2500\u2500\u2500"),
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: styles.modalC },
+                        react_1["default"].createElement(react_native_1.View, { style: styles.modalA },
+                            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('capsules'), size: 20, color: '#2CA6FF', style: { marginRight: 15, marginLeft: 15 } }),
+                            react_1["default"].createElement(react_native_1.Text, { style: {
+                                    color: 'black',
+                                    fontFamily: 'Satoshi-Bold',
+                                    fontSize: 15
+                                } }, "My Pills"))),
+                    react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.4, color: 'gray' }),
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: styles.modalC },
+                        react_1["default"].createElement(react_native_1.View, { style: styles.modalA },
+                            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('pen'), size: 20, color: 'black', style: { marginRight: 15, marginLeft: 15 } }),
+                            react_1["default"].createElement(react_native_1.Text, { style: {
+                                    color: 'black',
+                                    fontFamily: 'Satoshi-Bold',
+                                    fontSize: 15
+                                } }, "Edit My Info"))),
+                    react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.4, color: 'gray' }),
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: styles.modalC },
+                        react_1["default"].createElement(react_native_1.View, { style: styles.modalA },
+                            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('trash'), size: 20, color: 'red', style: { marginRight: 15, marginLeft: 15 } }),
+                            react_1["default"].createElement(react_native_1.Text, { style: {
+                                    color: 'black',
+                                    fontFamily: 'Satoshi-Bold',
+                                    fontSize: 15
+                                } }, "Delete Pill Records")))))));
+    };
     var pillModalContent = function () {
         var _a = react_1.useState(false), open = _a[0], setOpen = _a[1];
         var _b = react_1.useState(1), value = _b[0], setValue = _b[1];
@@ -643,8 +686,15 @@ var Home = function () {
                             fontFamily: 'Satoshi-Bold'
                         } }, d.format('MMM YYYY')),
                     !showCalendar ? (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-down'), color: "gray" })) : (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-up'), color: "gray" }))),
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setPillModal(true); } },
-                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('plus'), style: { marginRight: 15 }, size: 24, color: 'black' }))),
+                react_1["default"].createElement(react_native_1.View, { style: {
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    } },
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setSettings(true); } },
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('sliders'), style: { marginRight: 15 }, size: 22, color: 'black' })),
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setPillModal(true); } },
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('plus'), style: { marginRight: 15 }, size: 24, color: 'black' })))),
             react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: { marginTop: 10, width: '95%', alignSelf: 'center' } }),
             react_1["default"].createElement(react_native_1.View, null,
                 react_1["default"].createElement(react_native_1.Text, { style: {
@@ -736,7 +786,8 @@ var Home = function () {
                                 setFullDate(date.format('dddd MMM D'));
                                 setSelectedDate(date);
                             } }),
-                        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, pillModalContent())));
+                        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, pillModalContent()),
+                        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, settingsModal())));
                 }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== d.format('dddd MMM D'), disableRightSwipe: fullDate !== d.format('dddd MMM D'), focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { marginTop: 30 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 }))));
 };
 exports["default"] = Home;
@@ -763,5 +814,29 @@ var styles = react_native_1.StyleSheet.create({
         backgroundColor: '#2584ec',
         right: 15
     },
-    contentContainerStyle: {}
+    contentContainerStyle: {},
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        backgroundColor: 'rgba(0,0,0,0.7)'
+    },
+    modalItemsContainer: {
+        width: 400,
+        padding: 16,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginBottom: 5
+    },
+    modalC: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 15,
+        marginBottom: 15
+    },
+    modalA: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 15
+    }
 });

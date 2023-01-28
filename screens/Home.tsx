@@ -173,7 +173,7 @@ const Home = () => {
   const MedicineContainer = ({props}) => {
     var endTime = moment(props.time, 'HH:mm:ss a');
     var timeDiff = dateDifference(d, endTime);
-
+    timeDiff = Math.abs(timeDiff);
     /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
      */
     const style = StyleSheet.create({
@@ -181,9 +181,9 @@ const Home = () => {
         borderRadius: 15,
         backgroundColor: props.taken
           ? '#69CA90'
-          : timeDiff <= 3
+          : timeDiff <= 3 && timeDiff > 0
           ? '#F9DD71'
-          : timeDiff > 3 && timeDiff <= 9
+          : timeDiff > 3 && timeDiff <= 6
           ? '#132342'
           : '#ECECEC',
         display: 'flex',
@@ -193,7 +193,7 @@ const Home = () => {
         height: props.pills.length * 300,
       },
       textColor: {
-        color: timeDiff > 3 && timeDiff <= 9 ? 'white' : 'black',
+        color: timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black',
       },
     });
     const [active, setActive] = useState(null);
@@ -249,7 +249,7 @@ const Home = () => {
                   color={
                     timeDiff <= 3
                       ? '#FFFFFF'
-                      : timeDiff > 3 && timeDiff <= 9
+                      : timeDiff > 3 && timeDiff <= 6
                       ? '#FF66CC'
                       : '#EF6F3A'
                   }
@@ -281,7 +281,7 @@ const Home = () => {
                       icon={regular('pen-to-square')}
                       style={{marginRight: 15}}
                       size={24}
-                      color={timeDiff > 3 && timeDiff <= 9 ? 'white' : 'black'}
+                      color={timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black'}
                     />
                   </TouchableOpacity>
                 </View>
@@ -341,7 +341,90 @@ const Home = () => {
     );
   };
 
-  const [newPill, setPillModal] = useState(false);
+  const [newPill, setPillModal] = useState<boolean>(false);
+  const [settings, setSettings] = useState<boolean>(false);
+
+  const settingsModal = () => {
+    return (
+      <View style={styles.modalContainer}>
+        <ImageBackground
+          style={{
+            alignSelf: 'center',
+            marginBottom: 5,
+          }}
+          source={require('../assets/body.png')}>
+          <View style={styles.modalItemsContainer}>
+            <Text
+              style={{
+                color: 'gray',
+                fontSize: 20,
+                fontFamily: 'Satoshi-Bold',
+                alignSelf: 'center',
+                textAlign: 'center',
+              }}>
+              ───────
+            </Text>
+            <TouchableOpacity activeOpacity={0.5} style={styles.modalC}>
+              <View style={styles.modalA}>
+                <FontAwesomeIcon
+                  icon={solid('capsules')}
+                  size={20}
+                  color={'#2CA6FF'}
+                  style={{marginRight: 15, marginLeft: 15}}
+                />
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Satoshi-Bold',
+                    fontSize: 15,
+                  }}>
+                  My Pills
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <Divider width={0.4} color={'gray'} />
+            <TouchableOpacity activeOpacity={0.5} style={styles.modalC}>
+              <View style={styles.modalA}>
+                <FontAwesomeIcon
+                  icon={solid('pen')}
+                  size={20}
+                  color={'black'}
+                  style={{marginRight: 15, marginLeft: 15}}
+                />
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Satoshi-Bold',
+                    fontSize: 15,
+                  }}>
+                  Edit My Info
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <Divider width={0.4} color={'gray'} />
+            <TouchableOpacity activeOpacity={0.5} style={styles.modalC}>
+              <View style={styles.modalA}>
+                <FontAwesomeIcon
+                  icon={solid('trash')}
+                  size={20}
+                  color={'red'}
+                  style={{marginRight: 15, marginLeft: 15}}
+                />
+                <Text
+                  style={{
+                    color: 'black',
+                    fontFamily: 'Satoshi-Bold',
+                    fontSize: 15,
+                  }}>
+                  Delete Pill Records
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </View>
+    );
+  };
 
   const pillModalContent = () => {
     const [open, setOpen] = useState<boolean>(false);
@@ -1017,16 +1100,33 @@ const Home = () => {
               <FontAwesomeIcon icon={solid('caret-up')} color="gray" />
             )}
           </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            onPress={() => setPillModal(true)}>
-            <FontAwesomeIcon
-              icon={solid('plus')}
-              style={{marginRight: 15}}
-              size={24}
-              color={'black'}
-            />
-          </TouchableOpacity>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => setSettings(true)}>
+              <FontAwesomeIcon
+                icon={solid('sliders')}
+                style={{marginRight: 15}}
+                size={22}
+                color={'black'}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              onPress={() => setPillModal(true)}>
+              <FontAwesomeIcon
+                icon={solid('plus')}
+                style={{marginRight: 15}}
+                size={24}
+                color={'black'}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Divider
@@ -1168,6 +1268,14 @@ const Home = () => {
                 onRequestClose={() => setPillModal(false)}>
                 {pillModalContent()}
               </Modal>
+              <Modal
+                animated
+                animationType="slide"
+                visible={settings}
+                transparent
+                onRequestClose={() => setSettings(false)}>
+                {settingsModal()}
+              </Modal>
             </View>
           )}
           recalculateHiddenLayout={true}
@@ -1223,4 +1331,28 @@ const styles = StyleSheet.create({
     right: 15,
   },
   contentContainerStyle: {},
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+  },
+  modalItemsContainer: {
+    width: 400,
+    padding: 16,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginBottom: 5,
+  },
+  modalC: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  modalA: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 15,
+  },
 });
