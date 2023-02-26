@@ -106,59 +106,7 @@ export var tuePills = [
 ];
 
 export var wedPills = [
-  {
-    time: '7:00 am',
-    pills: [
-      {
-        id: 1,
-        name: 'Nora - BE',
-        desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a meal',
-        dosage: 2,
-      },
-      {
-        id: 2,
-        name: 'Nora - BE',
-        desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a meal',
-        dosage: 2,
-      },
-    ],
-    taken: false,
-  },
-  {
-    time: '11:00 am',
-    pills: [
-      {
-        id: 1,
-        name: 'Phenol H - BE',
-        desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a meal',
-        dosage: 2,
-      },
-      {
-        id: 2,
-        name: 'Nora - BE',
-        desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a meal',
-        dosage: 2,
-      },
-    ],
-    taken: false,
-  },
-  {
-    time: '14:00 pm',
-    pills: [
-      {
-        id: 1,
-        name: 'Paracetamol',
-        desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a meal',
-        dosage: 2,
-      },
-    ],
-    taken: false,
-  },
+  
 ];
 
 export var thuPills = [
@@ -169,7 +117,8 @@ export var thuPills = [
         id: 1,
         name: 'Nora - BE',
         desc: 'Norenthindrone - 0.35mg',
-        instruction: 'Take 2 once a day after a mea Take 2 once a day after a meal',
+        instruction:
+          'Take 2 once a day after a mea Take 2 once a day after a meal',
         dosage: 2,
       },
     ],
@@ -373,8 +322,15 @@ export var sunPills = [
   },
 ];
 
-
-/* 
-var Thur_Jan_19_2023 = [
-  
-] */
+export interface MyPills {
+  id: Number;
+  name: String;
+  desc: String;
+  dosage: String;
+  duration: Number;
+  timesPerDay: Number;
+  times: {};
+  startDate: String;
+  endDate: String;
+  instructions: String;
+}

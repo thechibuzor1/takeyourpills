@@ -105,61 +105,7 @@ exports.tuePills = [
         taken: false
     },
 ];
-exports.wedPills = [
-    {
-        time: '7:00 am',
-        pills: [
-            {
-                id: 1,
-                name: 'Nora - BE',
-                desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
-                dosage: 2
-            },
-            {
-                id: 2,
-                name: 'Nora - BE',
-                desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
-                dosage: 2
-            },
-        ],
-        taken: false
-    },
-    {
-        time: '11:00 am',
-        pills: [
-            {
-                id: 1,
-                name: 'Phenol H - BE',
-                desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
-                dosage: 2
-            },
-            {
-                id: 2,
-                name: 'Nora - BE',
-                desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
-                dosage: 2
-            },
-        ],
-        taken: false
-    },
-    {
-        time: '14:00 pm',
-        pills: [
-            {
-                id: 1,
-                name: 'Paracetamol',
-                desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
-                dosage: 2
-            },
-        ],
-        taken: false
-    },
-];
+exports.wedPills = [];
 exports.thuPills = [
     {
         time: '7:00 am',
@@ -368,7 +314,3 @@ exports.sunPills = [
         taken: false
     },
 ];
-/*
-var Thur_Jan_19_2023 = [
-  
-] */ 
