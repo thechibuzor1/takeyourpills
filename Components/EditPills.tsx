@@ -17,7 +17,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {d} from '../screens/Home';
 
-const EditPills = ({setEditPill, pillData}) => {
+const EditPills = ({setEditPill, pillData, pillDataX, setPillDataX, index}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pillName, setPillName] = useState<string>(pillData.name);
   const [dosage, setDosage] = useState<string>(pillData.dosage.toString());
@@ -43,6 +43,25 @@ const EditPills = ({setEditPill, pillData}) => {
 
   const [startDate, setStartDate] = useState<string>(d.format('dddd MMM D'));
   const [startDatePicker, setStartDatePicker] = useState<boolean>(false);
+
+  function handleSave() {
+    const clonedData = [...pillDataX];
+    const edittedPill = {
+      id: pillData.id,
+      name: pillName,
+      desc: pillDesc,
+      instruction: instructions,
+      dosage: dosage,
+    };
+    clonedData[index].pills[pillData.id - 1] = edittedPill;
+    setPillDataX(clonedData);
+    setPillName('');
+    setPillDesc('');
+    setDosage('');
+    setInstructions('');
+    setEditPill(false);
+  }
+
   return (
     <View
       style={{
@@ -100,6 +119,7 @@ const EditPills = ({setEditPill, pillData}) => {
 
           <TextInput
             value={pillName}
+            onChangeText={text => setPillName(text)}
             style={{
               marginTop: 15,
               color: 'black',
@@ -128,6 +148,7 @@ const EditPills = ({setEditPill, pillData}) => {
           <TextInput
             multiline
             value={pillDesc}
+            onChangeText={text => setPillDesc(text)}
             style={{
               marginTop: 15,
               color: 'black',
@@ -165,6 +186,7 @@ const EditPills = ({setEditPill, pillData}) => {
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
               value={dosage}
+              onChangeText={text => setDosage(text)}
               keyboardType="numeric"
               maxLength={2}
               style={{
@@ -607,6 +629,7 @@ const EditPills = ({setEditPill, pillData}) => {
 
           <TextInput
             value={instructions}
+            onChangeText={text => setInstructions(text)}
             multiline={true}
             style={{
               marginTop: 15,
@@ -625,6 +648,7 @@ const EditPills = ({setEditPill, pillData}) => {
           />
 
           <TouchableOpacity
+            onPress={handleSave}
             activeOpacity={0.5}
             style={{
               display: 'flex',

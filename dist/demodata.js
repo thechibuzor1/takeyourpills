@@ -4,7 +4,7 @@ exports.__esModule = true;
 exports.sunPills = exports.satPills = exports.friPills = exports.thuPills = exports.wedPills = exports.tuePills = exports.monPills = void 0;
 exports.monPills = [
     {
-        time: '7:30 am',
+        time: '7:30',
         pills: [
             {
                 id: 1,
@@ -24,7 +24,7 @@ exports.monPills = [
         taken: false
     },
     {
-        time: '11:30 am',
+        time: '11:30',
         pills: [
             {
                 id: 1,
@@ -44,7 +44,7 @@ exports.monPills = [
         taken: false
     },
     {
-        time: '14:30 pm',
+        time: '14:30',
         pills: [
             {
                 id: 1,
@@ -59,7 +59,7 @@ exports.monPills = [
 ];
 exports.tuePills = [
     {
-        time: '7:30 am',
+        time: '7:30',
         pills: [
             {
                 id: 1,
@@ -72,7 +72,7 @@ exports.tuePills = [
         taken: false
     },
     {
-        time: '11:30 am',
+        time: '11:30',
         pills: [
             {
                 id: 1,
@@ -92,7 +92,7 @@ exports.tuePills = [
         taken: false
     },
     {
-        time: '14:30 pm',
+        time: '14:30',
         pills: [
             {
                 id: 1,
@@ -108,7 +108,7 @@ exports.tuePills = [
 exports.wedPills = [];
 exports.thuPills = [
     {
-        time: '7:00 am',
+        time: '7:00',
         pills: [
             {
                 id: 1,
@@ -121,7 +121,7 @@ exports.thuPills = [
         taken: false
     },
     {
-        time: '11:00 am',
+        time: '11:00',
         pills: [
             {
                 id: 1,
@@ -134,7 +134,7 @@ exports.thuPills = [
         taken: false
     },
     {
-        time: '17:00 pm',
+        time: '17:00',
         pills: [
             {
                 id: 1,
@@ -156,7 +156,7 @@ exports.thuPills = [
 ];
 exports.friPills = [
     {
-        time: '7:00 am',
+        time: '7:00',
         pills: [
             {
                 id: 1,
@@ -176,7 +176,7 @@ exports.friPills = [
         taken: false
     },
     {
-        time: '12:00 pm',
+        time: '12:00',
         pills: [
             {
                 id: 1,
@@ -217,7 +217,7 @@ exports.friPills = [
         taken: false
     },
     {
-        time: '19:00 pm',
+        time: '19:00',
         pills: [
             {
                 id: 1,
@@ -232,7 +232,7 @@ exports.friPills = [
 ];
 exports.satPills = [
     {
-        time: '7:00 am',
+        time: '7:00',
         pills: [
             {
                 id: 1,
@@ -252,7 +252,7 @@ exports.satPills = [
         taken: false
     },
     {
-        time: '20:00 pm',
+        time: '20:00',
         pills: [
             {
                 id: 1,
@@ -274,7 +274,7 @@ exports.satPills = [
 ];
 exports.sunPills = [
     {
-        time: '7:00 am',
+        time: '7:00',
         pills: [
             {
                 id: 1,
@@ -294,7 +294,7 @@ exports.sunPills = [
         taken: false
     },
     {
-        time: '12:00 pm',
+        time: '12:00',
         pills: [
             {
                 id: 1,

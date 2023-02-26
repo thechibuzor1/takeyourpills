@@ -1,4 +1,11 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 var react_native_1 = require("react-native");
 var react_1 = require("react");
@@ -9,23 +16,68 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var NewPill = function (_a) {
-    var setPillModal = _a.setPillModal;
+    var setPillModal = _a.setPillModal, pillData = _a.pillData, setPillData = _a.setPillData;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
     var _c = react_1.useState(''), pillName = _c[0], setPillName = _c[1];
-    var _d = react_1.useState(1), value = _d[0], setValue = _d[1];
-    var _e = react_1.useState([
+    var _d = react_1.useState(''), pillDesc = _d[0], setPillDesc = _d[1];
+    var _e = react_1.useState(''), dosage = _e[0], setDosage = _e[1];
+    var _f = react_1.useState(''), instructions = _f[0], setInstructions = _f[1];
+    var _g = react_1.useState(1), value = _g[0], setValue = _g[1];
+    var _h = react_1.useState([
         { label: 'Once a day', value: 1 },
         { label: 'Twice a day', value: 2 },
         { label: 'Three Times a day', value: 3 },
-    ]), items = _e[0], setItems = _e[1];
-    var _f = react_1.useState('9:00'), morningTime = _f[0], setMorningTime = _f[1];
-    var _g = react_1.useState(false), isMorning = _g[0], setMorningVisibility = _g[1];
-    var _h = react_1.useState('14:00'), afternoonTime = _h[0], setAfternoonTime = _h[1];
-    var _j = react_1.useState(false), isAfternoon = _j[0], setAfternoonVisibility = _j[1];
-    var _k = react_1.useState('20:00'), eveningTime = _k[0], setEveningTime = _k[1];
-    var _l = react_1.useState(false), isEvening = _l[0], setEveningVisibility = _l[1];
-    var _m = react_1.useState(Home_1.d.format('dddd MMM D')), startDate = _m[0], setStartDate = _m[1];
-    var _o = react_1.useState(false), startDatePicker = _o[0], setStartDatePicker = _o[1];
+    ]), items = _h[0], setItems = _h[1];
+    var _j = react_1.useState('9:00'), morningTime = _j[0], setMorningTime = _j[1];
+    var _k = react_1.useState(false), isMorning = _k[0], setMorningVisibility = _k[1];
+    var _l = react_1.useState('14:00'), afternoonTime = _l[0], setAfternoonTime = _l[1];
+    var _m = react_1.useState(false), isAfternoon = _m[0], setAfternoonVisibility = _m[1];
+    var _o = react_1.useState('20:00'), eveningTime = _o[0], setEveningTime = _o[1];
+    var _p = react_1.useState(false), isEvening = _p[0], setEveningVisibility = _p[1];
+    var _q = react_1.useState(Home_1.d.format('dddd MMM D')), startDate = _q[0], setStartDate = _q[1];
+    var _r = react_1.useState(false), startDatePicker = _r[0], setStartDatePicker = _r[1];
+    function handleSave() {
+        var clonedData = __spreadArrays(pillData);
+        var index = 0;
+        var found = false;
+        var newPills = {
+            id: 1,
+            name: pillName,
+            desc: pillDesc,
+            instruction: instructions,
+            dosage: dosage
+        };
+        var newData = {
+            time: morningTime,
+            pills: [newPills],
+            taken: false
+        };
+        clonedData.forEach(function (element) {
+            if (element.time === morningTime) {
+                found = true;
+                index = clonedData.indexOf(element);
+            }
+        });
+        if (found) {
+            var newPillsX = {
+                id: clonedData[index].pills.length + 1,
+                name: pillName,
+                desc: pillDesc,
+                instruction: instructions,
+                dosage: dosage
+            };
+            clonedData[index].pills.push(newPillsX);
+        }
+        else {
+            clonedData.push(newData);
+        }
+        setPillData(clonedData);
+        setPillName('');
+        setPillDesc('');
+        setDosage('');
+        setInstructions('');
+        setPillModal(false);
+    }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',
             flex: 1,
@@ -55,7 +107,7 @@ var NewPill = function (_a) {
                         fontFamily: 'Satoshi-Bold',
                         color: 'black'
                     } }, "Pill Name"),
-                react_1["default"].createElement(react_native_1.TextInput, { value: pillName, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { value: pillName, onChangeText: function (text) { return setPillName(text); }, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 50,
@@ -74,7 +126,7 @@ var NewPill = function (_a) {
                         color: 'black',
                         marginTop: 15
                     } }, "Pill Description"),
-                react_1["default"].createElement(react_native_1.TextInput, { multiline: true, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: pillData, onChangeText: function (text) { return setPillDesc(text); }, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 70,
@@ -100,7 +152,7 @@ var NewPill = function (_a) {
                         color: 'black'
                     } }, "How many pills do you need to take at once?"),
                 react_1["default"].createElement(react_native_1.View, { style: { display: 'flex', flexDirection: 'row' } },
-                    react_1["default"].createElement(react_native_1.TextInput, { keyboardType: "numeric", maxLength: 2, style: {
+                    react_1["default"].createElement(react_native_1.TextInput, { value: dosage, onChangeText: function (text) { return setDosage(text); }, keyboardType: "numeric", maxLength: 2, style: {
                             marginTop: 15,
                             color: 'black',
                             height: 50,
@@ -332,7 +384,7 @@ var NewPill = function (_a) {
                         fontFamily: 'Satoshi-Bold',
                         color: 'black'
                     } }, "You can add intructions here"),
-                react_1["default"].createElement(react_native_1.TextInput, { multiline: true, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: instructions, onChangeText: function (text) { return setInstructions(text); }, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 90,
@@ -346,7 +398,7 @@ var NewPill = function (_a) {
                         textAlignVertical: 'top',
                         padding: 8
                     } }),
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: {
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: handleSave, activeOpacity: 0.5, style: {
                         display: 'flex',
                         alignSelf: 'center',
                         flexDirection: 'row',

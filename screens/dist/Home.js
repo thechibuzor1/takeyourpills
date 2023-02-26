@@ -110,8 +110,9 @@ var Home = function () {
     var _f = react_1.useState(false), showCalendar = _f[0], setShowCalendar = _f[1];
     var pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
     /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
+    var _g = react_1.useState(false), confetti = _g[0], setConfetti = _g[1];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
-        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item }))); };
+        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, pillDataX: pillData, setPillDataX: setPillData, index: data.index, confetti: confetti, setConfetti: setConfetti }))); };
     var renderHiddenItem = function (data, rowMap) {
         function handleTaken() {
             var newPillData = __spreadArrays(pillData);
@@ -122,6 +123,7 @@ var Home = function () {
             };
             newPillData[data.index] = newData;
             setPillData(newPillData);
+            setConfetti(true);
         }
         return (react_1["default"].createElement(react_native_1.TouchableOpacity
         /*  onPress={handleAnimation} */
@@ -140,10 +142,10 @@ var Home = function () {
             } },
             react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'white' })));
     };
-    var _g = react_1.useState(false), newPill = _g[0], setPillModal = _g[1];
-    var _h = react_1.useState(false), settings = _h[0], setSettings = _h[1];
-    var _j = react_1.useState(false), loading = _j[0], setLoading = _j[1];
-    var _k = react_1.useState(true), splash = _k[0], setSplash = _k[1];
+    var _h = react_1.useState(false), newPill = _h[0], setPillModal = _h[1];
+    var _j = react_1.useState(false), settings = _j[0], setSettings = _j[1];
+    var _k = react_1.useState(false), loading = _k[0], setLoading = _k[1];
+    var _l = react_1.useState(true), splash = _l[0], setSplash = _l[1];
     var Loading = function () { return (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: {
             display: 'flex',
             flex: 1,
@@ -173,11 +175,11 @@ var Home = function () {
     react_1.useEffect(function () {
         setTimeout(function () {
             setSplash(false);
-        }, 250);
+        }, 350);
     }, []);
     return splash ? (react_1["default"].createElement(Splash, null)) : (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, pillData: pillData, setPillData: setPillData })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], null)),
         loading ? (react_1["default"].createElement(Loading, null)) : (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: { display: 'flex', flex: 1 } },
             react_1["default"].createElement(react_native_1.View, { style: styles.DateCon },

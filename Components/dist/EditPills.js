@@ -1,4 +1,11 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 var react_native_1 = require("react-native");
 var react_1 = require("react");
@@ -9,7 +16,7 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var EditPills = function (_a) {
-    var setEditPill = _a.setEditPill, pillData = _a.pillData;
+    var setEditPill = _a.setEditPill, pillData = _a.pillData, pillDataX = _a.pillDataX, setPillDataX = _a.setPillDataX, index = _a.index;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
     var _c = react_1.useState(pillData.name), pillName = _c[0], setPillName = _c[1];
     var _d = react_1.useState(pillData.dosage.toString()), dosage = _d[0], setDosage = _d[1];
@@ -29,6 +36,23 @@ var EditPills = function (_a) {
     var _p = react_1.useState(false), isEvening = _p[0], setEveningVisibility = _p[1];
     var _q = react_1.useState(Home_1.d.format('dddd MMM D')), startDate = _q[0], setStartDate = _q[1];
     var _r = react_1.useState(false), startDatePicker = _r[0], setStartDatePicker = _r[1];
+    function handleSave() {
+        var clonedData = __spreadArrays(pillDataX);
+        var edittedPill = {
+            id: pillData.id,
+            name: pillName,
+            desc: pillDesc,
+            instruction: instructions,
+            dosage: dosage
+        };
+        clonedData[index].pills[pillData.id - 1] = edittedPill;
+        setPillDataX(clonedData);
+        setPillName('');
+        setPillDesc('');
+        setDosage('');
+        setInstructions('');
+        setEditPill(false);
+    }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',
             flex: 1,
@@ -58,7 +82,7 @@ var EditPills = function (_a) {
                         fontFamily: 'Satoshi-Bold',
                         color: 'black'
                     } }, "Pill Name"),
-                react_1["default"].createElement(react_native_1.TextInput, { value: pillName, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { value: pillName, onChangeText: function (text) { return setPillName(text); }, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 50,
@@ -77,7 +101,7 @@ var EditPills = function (_a) {
                         color: 'black',
                         marginTop: 15
                     } }, "Pill Description"),
-                react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: pillDesc, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: pillDesc, onChangeText: function (text) { return setPillDesc(text); }, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 70,
@@ -103,7 +127,7 @@ var EditPills = function (_a) {
                         color: 'black'
                     } }, "How many pills do you need to take at once?"),
                 react_1["default"].createElement(react_native_1.View, { style: { display: 'flex', flexDirection: 'row' } },
-                    react_1["default"].createElement(react_native_1.TextInput, { value: dosage, keyboardType: "numeric", maxLength: 2, style: {
+                    react_1["default"].createElement(react_native_1.TextInput, { value: dosage, onChangeText: function (text) { return setDosage(text); }, keyboardType: "numeric", maxLength: 2, style: {
                             marginTop: 15,
                             color: 'black',
                             height: 50,
@@ -335,7 +359,7 @@ var EditPills = function (_a) {
                         fontFamily: 'Satoshi-Bold',
                         color: 'black'
                     } }, "You can add intructions here"),
-                react_1["default"].createElement(react_native_1.TextInput, { value: instructions, multiline: true, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { value: instructions, onChangeText: function (text) { return setInstructions(text); }, multiline: true, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 90,
@@ -349,7 +373,7 @@ var EditPills = function (_a) {
                         textAlignVertical: 'top',
                         padding: 8
                     } }),
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: {
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: handleSave, activeOpacity: 0.5, style: {
                         display: 'flex',
                         alignSelf: 'center',
                         flexDirection: 'row',

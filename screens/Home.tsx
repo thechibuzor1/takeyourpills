@@ -126,10 +126,17 @@ const Home = () => {
 
   const pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
   /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
-
+  const [confetti, setConfetti] = useState<boolean>(false)
   const renderItem = data => (
     <View style={styles.rowFront}>
-      <MedicineContainer props={data.item} />
+      <MedicineContainer
+        props={data.item}
+        pillDataX={pillData}
+        setPillDataX={setPillData}
+        index={data.index}
+        confetti={confetti}
+        setConfetti={setConfetti}
+      />
     </View>
   );
   const renderHiddenItem = (data, rowMap) => {
@@ -142,6 +149,7 @@ const Home = () => {
       };
       newPillData[data.index] = newData;
       setPillData(newPillData);
+      setConfetti(true)
     }
 
     return (
@@ -229,7 +237,7 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       setSplash(false);
-    }, 250);
+    }, 350);
   }, []);
 
   return splash ? (
@@ -243,7 +251,13 @@ const Home = () => {
         visible={newPill}
         transparent
         onRequestClose={() => setPillModal(false)}>
-        {<NewPill setPillModal={setPillModal} />}
+        {
+          <NewPill
+            setPillModal={setPillModal}
+            pillData={pillData}
+            setPillData={setPillData}
+          />
+        }
       </Modal>
       <Modal
         animated

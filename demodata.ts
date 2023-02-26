@@ -2,7 +2,7 @@
 
 export var monPills = [
   {
-    time: '7:30 am',
+    time: '7:30',
     pills: [
       {
         id: 1,
@@ -22,7 +22,7 @@ export var monPills = [
     taken: false,
   },
   {
-    time: '11:30 am',
+    time: '11:30',
     pills: [
       {
         id: 1,
@@ -42,7 +42,7 @@ export var monPills = [
     taken: false,
   },
   {
-    time: '14:30 pm',
+    time: '14:30',
     pills: [
       {
         id: 1,
@@ -58,7 +58,7 @@ export var monPills = [
 
 export var tuePills = [
   {
-    time: '7:30 am',
+    time: '7:30',
     pills: [
       {
         id: 1,
@@ -71,7 +71,7 @@ export var tuePills = [
     taken: false,
   },
   {
-    time: '11:30 am',
+    time: '11:30',
     pills: [
       {
         id: 1,
@@ -91,7 +91,7 @@ export var tuePills = [
     taken: false,
   },
   {
-    time: '14:30 pm',
+    time: '14:30',
     pills: [
       {
         id: 1,
@@ -105,13 +105,11 @@ export var tuePills = [
   },
 ];
 
-export var wedPills = [
-  
-];
+export var wedPills = [];
 
 export var thuPills = [
   {
-    time: '7:00 am',
+    time: '7:00',
     pills: [
       {
         id: 1,
@@ -125,7 +123,7 @@ export var thuPills = [
     taken: false,
   },
   {
-    time: '11:00 am',
+    time: '11:00',
     pills: [
       {
         id: 1,
@@ -138,7 +136,7 @@ export var thuPills = [
     taken: false,
   },
   {
-    time: '17:00 pm',
+    time: '17:00',
     pills: [
       {
         id: 1,
@@ -161,7 +159,7 @@ export var thuPills = [
 
 export var friPills = [
   {
-    time: '7:00 am',
+    time: '7:00',
     pills: [
       {
         id: 1,
@@ -181,7 +179,7 @@ export var friPills = [
     taken: false,
   },
   {
-    time: '12:00 pm',
+    time: '12:00',
     pills: [
       {
         id: 1,
@@ -222,7 +220,7 @@ export var friPills = [
     taken: false,
   },
   {
-    time: '19:00 pm',
+    time: '19:00',
     pills: [
       {
         id: 1,
@@ -238,7 +236,7 @@ export var friPills = [
 
 export var satPills = [
   {
-    time: '7:00 am',
+    time: '7:00',
     pills: [
       {
         id: 1,
@@ -258,7 +256,7 @@ export var satPills = [
     taken: false,
   },
   {
-    time: '20:00 pm',
+    time: '20:00',
     pills: [
       {
         id: 1,
@@ -281,7 +279,7 @@ export var satPills = [
 
 export var sunPills = [
   {
-    time: '7:00 am',
+    time: '7:00',
     pills: [
       {
         id: 1,
@@ -301,7 +299,7 @@ export var sunPills = [
     taken: false,
   },
   {
-    time: '12:00 pm',
+    time: '12:00',
     pills: [
       {
         id: 1,

@@ -18,8 +18,9 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var EditPills_1 = require("./EditPills");
+var lottie_react_native_1 = require("lottie-react-native");
 var MedicineContainer = function (_a) {
-    var props = _a.props;
+    var props = _a.props, pillDataX = _a.pillDataX, setPillDataX = _a.setPillDataX, index = _a.index, confetti = _a.confetti, setConfetti = _a.setConfetti;
     var _b = react_1.useState(false), editPill = _b[0], setEditPill = _b[1];
     var _c = react_1.useState(null), pillData = _c[0], setPillData = _c[1];
     var endTime = moment_1["default"](props.time, 'HH:mm:ss a');
@@ -57,9 +58,15 @@ var MedicineContainer = function (_a) {
         setActive(null);
         setPillData(null);
     }
+    react_1.useEffect(function () {
+        setTimeout(function () {
+            setConfetti(false);
+        }, 500);
+    }, [confetti]);
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: editPill, transparent: true, onRequestClose: function () { return setEditPill(false); } }, react_1["default"].createElement(EditPills_1["default"], { setEditPill: setEditPill, pillData: pillData })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: editPill, transparent: true, onRequestClose: function () { return setEditPill(false); } }, react_1["default"].createElement(EditPills_1["default"], { setEditPill: setEditPill, pillData: pillData, pillDataX: pillDataX, setPillDataX: setPillDataX, index: index })),
         react_1["default"].createElement(react_native_1.View, { style: __assign({}, style.box) },
+            confetti && props.taken && (react_1["default"].createElement(lottie_react_native_1["default"], { style: { height: 200, position: 'absolute', right: 0, top: '25%' }, source: require('../assets/confetti.json'), autoPlay: true, speed: 2 })),
             props.pills.map(function (pill) {
                 return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { marginTop: 0 }, onPress: function () { return handleActive(pill); } }, active !== pill.id ? (react_1["default"].createElement(react_native_1.View, null,
                     react_1["default"].createElement(react_native_1.Text, { style: [

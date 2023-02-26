@@ -15,12 +15,16 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import { d } from '../screens/Home';
+import {d} from '../screens/Home';
 
-const NewPill = ({setPillModal}) => {
-  
+const NewPill = ({setPillModal, pillData, setPillData}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pillName, setPillName] = useState<string>('');
+  const [pillDesc, setPillDesc] = useState<string>('');
+  const [dosage, setDosage] = useState<string>('');
+
+  const [instructions, setInstructions] = useState<string>('');
+
   const [value, setValue] = useState<any>(1);
   const [items, setItems] = useState<any>([
     {label: 'Once a day', value: 1},
@@ -39,6 +43,52 @@ const NewPill = ({setPillModal}) => {
 
   const [startDate, setStartDate] = useState<string>(d.format('dddd MMM D'));
   const [startDatePicker, setStartDatePicker] = useState<boolean>(false);
+
+  function handleSave() {
+    const clonedData = [...pillData];
+    let index = 0;
+    let found = false;
+    const newPills = {
+      id: 1,
+      name: pillName,
+      desc: pillDesc,
+      instruction: instructions,
+      dosage: dosage,
+    };
+    const newData = {
+      time: morningTime,
+      pills: [newPills],
+      taken: false,
+    };
+
+    clonedData.forEach(element => {
+      if (element.time === morningTime) {
+        found = true;
+        index = clonedData.indexOf(element);
+      }
+    });
+
+    if (found) {
+      const newPillsX = {
+        id: clonedData[index].pills.length + 1,
+        name: pillName,
+        desc: pillDesc,
+        instruction: instructions,
+        dosage: dosage,
+      };
+      clonedData[index].pills.push(newPillsX);
+    } else {
+      clonedData.push(newData);
+    }
+
+    setPillData(clonedData);
+    setPillName('');
+    setPillDesc('');
+    setDosage('');
+    setInstructions('');
+    setPillModal(false);
+  }
+
   return (
     <View
       style={{
@@ -96,6 +146,7 @@ const NewPill = ({setPillModal}) => {
 
           <TextInput
             value={pillName}
+            onChangeText={text => setPillName(text)}
             style={{
               marginTop: 15,
               color: 'black',
@@ -123,6 +174,8 @@ const NewPill = ({setPillModal}) => {
 
           <TextInput
             multiline
+            value={pillData}
+            onChangeText={text => setPillDesc(text)}
             style={{
               marginTop: 15,
               color: 'black',
@@ -159,6 +212,8 @@ const NewPill = ({setPillModal}) => {
           </Text>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
+              value={dosage}
+              onChangeText={text => setDosage(text)}
               keyboardType="numeric"
               maxLength={2}
               style={{
@@ -601,6 +656,8 @@ const NewPill = ({setPillModal}) => {
 
           <TextInput
             multiline={true}
+            value={instructions}
+            onChangeText={text => setInstructions(text)}
             style={{
               marginTop: 15,
               color: 'black',
@@ -618,6 +675,7 @@ const NewPill = ({setPillModal}) => {
           />
 
           <TouchableOpacity
+            onPress={handleSave}
             activeOpacity={0.5}
             style={{
               display: 'flex',

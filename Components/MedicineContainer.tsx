@@ -15,8 +15,16 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {d, dateDifference} from '../screens/Home';
 import EditPills from './EditPills';
+import AnimatedLottieView from 'lottie-react-native';
 
-const MedicineContainer = ({props}) => {
+const MedicineContainer = ({
+  props,
+  pillDataX,
+  setPillDataX,
+  index,
+  confetti,
+  setConfetti,
+}) => {
   const [editPill, setEditPill] = useState<boolean>(false);
   const [pillData, setPillData] = useState(null);
 
@@ -46,6 +54,7 @@ const MedicineContainer = ({props}) => {
     },
   });
   const [active, setActive] = useState(null);
+
   function handleActive(pill) {
     if (active !== pill.id) {
       setActive(pill.id);
@@ -56,6 +65,12 @@ const MedicineContainer = ({props}) => {
     setActive(null);
     setPillData(null);
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setConfetti(false);
+    }, 500);
+  }, [confetti]);
   return (
     <>
       <Modal
@@ -64,9 +79,26 @@ const MedicineContainer = ({props}) => {
         visible={editPill}
         transparent
         onRequestClose={() => setEditPill(false)}>
-        {<EditPills setEditPill={setEditPill} pillData={pillData} />}
+        {
+          <EditPills
+            setEditPill={setEditPill}
+            pillData={pillData}
+            pillDataX={pillDataX}
+            setPillDataX={setPillDataX}
+            index={index}
+          />
+        }
       </Modal>
       <View style={{...style.box}}>
+        {confetti && props.taken && (
+          <AnimatedLottieView
+            style={{height: 200, position: 'absolute', right: 0, top: '25%'}}
+            source={require('../assets/confetti.json')}
+            autoPlay
+            speed={2}
+          />
+        )}
+
         {props.pills.map(pill => {
           return (
             <TouchableOpacity
