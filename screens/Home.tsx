@@ -126,7 +126,7 @@ const Home = () => {
 
   const pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
   /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
-  const [confetti, setConfetti] = useState<boolean>(false)
+  const [confetti, setConfetti] = useState<boolean>(false);
   const renderItem = data => (
     <View style={styles.rowFront}>
       <MedicineContainer
@@ -149,7 +149,7 @@ const Home = () => {
       };
       newPillData[data.index] = newData;
       setPillData(newPillData);
-      setConfetti(true)
+      setConfetti(true);
     }
 
     return (
@@ -237,7 +237,7 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       setSplash(false);
-    }, 350);
+    }, 500);
   }, []);
 
   return splash ? (
@@ -338,7 +338,11 @@ const Home = () => {
             </Text>
             <Divider
               width={0.5}
-              style={{width: '100%', alignSelf: 'center', marginTop: 15}}
+              style={{
+                width: '100%',
+                alignSelf: 'center',
+                marginTop: 15,
+              }}
             />
           </View>
 
@@ -474,7 +478,7 @@ const Home = () => {
             bouncesZoom
             scrollEnabled
             useAnimatedList={true}
-            style={{}}
+            style={{paddingTop: 5, paddingBottom: 15}}
             data={pillData}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}

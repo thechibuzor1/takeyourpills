@@ -175,7 +175,7 @@ var Home = function () {
     react_1.useEffect(function () {
         setTimeout(function () {
             setSplash(false);
-        }, 350);
+        }, 500);
     }, []);
     return splash ? (react_1["default"].createElement(Splash, null)) : (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
@@ -212,7 +212,11 @@ var Home = function () {
                 react_1["default"].createElement(react_native_1.Text, { style: styles.SubHeader },
                     "Your medicine schedule for ",
                     header),
-                react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: { width: '100%', alignSelf: 'center', marginTop: 15 } })),
+                react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
+                        width: '100%',
+                        alignSelf: 'center',
+                        marginTop: 15
+                    } })),
             react_1["default"].createElement(react_native_swipe_list_view_1.SwipeListView, { ListHeaderComponent: function () {
                     var _a;
                     return (react_1["default"].createElement(react_native_1.View, null,
@@ -295,7 +299,7 @@ var Home = function () {
                                 }, 250);
                             } }),
                         pillData.length === 0 && react_1["default"].createElement(Empty, null)));
-                }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== exports.d.format('dddd MMM D'), disableRightSwipe: fullDate !== exports.d.format('dddd MMM D'), focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: {}, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })))));
+                }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== exports.d.format('dddd MMM D'), disableRightSwipe: fullDate !== exports.d.format('dddd MMM D'), focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { paddingTop: 5, paddingBottom: 15 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })))));
 };
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({
