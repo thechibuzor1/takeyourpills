@@ -119,7 +119,7 @@ var NewPill = function (_a) {
                             fontFamily: 'Satoshi-Bold',
                             color: 'black'
                         } }, "Pill Name"),
-                    react_1["default"].createElement(react_native_1.TextInput, { value: pillName, onChangeText: function (text) { return setPillName(text); }, style: {
+                    react_1["default"].createElement(react_native_1.TextInput, { value: pillName, autoFocus: true, onChangeText: function (text) { return setPillName(text); }, style: {
                             marginTop: 15,
                             color: 'black',
                             height: 50,

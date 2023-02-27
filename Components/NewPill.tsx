@@ -168,6 +168,7 @@ const NewPill = ({
 
             <TextInput
               value={pillName}
+              autoFocus
               onChangeText={text => setPillName(text)}
               style={{
                 marginTop: 15,

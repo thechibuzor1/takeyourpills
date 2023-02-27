@@ -383,7 +383,13 @@ const Home = () => {
               <TouchableOpacity
                 style={{width: 40}}
                 activeOpacity={0.5}
-                onPress={() => setPillModal(true)}>
+                onPress={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    setPillModal(true);
+                    setLoading(false);
+                  }, 150);
+                }}>
                 <FontAwesomeIcon
                   icon={solid('plus')}
                   style={{marginRight: 15}}
@@ -399,7 +405,7 @@ const Home = () => {
             style={{marginTop: 10, width: '95%', alignSelf: 'center'}}
           />
           <View>
-            <Text style={styles.Header}>Hello, Chibuzor,</Text>
+            <Text style={styles.Header}>Hello Chibuzor,</Text>
             <Text style={styles.SubHeader}>
               Your medicine schedule for {header}
             </Text>

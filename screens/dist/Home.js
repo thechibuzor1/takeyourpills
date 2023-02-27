@@ -233,11 +233,17 @@ var Home = function () {
                             }, 150);
                         } },
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('sliders'), style: { marginRight: 15 }, size: 22, color: 'black' })),
-                    react_1["default"].createElement(react_native_1.TouchableOpacity, { style: { width: 40 }, activeOpacity: 0.5, onPress: function () { return setPillModal(true); } },
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { style: { width: 40 }, activeOpacity: 0.5, onPress: function () {
+                            setLoading(true);
+                            setTimeout(function () {
+                                setPillModal(true);
+                                setLoading(false);
+                            }, 150);
+                        } },
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('plus'), style: { marginRight: 15 }, size: 24, color: 'black' })))),
             react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: { marginTop: 10, width: '95%', alignSelf: 'center' } }),
             react_1["default"].createElement(react_native_1.View, null,
-                react_1["default"].createElement(react_native_1.Text, { style: styles.Header }, "Hello, Chibuzor,"),
+                react_1["default"].createElement(react_native_1.Text, { style: styles.Header }, "Hello Chibuzor,"),
                 react_1["default"].createElement(react_native_1.Text, { style: styles.SubHeader },
                     "Your medicine schedule for ",
                     header),
