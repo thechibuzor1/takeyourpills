@@ -35,6 +35,9 @@ import NewPill from '../Components/NewPill';
 import Settings from '../Components/Settings';
 import MedicineContainer from '../Components/MedicineContainer';
 import AnimatedLottieView from 'lottie-react-native';
+import Notifications from '../Components/Notifications';
+import NotificationBar from '../Components/NotificationBar';
+import MyPills from '../Components/MyPills';
 export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
 }
@@ -136,6 +139,8 @@ const Home = () => {
         index={data.index}
         confetti={confetti}
         setConfetti={setConfetti}
+        setShowNotif={setShowNotif}
+        setMessage={setMessage}
       />
     </View>
   );
@@ -180,8 +185,10 @@ const Home = () => {
 
   const [newPill, setPillModal] = useState<boolean>(false);
   const [settings, setSettings] = useState<boolean>(false);
+  const [myPills, setMyPills] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [splash, setSplash] = useState<boolean>(true);
+  const [notifications, setNotifications] = useState<boolean>(false);
 
   const Loading = () => (
     <ImageBackground
@@ -240,6 +247,14 @@ const Home = () => {
     }, 500);
   }, []);
 
+  const [showNotif, setShowNotif] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
+  useEffect(() => {
+    setTimeout(() => {
+      setShowNotif(false);
+    }, 3000);
+  }, [showNotif]);
+
   return splash ? (
     <Splash />
   ) : (
@@ -256,6 +271,8 @@ const Home = () => {
             setPillModal={setPillModal}
             pillData={pillData}
             setPillData={setPillData}
+            setShowNotif={setShowNotif}
+            setMessage={setMessage}
           />
         }
       </Modal>
@@ -265,8 +282,31 @@ const Home = () => {
         visible={settings}
         transparent
         onRequestClose={() => setSettings(false)}>
-        {<Settings />}
+        {
+          <Settings
+            setSettings={setSettings}
+            setLoading={setLoading}
+            setMyPills={setMyPills}
+          />
+        }
       </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={notifications}
+        transparent
+        onRequestClose={() => setNotifications(false)}>
+        {<Notifications setNotifications={setNotifications} />}
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={myPills}
+        transparent
+        onRequestClose={() => setMyPills(false)}>
+        {<MyPills setMyPills={setMyPills} />}
+      </Modal>
+
       {loading ? (
         <Loading />
       ) : (
@@ -274,30 +314,49 @@ const Home = () => {
           source={require('../assets/body.png')}
           style={{display: 'flex', flex: 1}}>
           <View style={styles.DateCon}>
-            <TouchableOpacity
-              onPress={() => {
-                setLoading(true);
-                setTimeout(() => {
-                  setShowCalendar(!showCalendar);
-                  setLoading(false);
-                }, 150);
-              }}
-              style={styles.DateMonth}>
-              <Text
-                style={{
-                  color: 'black',
-                  fontSize: 18,
-                  marginRight: 5,
-                  fontFamily: 'Satoshi-Bold',
+            <View style={styles.DateConL}>
+              <TouchableOpacity
+                onPress={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    setShowCalendar(!showCalendar);
+                    setLoading(false);
+                  }, 150);
+                }}
+                style={styles.DateMonth}>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 18,
+                    marginRight: 5,
+                    fontFamily: 'Satoshi-Bold',
+                  }}>
+                  {d.format('MMM YYYY')}
+                </Text>
+                {!showCalendar ? (
+                  <FontAwesomeIcon icon={solid('caret-down')} color="gray" />
+                ) : (
+                  <FontAwesomeIcon icon={solid('caret-up')} color="gray" />
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{width: 40}}
+                activeOpacity={0.5}
+                onPress={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    setNotifications(true);
+                    setLoading(false);
+                  }, 150);
                 }}>
-                {d.format('MMM YYYY')}
-              </Text>
-              {!showCalendar ? (
-                <FontAwesomeIcon icon={solid('caret-down')} color="gray" />
-              ) : (
-                <FontAwesomeIcon icon={solid('caret-up')} color="gray" />
-              )}
-            </TouchableOpacity>
+                <FontAwesomeIcon
+                  icon={regular('bell')}
+                  style={{marginLeft: 5}}
+                  size={22}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+            </View>
             <View
               style={{
                 display: 'flex',
@@ -305,8 +364,15 @@ const Home = () => {
                 alignItems: 'center',
               }}>
               <TouchableOpacity
+                style={{width: 40}}
                 activeOpacity={0.5}
-                onPress={() => setSettings(true)}>
+                onPress={() => {
+                  setLoading(true);
+                  setTimeout(() => {
+                    setSettings(true);
+                    setLoading(false);
+                  }, 150);
+                }}>
                 <FontAwesomeIcon
                   icon={solid('sliders')}
                   style={{marginRight: 15}}
@@ -315,6 +381,7 @@ const Home = () => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+                style={{width: 40}}
                 activeOpacity={0.5}
                 onPress={() => setPillModal(true)}>
                 <FontAwesomeIcon
@@ -345,7 +412,7 @@ const Home = () => {
               }}
             />
           </View>
-
+          {showNotif && <NotificationBar text={message} />}
           <SwipeListView
             ListHeaderComponent={() => (
               <View>
@@ -496,6 +563,7 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  DateConL: {display: 'flex', flexDirection: 'row'},
   noPills: {
     color: 'gray',
     fontFamily: 'Satoshi-Regular',

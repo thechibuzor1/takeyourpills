@@ -16,8 +16,17 @@ import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {d} from '../screens/Home';
+import {Divider} from 'react-native-elements';
 
-const EditPills = ({setEditPill, pillData, pillDataX, setPillDataX, index}) => {
+const EditPills = ({
+  setEditPill,
+  pillData,
+  pillDataX,
+  setPillDataX,
+  index,
+  setShowNotif,
+  setMessage,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pillName, setPillName] = useState<string>(pillData.name);
   const [dosage, setDosage] = useState<string>(pillData.dosage.toString());
@@ -60,6 +69,8 @@ const EditPills = ({setEditPill, pillData, pillDataX, setPillDataX, index}) => {
     setDosage('');
     setInstructions('');
     setEditPill(false);
+    setMessage('Pills Edit Sucessful!');
+    setShowNotif(true);
   }
 
   return (
@@ -74,40 +85,51 @@ const EditPills = ({setEditPill, pillData, pillDataX, setPillDataX, index}) => {
         source={require('../assets/body.png')}
         style={{
           padding: 16,
+          flex: 0.9,
+          paddingBottom: 0,
         }}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 20,
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 23,
+
+              fontFamily: 'Satoshi-Bold',
+            }}>
+            Edit Pills
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => setEditPill(false)}>
+            <FontAwesomeIcon
+              icon={solid('xmark')}
+              style={{marginRight: 15}}
+              size={30}
+              color={'black'}
+            />
+          </TouchableOpacity>
+        </View>
+        <Divider
+          width={0.5}
+          style={{
+            width: '100%',
+            alignSelf: 'center',
+            marginTop: 15,
+          }}
+        />
         <ScrollView
           alwaysBounceVertical
           showsVerticalScrollIndicator={false}
           bounces
-          bouncesZoom>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 20,
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 23,
-
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              Edit Pills
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => setEditPill(false)}>
-              <FontAwesomeIcon
-                icon={solid('xmark')}
-                style={{marginRight: 15}}
-                size={30}
-                color={'black'}
-              />
-            </TouchableOpacity>
-          </View>
+          bouncesZoom
+          style={{paddingTop: 15}}>
           <Text
             style={{
               fontSize: 14,
@@ -660,6 +682,7 @@ const EditPills = ({setEditPill, pillData, pillDataX, setPillDataX, index}) => {
               justifyContent: 'center',
               alignItems: 'center',
               marginTop: 30,
+              marginBottom: 30,
               borderRadius: 15,
             }}>
             <FontAwesomeIcon

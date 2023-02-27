@@ -33,22 +33,15 @@ exports.monPills = [
                 instruction: 'Take 2 once a day after a meal',
                 dosage: 2
             },
-            {
-                id: 2,
-                name: 'Nora - BE',
-                desc: 'Norenthindrone - 0.35mg',
-                instruction: 'Take 2 once a day after a meal',
-                dosage: 2
-            },
         ],
         taken: false
     },
     {
-        time: '14:30',
+        time: '19:30',
         pills: [
             {
                 id: 1,
-                name: 'Paracetamol',
+                name: 'Nora - BE',
                 desc: 'Norenthindrone - 0.35mg',
                 instruction: 'Take 2 once a day after a meal',
                 dosage: 2

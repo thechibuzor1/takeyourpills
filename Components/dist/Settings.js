@@ -5,7 +5,8 @@ var react_1 = require("react");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var react_native_elements_1 = require("react-native-elements");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
-var Settings = function () {
+var Settings = function (_a) {
+    var setSettings = _a.setSettings, setMyPills = _a.setMyPills, setLoading = _a.setLoading;
     return (react_1["default"].createElement(react_native_1.View, { style: styles.modalContainer },
         react_1["default"].createElement(react_native_1.ImageBackground, { style: {
                 alignSelf: 'center',
@@ -19,7 +20,14 @@ var Settings = function () {
                         alignSelf: 'center',
                         textAlign: 'center'
                     } }, "\u2500\u2500\u2500\u2500\u2500\u2500\u2500"),
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, style: styles.modalC },
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                        setSettings(false);
+                        setLoading(true);
+                        setTimeout(function () {
+                            setMyPills(true);
+                            setLoading(false);
+                        }, 150);
+                    }, activeOpacity: 0.5, style: styles.modalC },
                     react_1["default"].createElement(react_native_1.View, { style: styles.modalA },
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('capsules'), size: 20, color: '#2CA6FF', style: { marginRight: 15, marginLeft: 15 } }),
                         react_1["default"].createElement(react_native_1.Text, { style: {

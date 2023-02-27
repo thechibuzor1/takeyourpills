@@ -14,7 +14,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Divider} from 'react-native-elements';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 
-const Settings = () => {
+const Settings = ({setSettings, setMyPills, setLoading}) => {
   return (
     <View style={styles.modalContainer}>
       <ImageBackground
@@ -34,7 +34,17 @@ const Settings = () => {
             }}>
             ───────
           </Text>
-          <TouchableOpacity activeOpacity={0.5} style={styles.modalC}>
+          <TouchableOpacity
+            onPress={() => {
+              setSettings(false);
+              setLoading(true);
+              setTimeout(() => {
+                setMyPills(true);
+                setLoading(false);
+              }, 150);
+            }}
+            activeOpacity={0.5}
+            style={styles.modalC}>
             <View style={styles.modalA}>
               <FontAwesomeIcon
                 icon={solid('capsules')}

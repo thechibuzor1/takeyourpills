@@ -26,6 +26,9 @@ var NewPill_1 = require("../Components/NewPill");
 var Settings_1 = require("../Components/Settings");
 var MedicineContainer_1 = require("../Components/MedicineContainer");
 var lottie_react_native_1 = require("lottie-react-native");
+var Notifications_1 = require("../Components/Notifications");
+var NotificationBar_1 = require("../Components/NotificationBar");
+var MyPills_1 = require("../Components/MyPills");
 function dateDifference(startDate, endDate) {
     return moment_1["default"](startDate).diff(moment_1["default"](endDate), 'hours');
 }
@@ -112,7 +115,7 @@ var Home = function () {
     /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
     var _g = react_1.useState(false), confetti = _g[0], setConfetti = _g[1];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
-        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, pillDataX: pillData, setPillDataX: setPillData, index: data.index, confetti: confetti, setConfetti: setConfetti }))); };
+        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, pillDataX: pillData, setPillDataX: setPillData, index: data.index, confetti: confetti, setConfetti: setConfetti, setShowNotif: setShowNotif, setMessage: setMessage }))); };
     var renderHiddenItem = function (data, rowMap) {
         function handleTaken() {
             var newPillData = __spreadArrays(pillData);
@@ -144,8 +147,10 @@ var Home = function () {
     };
     var _h = react_1.useState(false), newPill = _h[0], setPillModal = _h[1];
     var _j = react_1.useState(false), settings = _j[0], setSettings = _j[1];
-    var _k = react_1.useState(false), loading = _k[0], setLoading = _k[1];
-    var _l = react_1.useState(true), splash = _l[0], setSplash = _l[1];
+    var _k = react_1.useState(false), myPills = _k[0], setMyPills = _k[1];
+    var _l = react_1.useState(false), loading = _l[0], setLoading = _l[1];
+    var _m = react_1.useState(true), splash = _m[0], setSplash = _m[1];
+    var _o = react_1.useState(false), notifications = _o[0], setNotifications = _o[1];
     var Loading = function () { return (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: {
             display: 'flex',
             flex: 1,
@@ -177,34 +182,58 @@ var Home = function () {
             setSplash(false);
         }, 500);
     }, []);
+    var _p = react_1.useState(false), showNotif = _p[0], setShowNotif = _p[1];
+    var _q = react_1.useState(''), message = _q[0], setMessage = _q[1];
+    react_1.useEffect(function () {
+        setTimeout(function () {
+            setShowNotif(false);
+        }, 3000);
+    }, [showNotif]);
     return splash ? (react_1["default"].createElement(Splash, null)) : (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, pillData: pillData, setPillData: setPillData })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], null)),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, pillData: pillData, setPillData: setPillData, setShowNotif: setShowNotif, setMessage: setMessage })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], { setSettings: setSettings, setLoading: setLoading, setMyPills: setMyPills })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: myPills, transparent: true, onRequestClose: function () { return setMyPills(false); } }, react_1["default"].createElement(MyPills_1["default"], { setMyPills: setMyPills })),
         loading ? (react_1["default"].createElement(Loading, null)) : (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: { display: 'flex', flex: 1 } },
             react_1["default"].createElement(react_native_1.View, { style: styles.DateCon },
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
-                        setLoading(true);
-                        setTimeout(function () {
-                            setShowCalendar(!showCalendar);
-                            setLoading(false);
-                        }, 150);
-                    }, style: styles.DateMonth },
-                    react_1["default"].createElement(react_native_1.Text, { style: {
-                            color: 'black',
-                            fontSize: 18,
-                            marginRight: 5,
-                            fontFamily: 'Satoshi-Bold'
-                        } }, exports.d.format('MMM YYYY')),
-                    !showCalendar ? (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-down'), color: "gray" })) : (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-up'), color: "gray" }))),
+                react_1["default"].createElement(react_native_1.View, { style: styles.DateConL },
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                            setLoading(true);
+                            setTimeout(function () {
+                                setShowCalendar(!showCalendar);
+                                setLoading(false);
+                            }, 150);
+                        }, style: styles.DateMonth },
+                        react_1["default"].createElement(react_native_1.Text, { style: {
+                                color: 'black',
+                                fontSize: 18,
+                                marginRight: 5,
+                                fontFamily: 'Satoshi-Bold'
+                            } }, exports.d.format('MMM YYYY')),
+                        !showCalendar ? (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-down'), color: "gray" })) : (react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('caret-up'), color: "gray" }))),
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { style: { width: 40 }, activeOpacity: 0.5, onPress: function () {
+                            setLoading(true);
+                            setTimeout(function () {
+                                setNotifications(true);
+                                setLoading(false);
+                            }, 150);
+                        } },
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('bell'), style: { marginLeft: 5 }, size: 22, color: 'black' }))),
                 react_1["default"].createElement(react_native_1.View, { style: {
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center'
                     } },
-                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setSettings(true); } },
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { style: { width: 40 }, activeOpacity: 0.5, onPress: function () {
+                            setLoading(true);
+                            setTimeout(function () {
+                                setSettings(true);
+                                setLoading(false);
+                            }, 150);
+                        } },
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('sliders'), style: { marginRight: 15 }, size: 22, color: 'black' })),
-                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setPillModal(true); } },
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { style: { width: 40 }, activeOpacity: 0.5, onPress: function () { return setPillModal(true); } },
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('plus'), style: { marginRight: 15 }, size: 24, color: 'black' })))),
             react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: { marginTop: 10, width: '95%', alignSelf: 'center' } }),
             react_1["default"].createElement(react_native_1.View, null,
@@ -217,6 +246,7 @@ var Home = function () {
                         alignSelf: 'center',
                         marginTop: 15
                     } })),
+            showNotif && react_1["default"].createElement(NotificationBar_1["default"], { text: message }),
             react_1["default"].createElement(react_native_swipe_list_view_1.SwipeListView, { ListHeaderComponent: function () {
                     var _a;
                     return (react_1["default"].createElement(react_native_1.View, null,
@@ -303,6 +333,7 @@ var Home = function () {
 };
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({
+    DateConL: { display: 'flex', flexDirection: 'row' },
     noPills: {
         color: 'gray',
         fontFamily: 'Satoshi-Regular',

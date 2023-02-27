@@ -15,8 +15,9 @@ var moment_1 = require("moment");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
+var react_native_elements_1 = require("react-native-elements");
 var EditPills = function (_a) {
-    var setEditPill = _a.setEditPill, pillData = _a.pillData, pillDataX = _a.pillDataX, setPillDataX = _a.setPillDataX, index = _a.index;
+    var setEditPill = _a.setEditPill, pillData = _a.pillData, pillDataX = _a.pillDataX, setPillDataX = _a.setPillDataX, index = _a.index, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
     var _c = react_1.useState(pillData.name), pillName = _c[0], setPillName = _c[1];
     var _d = react_1.useState(pillData.dosage.toString()), dosage = _d[0], setDosage = _d[1];
@@ -52,6 +53,8 @@ var EditPills = function (_a) {
         setDosage('');
         setInstructions('');
         setEditPill(false);
+        setMessage('Pills Edit Sucessful!');
+        setShowNotif(true);
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',
@@ -60,23 +63,30 @@ var EditPills = function (_a) {
             backgroundColor: 'rgba(0,0,0,0.7)'
         } },
         react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: {
-                padding: 16
+                padding: 16,
+                flex: 0.9,
+                paddingBottom: 0
             } },
-            react_1["default"].createElement(react_native_1.ScrollView, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true },
-                react_1["default"].createElement(react_native_1.View, { style: {
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginTop: 20,
-                        alignItems: 'center'
-                    } },
-                    react_1["default"].createElement(react_native_1.Text, { style: {
-                            color: 'black',
-                            fontSize: 23,
-                            fontFamily: 'Satoshi-Bold'
-                        } }, "Edit Pills"),
-                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setEditPill(false); } },
-                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: { marginRight: 15 }, size: 30, color: 'black' }))),
+            react_1["default"].createElement(react_native_1.View, { style: {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 20,
+                    alignItems: 'center'
+                } },
+                react_1["default"].createElement(react_native_1.Text, { style: {
+                        color: 'black',
+                        fontSize: 23,
+                        fontFamily: 'Satoshi-Bold'
+                    } }, "Edit Pills"),
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setEditPill(false); } },
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: { marginRight: 15 }, size: 30, color: 'black' }))),
+            react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
+                    width: '100%',
+                    alignSelf: 'center',
+                    marginTop: 15
+                } }),
+            react_1["default"].createElement(react_native_1.ScrollView, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 } },
                 react_1["default"].createElement(react_native_1.Text, { style: {
                         fontSize: 14,
                         fontFamily: 'Satoshi-Bold',
@@ -383,6 +393,7 @@ var EditPills = function (_a) {
                         justifyContent: 'center',
                         alignItems: 'center',
                         marginTop: 30,
+                        marginBottom: 30,
                         borderRadius: 15
                     } },
                     react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 5 }, size: 20, color: 'white' }),

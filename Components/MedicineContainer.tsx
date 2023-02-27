@@ -24,6 +24,8 @@ const MedicineContainer = ({
   index,
   confetti,
   setConfetti,
+  setShowNotif,
+  setMessage,
 }) => {
   const [editPill, setEditPill] = useState<boolean>(false);
   const [pillData, setPillData] = useState(null);
@@ -86,6 +88,8 @@ const MedicineContainer = ({
             pillDataX={pillDataX}
             setPillDataX={setPillDataX}
             index={index}
+            setShowNotif={setShowNotif}
+            setMessage={setMessage}
           />
         }
       </Modal>

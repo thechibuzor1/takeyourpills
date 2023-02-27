@@ -16,8 +16,15 @@ import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {d} from '../screens/Home';
+import {Divider} from 'react-native-elements';
 
-const NewPill = ({setPillModal, pillData, setPillData}) => {
+const NewPill = ({
+  setPillModal,
+  pillData,
+  setPillData,
+  setShowNotif,
+  setMessage,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pillName, setPillName] = useState<string>('');
   const [pillDesc, setPillDesc] = useState<string>('');
@@ -87,26 +94,27 @@ const NewPill = ({setPillModal, pillData, setPillData}) => {
     setDosage('');
     setInstructions('');
     setPillModal(false);
+    setMessage('New Pills Added!');
+    setShowNotif(true);
   }
 
   return (
-    <View
-      style={{
-        display: 'flex',
-        flex: 1,
-        justifyContent: 'flex-end',
-        backgroundColor: 'rgba(0,0,0,0.7)',
-      }}>
-      <ImageBackground
-        source={require('../assets/body.png')}
+    <>
+      <StatusBar barStyle="light-content" />
+      <View
         style={{
-          padding: 16,
+          display: 'flex',
+          flex: 1,
+          justifyContent: 'flex-end',
+          backgroundColor: 'rgba(0,0,0,0.7)',
         }}>
-        <ScrollView
-          alwaysBounceVertical
-          showsVerticalScrollIndicator={false}
-          bounces
-          bouncesZoom>
+        <ImageBackground
+          source={require('../assets/body.png')}
+          style={{
+            padding: 16,
+            flex: 0.9,
+            paddingBottom: 0,
+          }}>
           <View
             style={{
               display: 'flex',
@@ -135,580 +143,596 @@ const NewPill = ({setPillModal, pillData, setPillData}) => {
               />
             </TouchableOpacity>
           </View>
-          <Text
+          <Divider
+            width={0.5}
             style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}>
-            Pill Name
-          </Text>
-
-          <TextInput
-            value={pillName}
-            onChangeText={text => setPillName(text)}
-            style={{
-              marginTop: 15,
-              color: 'black',
-              height: 50,
-              fontSize: 20,
-              fontFamily: 'Satoshi-Bold',
-              backgroundColor: '#ffffff',
-              width: '85%',
-              borderRadius: 15,
-              borderWidth: 0.5,
-              borderColor: 'gray',
-              paddingStart: 16,
-            }}
-          />
-
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-              marginTop: 15,
-            }}>
-            Pill Description
-          </Text>
-
-          <TextInput
-            multiline
-            value={pillData}
-            onChangeText={text => setPillDesc(text)}
-            style={{
-              marginTop: 15,
-              color: 'black',
-              height: 70,
-              fontSize: 14,
-              fontFamily: 'Satoshi-Regular',
-              backgroundColor: '#ffffff',
-              width: '85%',
-              borderRadius: 15,
-              borderWidth: 0.5,
-              borderColor: 'gray',
-              textAlignVertical: 'top',
-              padding: 8,
-            }}
-          />
-
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 23,
-
-              marginTop: 20,
-              fontFamily: 'Satoshi-Bold',
-            }}>
-            Dosage
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}>
-            How many pills do you need to take at once?
-          </Text>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            <TextInput
-              value={dosage}
-              onChangeText={text => setDosage(text)}
-              keyboardType="numeric"
-              maxLength={2}
-              style={{
-                marginTop: 15,
-                color: 'black',
-                height: 50,
-                fontSize: 23,
-                fontFamily: 'Satoshi-Bold',
-                backgroundColor: '#ffffff',
-                width: '12%',
-                borderRadius: 15,
-                borderWidth: 0.5,
-                borderColor: 'gray',
-                paddingStart: 8,
-              }}
-            />
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 23,
-                marginLeft: 15,
-                marginTop: 20,
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              Pills
-            </Text>
-          </View>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-              marginTop: 15,
-            }}>
-            How many times do you need to take the pills in a day?
-          </Text>
-
-          <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            textStyle={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}
-            placeholder="Select a configuration"
-            style={{
-              backgroundColor: 'transparent',
-              marginTop: 15,
-              width: '85%',
-              borderRadius: 15,
-              borderWidth: 0.5,
-              borderColor: 'gray',
-            }}
-            placeholderStyle={{
-              color: 'gray',
-              fontFamily: 'Satoshi-Regular',
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: '#ffffff',
-              width: '85%',
-              borderRadius: 15,
-            }}
-          />
-
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 23,
-
-              marginTop: 20,
-              fontFamily: 'Satoshi-Bold',
-            }}>
-            Duration
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}>
-            How long will you take the pills?
-          </Text>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
-            <TextInput
-              keyboardType="numeric"
-              maxLength={2}
-              style={{
-                marginTop: 15,
-                color: 'black',
-                height: 50,
-                fontSize: 23,
-                fontFamily: 'Satoshi-Bold',
-                backgroundColor: '#ffffff',
-                width: '12%',
-                borderRadius: 15,
-                borderWidth: 0.5,
-                borderColor: 'gray',
-                paddingStart: 8,
-              }}
-            />
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 23,
-                marginLeft: 15,
-                marginTop: 20,
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              Days
-            </Text>
-          </View>
-
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 23,
-
-              marginTop: 20,
-              fontFamily: 'Satoshi-Bold',
-            }}>
-            Time?
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}>
-            What time are you taking the pills?
-          </Text>
-          {value === 1 && (
-            <>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 23,
-
-                    fontFamily: 'Satoshi-Bold',
-                  }}>
-                  {morningTime}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => setMorningVisibility(true)}>
-                  <FontAwesomeIcon
-                    icon={regular('pen-to-square')}
-                    style={{marginLeft: 15}}
-                    size={24}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-              </View>
-              <DateTimePickerModal
-                isVisible={isMorning}
-                mode="time"
-                onConfirm={data => {
-                  let date = moment(data);
-                  setMorningTime(date.format('H:mm'));
-                }}
-                onCancel={() => setMorningVisibility(false)}
-              />
-            </>
-          )}
-          {value === 2 && (
-            <>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 23,
-
-                    fontFamily: 'Satoshi-Bold',
-                  }}>
-                  {morningTime}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => setMorningVisibility(true)}>
-                  <FontAwesomeIcon
-                    icon={regular('pen-to-square')}
-                    style={{marginLeft: 15}}
-                    size={24}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-              </View>
-              <DateTimePickerModal
-                isVisible={isMorning}
-                mode="time"
-                onConfirm={data => {
-                  let date = moment(data);
-                  setMorningTime(date.format('H:mm'));
-                }}
-                onCancel={() => setMorningVisibility(false)}
-              />
-
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 23,
-                    fontFamily: 'Satoshi-Bold',
-                  }}>
-                  {eveningTime}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => setEveningVisibility(true)}>
-                  <FontAwesomeIcon
-                    icon={regular('pen-to-square')}
-                    style={{marginLeft: 15}}
-                    size={24}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-              </View>
-              <DateTimePickerModal
-                isVisible={isEvening}
-                mode="time"
-                onConfirm={data => {
-                  let date = moment(data);
-                  setEveningTime(date.format('H:mm'));
-                }}
-                onCancel={() => setEveningVisibility(false)}
-              />
-            </>
-          )}
-          {value === 3 && (
-            <>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 23,
-
-                    fontFamily: 'Satoshi-Bold',
-                  }}>
-                  {morningTime}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => setMorningVisibility(true)}>
-                  <FontAwesomeIcon
-                    icon={regular('pen-to-square')}
-                    style={{marginLeft: 15}}
-                    size={24}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-              </View>
-              <DateTimePickerModal
-                isVisible={isMorning}
-                mode="time"
-                onConfirm={data => {
-                  let date = moment(data);
-                  setMorningTime(date.format('H:mm'));
-                }}
-                onCancel={() => setMorningVisibility(false)}
-              />
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 23,
-
-                    fontFamily: 'Satoshi-Bold',
-                  }}>
-                  {afternoonTime}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => setAfternoonVisibility(true)}>
-                  <FontAwesomeIcon
-                    icon={regular('pen-to-square')}
-                    style={{marginLeft: 15}}
-                    size={24}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-              </View>
-              <DateTimePickerModal
-                isVisible={isAfternoon}
-                mode="time"
-                onConfirm={data => {
-                  let date = moment(data);
-                  setAfternoonTime(date.format('H:mm'));
-                }}
-                onCancel={() => setAfternoonVisibility(false)}
-              />
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 23,
-
-                    fontFamily: 'Satoshi-Bold',
-                  }}>
-                  {eveningTime}
-                </Text>
-                <TouchableOpacity
-                  activeOpacity={0.5}
-                  onPress={() => setEveningVisibility(true)}>
-                  <FontAwesomeIcon
-                    icon={regular('pen-to-square')}
-                    style={{marginLeft: 15}}
-                    size={24}
-                    color={'black'}
-                  />
-                </TouchableOpacity>
-              </View>
-              <DateTimePickerModal
-                isVisible={isEvening}
-                mode="time"
-                onConfirm={data => {
-                  let date = moment(data);
-                  setEveningTime(date.format('H:mm'));
-                }}
-                onCancel={() => setEveningVisibility(false)}
-              />
-            </>
-          )}
-
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 23,
-
-              marginTop: 20,
-              fontFamily: 'Satoshi-Bold',
-            }}>
-            Start Date?
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}>
-            When will you start taking the pills?
-          </Text>
-
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              marginTop: 15,
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'black',
-                fontSize: 23,
-
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              {startDate}
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => setStartDatePicker(true)}>
-              <FontAwesomeIcon
-                icon={regular('pen-to-square')}
-                style={{marginLeft: 15}}
-                size={24}
-                color={'black'}
-              />
-            </TouchableOpacity>
-          </View>
-          <DateTimePickerModal
-            isVisible={startDatePicker}
-            mode="date"
-            minimumDate={new Date()}
-            onConfirm={data => {
-              let date = moment(data);
-              setStartDate(date.format('dddd MMM D'));
-            }}
-            onCancel={() => setStartDatePicker(false)}
-          />
-
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 23,
-
-              marginTop: 20,
-              fontFamily: 'Satoshi-Bold',
-            }}>
-            Instructions?
-          </Text>
-          <Text
-            style={{
-              fontSize: 14,
-              fontFamily: 'Satoshi-Bold',
-              color: 'black',
-            }}>
-            You can add intructions here
-          </Text>
-
-          <TextInput
-            multiline={true}
-            value={instructions}
-            onChangeText={text => setInstructions(text)}
-            style={{
-              marginTop: 15,
-              color: 'black',
-              height: 90,
-              fontSize: 14,
-              fontFamily: 'Satoshi-Regular',
-              backgroundColor: '#ffffff',
-              width: '85%',
-              borderRadius: 15,
-              borderWidth: 0.5,
-              borderColor: 'gray',
-              textAlignVertical: 'top',
-              padding: 8,
-            }}
-          />
-
-          <TouchableOpacity
-            onPress={handleSave}
-            activeOpacity={0.5}
-            style={{
-              display: 'flex',
+              width: '100%',
               alignSelf: 'center',
-              flexDirection: 'row',
-              height: 50,
-              width: 140,
-              backgroundColor: '#2CA6FF',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 30,
-              borderRadius: 15,
-            }}>
-            <FontAwesomeIcon
-              icon={solid('check')}
-              style={{marginRight: 5}}
-              size={20}
-              color={'white'}
-            />
+              marginTop: 15,
+            }}
+          />
+          <ScrollView
+            alwaysBounceVertical
+            showsVerticalScrollIndicator={false}
+            bounces
+            bouncesZoom
+            style={{paddingTop: 15}}>
             <Text
               style={{
-                color: '#ffffff',
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}>
+              Pill Name
+            </Text>
+
+            <TextInput
+              value={pillName}
+              onChangeText={text => setPillName(text)}
+              style={{
+                marginTop: 15,
+                color: 'black',
+                height: 50,
                 fontSize: 20,
-                textAlign: 'center',
-                alignSelf: 'center',
+                fontFamily: 'Satoshi-Bold',
+                backgroundColor: '#ffffff',
+                width: '85%',
+                borderRadius: 15,
+                borderWidth: 0.5,
+                borderColor: 'gray',
+                paddingStart: 16,
+              }}
+            />
+
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+                marginTop: 15,
+              }}>
+              Pill Description
+            </Text>
+
+            <TextInput
+              multiline
+              value={pillData}
+              onChangeText={text => setPillDesc(text)}
+              style={{
+                marginTop: 15,
+                color: 'black',
+                height: 70,
+                fontSize: 14,
+                fontFamily: 'Satoshi-Regular',
+                backgroundColor: '#ffffff',
+                width: '85%',
+                borderRadius: 15,
+                borderWidth: 0.5,
+                borderColor: 'gray',
+                textAlignVertical: 'top',
+                padding: 8,
+              }}
+            />
+
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 23,
+
+                marginTop: 20,
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Add Pills
+              Dosage
             </Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </ImageBackground>
-    </View>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}>
+              How many pills do you need to take at once?
+            </Text>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <TextInput
+                value={dosage}
+                onChangeText={text => setDosage(text)}
+                keyboardType="numeric"
+                maxLength={2}
+                style={{
+                  marginTop: 15,
+                  color: 'black',
+                  height: 50,
+                  fontSize: 23,
+                  fontFamily: 'Satoshi-Bold',
+                  backgroundColor: '#ffffff',
+                  width: '12%',
+                  borderRadius: 15,
+                  borderWidth: 0.5,
+                  borderColor: 'gray',
+                  paddingStart: 8,
+                }}
+              />
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 23,
+                  marginLeft: 15,
+                  marginTop: 20,
+                  fontFamily: 'Satoshi-Bold',
+                }}>
+                Pills
+              </Text>
+            </View>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+                marginTop: 15,
+              }}>
+              How many times do you need to take the pills in a day?
+            </Text>
+
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              textStyle={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}
+              placeholder="Select a configuration"
+              style={{
+                backgroundColor: 'transparent',
+                marginTop: 15,
+                width: '85%',
+                borderRadius: 15,
+                borderWidth: 0.5,
+                borderColor: 'gray',
+              }}
+              placeholderStyle={{
+                color: 'gray',
+                fontFamily: 'Satoshi-Regular',
+              }}
+              dropDownContainerStyle={{
+                backgroundColor: '#ffffff',
+                width: '85%',
+                borderRadius: 15,
+              }}
+            />
+
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 23,
+
+                marginTop: 20,
+                fontFamily: 'Satoshi-Bold',
+              }}>
+              Duration
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}>
+              How long will you take the pills?
+            </Text>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <TextInput
+                keyboardType="numeric"
+                maxLength={2}
+                style={{
+                  marginTop: 15,
+                  color: 'black',
+                  height: 50,
+                  fontSize: 23,
+                  fontFamily: 'Satoshi-Bold',
+                  backgroundColor: '#ffffff',
+                  width: '12%',
+                  borderRadius: 15,
+                  borderWidth: 0.5,
+                  borderColor: 'gray',
+                  paddingStart: 8,
+                }}
+              />
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 23,
+                  marginLeft: 15,
+                  marginTop: 20,
+                  fontFamily: 'Satoshi-Bold',
+                }}>
+                Days
+              </Text>
+            </View>
+
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 23,
+
+                marginTop: 20,
+                fontFamily: 'Satoshi-Bold',
+              }}>
+              Time?
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}>
+              What time are you taking the pills?
+            </Text>
+            {value === 1 && (
+              <>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 23,
+
+                      fontFamily: 'Satoshi-Bold',
+                    }}>
+                    {morningTime}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => setMorningVisibility(true)}>
+                    <FontAwesomeIcon
+                      icon={regular('pen-to-square')}
+                      style={{marginLeft: 15}}
+                      size={24}
+                      color={'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <DateTimePickerModal
+                  isVisible={isMorning}
+                  mode="time"
+                  onConfirm={data => {
+                    let date = moment(data);
+                    setMorningTime(date.format('H:mm'));
+                  }}
+                  onCancel={() => setMorningVisibility(false)}
+                />
+              </>
+            )}
+            {value === 2 && (
+              <>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 23,
+
+                      fontFamily: 'Satoshi-Bold',
+                    }}>
+                    {morningTime}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => setMorningVisibility(true)}>
+                    <FontAwesomeIcon
+                      icon={regular('pen-to-square')}
+                      style={{marginLeft: 15}}
+                      size={24}
+                      color={'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <DateTimePickerModal
+                  isVisible={isMorning}
+                  mode="time"
+                  onConfirm={data => {
+                    let date = moment(data);
+                    setMorningTime(date.format('H:mm'));
+                  }}
+                  onCancel={() => setMorningVisibility(false)}
+                />
+
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 23,
+                      fontFamily: 'Satoshi-Bold',
+                    }}>
+                    {eveningTime}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => setEveningVisibility(true)}>
+                    <FontAwesomeIcon
+                      icon={regular('pen-to-square')}
+                      style={{marginLeft: 15}}
+                      size={24}
+                      color={'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <DateTimePickerModal
+                  isVisible={isEvening}
+                  mode="time"
+                  onConfirm={data => {
+                    let date = moment(data);
+                    setEveningTime(date.format('H:mm'));
+                  }}
+                  onCancel={() => setEveningVisibility(false)}
+                />
+              </>
+            )}
+            {value === 3 && (
+              <>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 23,
+
+                      fontFamily: 'Satoshi-Bold',
+                    }}>
+                    {morningTime}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => setMorningVisibility(true)}>
+                    <FontAwesomeIcon
+                      icon={regular('pen-to-square')}
+                      style={{marginLeft: 15}}
+                      size={24}
+                      color={'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <DateTimePickerModal
+                  isVisible={isMorning}
+                  mode="time"
+                  onConfirm={data => {
+                    let date = moment(data);
+                    setMorningTime(date.format('H:mm'));
+                  }}
+                  onCancel={() => setMorningVisibility(false)}
+                />
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 23,
+
+                      fontFamily: 'Satoshi-Bold',
+                    }}>
+                    {afternoonTime}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => setAfternoonVisibility(true)}>
+                    <FontAwesomeIcon
+                      icon={regular('pen-to-square')}
+                      style={{marginLeft: 15}}
+                      size={24}
+                      color={'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <DateTimePickerModal
+                  isVisible={isAfternoon}
+                  mode="time"
+                  onConfirm={data => {
+                    let date = moment(data);
+                    setAfternoonTime(date.format('H:mm'));
+                  }}
+                  onCancel={() => setAfternoonVisibility(false)}
+                />
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 23,
+
+                      fontFamily: 'Satoshi-Bold',
+                    }}>
+                    {eveningTime}
+                  </Text>
+                  <TouchableOpacity
+                    activeOpacity={0.5}
+                    onPress={() => setEveningVisibility(true)}>
+                    <FontAwesomeIcon
+                      icon={regular('pen-to-square')}
+                      style={{marginLeft: 15}}
+                      size={24}
+                      color={'black'}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <DateTimePickerModal
+                  isVisible={isEvening}
+                  mode="time"
+                  onConfirm={data => {
+                    let date = moment(data);
+                    setEveningTime(date.format('H:mm'));
+                  }}
+                  onCancel={() => setEveningVisibility(false)}
+                />
+              </>
+            )}
+
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 23,
+
+                marginTop: 20,
+                fontFamily: 'Satoshi-Bold',
+              }}>
+              Start Date?
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}>
+              When will you start taking the pills?
+            </Text>
+
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginTop: 15,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 23,
+
+                  fontFamily: 'Satoshi-Bold',
+                }}>
+                {startDate}
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => setStartDatePicker(true)}>
+                <FontAwesomeIcon
+                  icon={regular('pen-to-square')}
+                  style={{marginLeft: 15}}
+                  size={24}
+                  color={'black'}
+                />
+              </TouchableOpacity>
+            </View>
+            <DateTimePickerModal
+              isVisible={startDatePicker}
+              mode="date"
+              minimumDate={new Date()}
+              onConfirm={data => {
+                let date = moment(data);
+                setStartDate(date.format('dddd MMM D'));
+              }}
+              onCancel={() => setStartDatePicker(false)}
+            />
+
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 23,
+
+                marginTop: 20,
+                fontFamily: 'Satoshi-Bold',
+              }}>
+              Instructions?
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: 'Satoshi-Bold',
+                color: 'black',
+              }}>
+              You can add intructions here
+            </Text>
+
+            <TextInput
+              multiline={true}
+              value={instructions}
+              onChangeText={text => setInstructions(text)}
+              style={{
+                marginTop: 15,
+                color: 'black',
+                height: 90,
+                fontSize: 14,
+                fontFamily: 'Satoshi-Regular',
+                backgroundColor: '#ffffff',
+                width: '85%',
+                borderRadius: 15,
+                borderWidth: 0.5,
+                borderColor: 'gray',
+                textAlignVertical: 'top',
+                padding: 8,
+              }}
+            />
+
+            <TouchableOpacity
+              onPress={handleSave}
+              activeOpacity={0.5}
+              style={{
+                display: 'flex',
+                alignSelf: 'center',
+                flexDirection: 'row',
+                height: 50,
+                width: 140,
+                backgroundColor: '#2CA6FF',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 30,
+                marginBottom: 30,
+                borderRadius: 15,
+              }}>
+              <FontAwesomeIcon
+                icon={solid('check')}
+                style={{marginRight: 5}}
+                size={20}
+                color={'white'}
+              />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontSize: 20,
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  fontFamily: 'Satoshi-Bold',
+                }}>
+                Add Pills
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </ImageBackground>
+      </View>
+    </>
   );
 };
 
