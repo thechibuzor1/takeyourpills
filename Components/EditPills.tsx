@@ -28,11 +28,11 @@ const EditPills = ({
   setMessage,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [pillName, setPillName] = useState<string>(pillData.name);
-  const [dosage, setDosage] = useState<string>(pillData.dosage.toString());
-  const [pillDesc, setPillDesc] = useState<string>(pillData.desc);
+  const [pillName, setPillName] = useState<string>(pillData?.name);
+  const [dosage, setDosage] = useState<string>(pillData?.dosage.toString());
+  const [pillDesc, setPillDesc] = useState<string>(pillData?.desc);
   const [instructions, setInstructions] = useState<string>(
-    pillData.instruction,
+    pillData?.instruction,
   );
   const [value, setValue] = useState<any>(1);
   const [items, setItems] = useState<any>([
@@ -152,7 +152,7 @@ const EditPills = ({
               backgroundColor: '#ffffff',
               width: '85%',
               borderRadius: 15,
-              borderWidth: 0.5,
+              borderWidth: 1,
               borderColor: 'gray',
               paddingStart: 16,
             }}
@@ -181,7 +181,7 @@ const EditPills = ({
               backgroundColor: '#ffffff',
               width: '85%',
               borderRadius: 15,
-              borderWidth: 0.5,
+              borderWidth: 1,
               borderColor: 'gray',
               textAlignVertical: 'top',
               padding: 8,
@@ -221,7 +221,7 @@ const EditPills = ({
                 backgroundColor: '#ffffff',
                 width: '12%',
                 borderRadius: 15,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: 'gray',
                 paddingStart: 8,
               }}
@@ -265,7 +265,7 @@ const EditPills = ({
               marginTop: 15,
               width: '85%',
               borderRadius: 15,
-              borderWidth: 0.5,
+              borderWidth: 1,
               borderColor: 'gray',
             }}
             placeholderStyle={{
@@ -310,7 +310,7 @@ const EditPills = ({
                 backgroundColor: '#ffffff',
                 width: '12%',
                 borderRadius: 15,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: 'gray',
                 paddingStart: 8,
               }}
@@ -663,7 +663,7 @@ const EditPills = ({
               backgroundColor: '#ffffff',
               width: '85%',
               borderRadius: 15,
-              borderWidth: 0.5,
+              borderWidth: 1,
               borderColor: 'gray',
               textAlignVertical: 'top',
               padding: 8,

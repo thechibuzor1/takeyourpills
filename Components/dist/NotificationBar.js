@@ -12,7 +12,7 @@ function NotificationBar(prop) {
 exports["default"] = NotificationBar;
 var styles = react_native_1.StyleSheet.create({
     container: {
-        borderWidth: 0.2,
+        borderWidth: 1,
         flex: 1,
         alignItems: 'center',
         flexDirection: 'row',

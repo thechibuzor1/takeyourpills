@@ -179,7 +179,7 @@ const NewPill = ({
                 backgroundColor: '#ffffff',
                 width: '85%',
                 borderRadius: 15,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: 'gray',
                 paddingStart: 16,
               }}
@@ -208,7 +208,7 @@ const NewPill = ({
                 backgroundColor: '#ffffff',
                 width: '85%',
                 borderRadius: 15,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: 'gray',
                 textAlignVertical: 'top',
                 padding: 8,
@@ -248,7 +248,7 @@ const NewPill = ({
                   backgroundColor: '#ffffff',
                   width: '12%',
                   borderRadius: 15,
-                  borderWidth: 0.5,
+                  borderWidth: 1,
                   borderColor: 'gray',
                   paddingStart: 8,
                 }}
@@ -292,7 +292,7 @@ const NewPill = ({
                 marginTop: 15,
                 width: '85%',
                 borderRadius: 15,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: 'gray',
               }}
               placeholderStyle={{
@@ -337,7 +337,7 @@ const NewPill = ({
                   backgroundColor: '#ffffff',
                   width: '12%',
                   borderRadius: 15,
-                  borderWidth: 0.5,
+                  borderWidth: 1,
                   borderColor: 'gray',
                   paddingStart: 8,
                 }}
@@ -690,7 +690,7 @@ const NewPill = ({
                 backgroundColor: '#ffffff',
                 width: '85%',
                 borderRadius: 15,
-                borderWidth: 0.5,
+                borderWidth: 1,
                 borderColor: 'gray',
                 textAlignVertical: 'top',
                 padding: 8,

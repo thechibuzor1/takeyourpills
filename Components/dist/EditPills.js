@@ -19,10 +19,10 @@ var react_native_elements_1 = require("react-native-elements");
 var EditPills = function (_a) {
     var setEditPill = _a.setEditPill, pillData = _a.pillData, pillDataX = _a.pillDataX, setPillDataX = _a.setPillDataX, index = _a.index, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
-    var _c = react_1.useState(pillData.name), pillName = _c[0], setPillName = _c[1];
-    var _d = react_1.useState(pillData.dosage.toString()), dosage = _d[0], setDosage = _d[1];
-    var _e = react_1.useState(pillData.desc), pillDesc = _e[0], setPillDesc = _e[1];
-    var _f = react_1.useState(pillData.instruction), instructions = _f[0], setInstructions = _f[1];
+    var _c = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.name), pillName = _c[0], setPillName = _c[1];
+    var _d = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.dosage.toString()), dosage = _d[0], setDosage = _d[1];
+    var _e = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.desc), pillDesc = _e[0], setPillDesc = _e[1];
+    var _f = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.instruction), instructions = _f[0], setInstructions = _f[1];
     var _g = react_1.useState(1), value = _g[0], setValue = _g[1];
     var _h = react_1.useState([
         { label: 'Once a day', value: 1 },
@@ -101,7 +101,7 @@ var EditPills = function (_a) {
                         backgroundColor: '#ffffff',
                         width: '85%',
                         borderRadius: 15,
-                        borderWidth: 0.5,
+                        borderWidth: 1,
                         borderColor: 'gray',
                         paddingStart: 16
                     } }),
@@ -120,7 +120,7 @@ var EditPills = function (_a) {
                         backgroundColor: '#ffffff',
                         width: '85%',
                         borderRadius: 15,
-                        borderWidth: 0.5,
+                        borderWidth: 1,
                         borderColor: 'gray',
                         textAlignVertical: 'top',
                         padding: 8
@@ -146,7 +146,7 @@ var EditPills = function (_a) {
                             backgroundColor: '#ffffff',
                             width: '12%',
                             borderRadius: 15,
-                            borderWidth: 0.5,
+                            borderWidth: 1,
                             borderColor: 'gray',
                             paddingStart: 8
                         } }),
@@ -172,7 +172,7 @@ var EditPills = function (_a) {
                         marginTop: 15,
                         width: '85%',
                         borderRadius: 15,
-                        borderWidth: 0.5,
+                        borderWidth: 1,
                         borderColor: 'gray'
                     }, placeholderStyle: {
                         color: 'gray',
@@ -203,7 +203,7 @@ var EditPills = function (_a) {
                             backgroundColor: '#ffffff',
                             width: '12%',
                             borderRadius: 15,
-                            borderWidth: 0.5,
+                            borderWidth: 1,
                             borderColor: 'gray',
                             paddingStart: 8
                         } }),
@@ -378,7 +378,7 @@ var EditPills = function (_a) {
                         backgroundColor: '#ffffff',
                         width: '85%',
                         borderRadius: 15,
-                        borderWidth: 0.5,
+                        borderWidth: 1,
                         borderColor: 'gray',
                         textAlignVertical: 'top',
                         padding: 8

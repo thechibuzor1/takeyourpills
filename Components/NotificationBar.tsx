@@ -19,7 +19,7 @@ export default function NotificationBar(prop) {
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 0.2,
+    borderWidth: 1,
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
