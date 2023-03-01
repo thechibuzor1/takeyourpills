@@ -14,7 +14,13 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Divider} from 'react-native-elements';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 
-const Settings = ({setSettings, setMyPills, setLoading}) => {
+const Settings = ({
+  setSettings,
+  setMyPills,
+  setLoading,
+  setMe,
+  setDeleteAllPills,
+}) => {
   return (
     <View style={styles.modalContainer}>
       <ImageBackground
@@ -63,10 +69,20 @@ const Settings = ({setSettings, setMyPills, setLoading}) => {
             </View>
           </TouchableOpacity>
           <Divider width={0.4} color={'gray'} />
-          <TouchableOpacity activeOpacity={0.5} style={styles.modalC}>
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={styles.modalC}
+            onPress={() => {
+              setSettings(false);
+              setLoading(true);
+              setTimeout(() => {
+                setMe(true);
+                setLoading(false);
+              }, 150);
+            }}>
             <View style={styles.modalA}>
               <FontAwesomeIcon
-                icon={solid('pen')}
+                icon={regular('user')}
                 size={20}
                 color={'black'}
                 style={{marginRight: 15, marginLeft: 15}}
@@ -77,12 +93,22 @@ const Settings = ({setSettings, setMyPills, setLoading}) => {
                   fontFamily: 'Satoshi-Bold',
                   fontSize: 15,
                 }}>
-                Edit My Info
+                Me
               </Text>
             </View>
           </TouchableOpacity>
           <Divider width={0.4} color={'gray'} />
-          <TouchableOpacity activeOpacity={0.5} style={styles.modalC}>
+          <TouchableOpacity
+            onPress={() => {
+              setSettings(false);
+              setLoading(true);
+              setTimeout(() => {
+                setDeleteAllPills(true);
+                setLoading(false);
+              }, 150);
+            }}
+            activeOpacity={0.5}
+            style={styles.modalC}>
             <View style={styles.modalA}>
               <FontAwesomeIcon
                 icon={solid('trash')}

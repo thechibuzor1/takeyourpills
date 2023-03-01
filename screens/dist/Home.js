@@ -29,6 +29,8 @@ var lottie_react_native_1 = require("lottie-react-native");
 var Notifications_1 = require("../Components/Notifications");
 var NotificationBar_1 = require("../Components/NotificationBar");
 var MyPills_1 = require("../Components/MyPills");
+var Me_1 = require("../Components/Me");
+var DeleteAllPills_1 = require("../Components/DeleteAllPills");
 function dateDifference(startDate, endDate) {
     return moment_1["default"](startDate).diff(moment_1["default"](endDate), 'hours');
 }
@@ -183,7 +185,9 @@ var Home = function () {
         }, 500);
     }, []);
     var _p = react_1.useState(false), showNotif = _p[0], setShowNotif = _p[1];
-    var _q = react_1.useState(''), message = _q[0], setMessage = _q[1];
+    var _q = react_1.useState(false), me = _q[0], setMe = _q[1];
+    var _r = react_1.useState(false), deleteAllPills = _r[0], setDeleteAllPills = _r[1];
+    var _s = react_1.useState(''), message = _s[0], setMessage = _s[1];
     react_1.useEffect(function () {
         setTimeout(function () {
             setShowNotif(false);
@@ -192,8 +196,10 @@ var Home = function () {
     return splash ? (react_1["default"].createElement(Splash, null)) : (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, pillData: pillData, setPillData: setPillData, setShowNotif: setShowNotif, setMessage: setMessage })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], { setSettings: setSettings, setLoading: setLoading, setMyPills: setMyPills })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], { setSettings: setSettings, setLoading: setLoading, setMyPills: setMyPills, setMe: setMe, setDeleteAllPills: setDeleteAllPills })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: me, transparent: true, onRequestClose: function () { return setMe(false); } }, react_1["default"].createElement(Me_1["default"], { setMe: setMe })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: deleteAllPills, transparent: true, onRequestClose: function () { return setDeleteAllPills(false); } }, react_1["default"].createElement(DeleteAllPills_1["default"], { setDeleteAllPills: setDeleteAllPills })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: myPills, transparent: true, onRequestClose: function () { return setMyPills(false); } }, react_1["default"].createElement(MyPills_1["default"], { setMyPills: setMyPills })),
         loading ? (react_1["default"].createElement(Loading, null)) : (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: { display: 'flex', flex: 1 } },
             react_1["default"].createElement(react_native_1.View, { style: styles.DateCon },

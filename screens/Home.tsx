@@ -38,6 +38,8 @@ import AnimatedLottieView from 'lottie-react-native';
 import Notifications from '../Components/Notifications';
 import NotificationBar from '../Components/NotificationBar';
 import MyPills from '../Components/MyPills';
+import Me from '../Components/Me';
+import DeleteAllPills from '../Components/DeleteAllPills';
 export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
 }
@@ -248,6 +250,8 @@ const Home = () => {
   }, []);
 
   const [showNotif, setShowNotif] = useState<boolean>(false);
+  const [me, setMe] = useState<boolean>(false);
+  const [deleteAllPills, setDeleteAllPills] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
   useEffect(() => {
     setTimeout(() => {
@@ -287,6 +291,8 @@ const Home = () => {
             setSettings={setSettings}
             setLoading={setLoading}
             setMyPills={setMyPills}
+            setMe={setMe}
+            setDeleteAllPills={setDeleteAllPills}
           />
         }
       </Modal>
@@ -297,6 +303,22 @@ const Home = () => {
         transparent
         onRequestClose={() => setNotifications(false)}>
         {<Notifications setNotifications={setNotifications} />}
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={me}
+        transparent
+        onRequestClose={() => setMe(false)}>
+        {<Me setMe={setMe} />}
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={deleteAllPills}
+        transparent
+        onRequestClose={() => setDeleteAllPills(false)}>
+        {<DeleteAllPills setDeleteAllPills={setDeleteAllPills} />}
       </Modal>
       <Modal
         animated
