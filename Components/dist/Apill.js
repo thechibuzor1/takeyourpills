@@ -20,6 +20,19 @@ var Apill = function (_a) {
                 paddingBottom: 0
             } },
             react_1["default"].createElement(react_native_1.View, { style: {
+                    alignSelf: 'flex-end',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 10
+                } },
+                react_1["default"].createElement(react_native_1.TouchableOpacity, null,
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), size: 24, style: { marginRight: 15 }, color: '#000000' })),
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                        setPillActive(false);
+                        setCurrentPill(null);
+                    }, activeOpacity: 0.5 },
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: {}, size: 30, color: 'black' }))),
+            react_1["default"].createElement(react_native_1.View, { style: {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -37,12 +50,7 @@ var Apill = function (_a) {
                             fontFamily: 'Satoshi-Bold',
                             color: '#000000',
                             width: '80%'
-                        } }, data.name)),
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
-                        setPillActive(false);
-                        setCurrentPill(null);
-                    }, activeOpacity: 0.5 },
-                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: { marginRight: 15 }, size: 30, color: 'black' }))),
+                        } }, data.name))),
             react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
                     width: '100%',
                     alignSelf: 'center',
@@ -55,7 +63,7 @@ var Apill = function (_a) {
                     justifyContent: 'flex-end'
                 } },
                 react_1["default"].createElement(lottie_react_native_1["default"], { autoSize: true, loop: true, style: { height: '85%', width: '25%' }, source: require('../assets/bubbles.json'), autoPlay: true, speed: 2 })),
-            react_1["default"].createElement(react_native_1.View, { style: { paddingTop: 16 } },
+            react_1["default"].createElement(react_native_1.ScrollView, { showsVerticalScrollIndicator: false, style: { paddingTop: 16 } },
                 react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
                     "Pill name:",
                     ' ',
@@ -102,7 +110,7 @@ var Apill = function (_a) {
                     "Instructions:",
                     ' ',
                     react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.instructions)),
-                react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
+                react_1["default"].createElement(react_native_1.Text, { style: [styles.infoTxt, { marginBottom: 30 }] },
                     "Days Left:",
                     ' ',
                     react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.daysLeft))))));

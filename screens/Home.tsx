@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import React, {useEffect, useMemo, useState, useRef} from 'react';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import {Divider} from 'react-native-elements';
+import {Divider, Badge} from 'react-native-elements';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -316,6 +316,7 @@ const Home = () => {
           <View style={styles.DateCon}>
             <View style={styles.DateConL}>
               <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={() => {
                   setLoading(true);
                   setTimeout(() => {
@@ -354,6 +355,15 @@ const Home = () => {
                   style={{marginLeft: 5}}
                   size={22}
                   color={'black'}
+                />
+                <Badge
+                  value={5}
+                  badgeStyle={{backgroundColor: 'red'}}
+                  containerStyle={{
+                    position: 'absolute',
+                    top: -4,
+                    right: 4,
+                  }}
                 />
               </TouchableOpacity>
             </View>

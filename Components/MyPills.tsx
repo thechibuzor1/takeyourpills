@@ -9,14 +9,14 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
 import Apill from './Apill';
 
 const MyPills = ({setMyPills}) => {
   const [active, setActive] = useState<string>('');
   const [currentPill, setCurrentPill] = useState();
-  console.log(currentPill);
+
   const [pillActive, setPillActive] = useState<boolean>(false);
   function handleActive(name: string) {
     if (name === active) {
@@ -115,8 +115,22 @@ const MyPills = ({setMyPills}) => {
         marginLeft: 5,
         marginRight: 5,
         borderRadius: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
         height: 55,
       }}>
+      <FontAwesomeIcon
+        icon={props.icon}
+        size={18}
+        style={{marginRight: 5}}
+        color={
+          props.name === 'Completed Circles'
+            ? 'green'
+            : props.name === active
+            ? 'white'
+            : 'black'
+        }
+      />
       <Text
         style={{
           color: active === props.name ? '#ffffff' : '#000000',
@@ -202,10 +216,10 @@ const MyPills = ({setMyPills}) => {
           <TouchableOpacity>Afternoon</TouchableOpacity>
           <TouchableOpacity>Evening</TouchableOpacity>
           <TouchableOpacity>Completed Cirles</TouchableOpacity> */}
-              <FilterButtons name={'Morning'} />
-              <FilterButtons name={'Afternoon'} />
-              <FilterButtons name={'Evening'} />
-              <FilterButtons name={'Completed Circles'} />
+              <FilterButtons name={'Morning'} icon={solid('cloud-sun')} />
+              <FilterButtons name={'Afternoon'} icon={regular('sun')} />
+              <FilterButtons name={'Evening'} icon={solid('cloud-moon')} />
+              <FilterButtons name={'Completed Circles'} icon={solid('check')} />
             </ScrollView>
           </View>
           <Divider

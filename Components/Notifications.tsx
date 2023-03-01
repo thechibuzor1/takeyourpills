@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
 
 const NotificationBlocks = props => (
@@ -94,15 +94,27 @@ const Notifications = ({setNotifications}) => {
 
             alignItems: 'center',
           }}>
-          <Text
+          <View
             style={{
-              color: 'black',
-              fontSize: 23,
-
-              fontFamily: 'Satoshi-Bold',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
-            Notifications
-          </Text>
+            <FontAwesomeIcon
+              icon={solid('bell')}
+              size={20}
+              style={{marginRight: 5, marginTop: 5}}
+              color={'#000000'}
+            />
+            <Text
+              style={{
+                fontSize: 23,
+                fontFamily: 'Satoshi-Bold',
+                color: '#000000',
+              }}>
+              Notifications
+            </Text>
+          </View>
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => setNotifications(false)}>

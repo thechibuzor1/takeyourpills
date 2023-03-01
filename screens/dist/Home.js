@@ -198,7 +198,7 @@ var Home = function () {
         loading ? (react_1["default"].createElement(Loading, null)) : (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: { display: 'flex', flex: 1 } },
             react_1["default"].createElement(react_native_1.View, { style: styles.DateCon },
                 react_1["default"].createElement(react_native_1.View, { style: styles.DateConL },
-                    react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.7, onPress: function () {
                             setLoading(true);
                             setTimeout(function () {
                                 setShowCalendar(!showCalendar);
@@ -219,7 +219,12 @@ var Home = function () {
                                 setLoading(false);
                             }, 150);
                         } },
-                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('bell'), style: { marginLeft: 5 }, size: 22, color: 'black' }))),
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('bell'), style: { marginLeft: 5 }, size: 22, color: 'black' }),
+                        react_1["default"].createElement(react_native_elements_1.Badge, { value: 5, badgeStyle: { backgroundColor: 'red' }, containerStyle: {
+                                position: 'absolute',
+                                top: -4,
+                                right: 4
+                            } }))),
                 react_1["default"].createElement(react_native_1.View, { style: {
                         display: 'flex',
                         flexDirection: 'row',

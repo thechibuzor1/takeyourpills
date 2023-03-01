@@ -1,5 +1,6 @@
 import {
   ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,7 +10,7 @@ import React from 'react';
 import AnimatedLottieView from 'lottie-react-native';
 import {Divider} from 'react-native-elements';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 
 const Apill = ({setPillActive, data, setCurrentPill}) => {
   return (
@@ -27,6 +28,35 @@ const Apill = ({setPillActive, data, setCurrentPill}) => {
           flex: 0.6,
           paddingBottom: 0,
         }}>
+        <View
+          style={{
+            alignSelf: 'flex-end',
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginTop: 10,
+          }}>
+          <TouchableOpacity>
+            <FontAwesomeIcon
+              icon={regular('pen-to-square')}
+              size={24}
+              style={{marginRight: 15}}
+              color={'#000000'}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setPillActive(false);
+              setCurrentPill(null);
+            }}
+            activeOpacity={0.5}>
+            <FontAwesomeIcon
+              icon={solid('xmark')}
+              style={{}}
+              size={30}
+              color={'black'}
+            />
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             display: 'flex',
@@ -57,19 +87,6 @@ const Apill = ({setPillActive, data, setCurrentPill}) => {
               {data.name}
             </Text>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              setPillActive(false);
-              setCurrentPill(null);
-            }}
-            activeOpacity={0.5}>
-            <FontAwesomeIcon
-              icon={solid('xmark')}
-              style={{marginRight: 15}}
-              size={30}
-              color={'black'}
-            />
-          </TouchableOpacity>
         </View>
         <Divider
           width={0.5}
@@ -95,7 +112,9 @@ const Apill = ({setPillActive, data, setCurrentPill}) => {
             speed={2}
           />
         </View>
-        <View style={{paddingTop: 16}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{paddingTop: 16}}>
           <Text style={styles.infoTxt}>
             Pill name:{' '}
             <Text style={{fontFamily: 'Satoshi-Regular'}}>{data.name} </Text>
@@ -138,11 +157,11 @@ const Apill = ({setPillActive, data, setCurrentPill}) => {
               {data.instructions}
             </Text>
           </Text>
-          <Text style={styles.infoTxt}>
+          <Text style={[styles.infoTxt, {marginBottom: 30}]}>
             Days Left:{' '}
             <Text style={{fontFamily: 'Satoshi-Regular'}}>{data.daysLeft}</Text>
           </Text>
-        </View>
+        </ScrollView>
       </ImageBackground>
     </View>
   );

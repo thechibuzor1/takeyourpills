@@ -58,11 +58,17 @@ var Notifications = function (_a) {
                     marginTop: 20,
                     alignItems: 'center'
                 } },
-                react_1["default"].createElement(react_native_1.Text, { style: {
-                        color: 'black',
-                        fontSize: 23,
-                        fontFamily: 'Satoshi-Bold'
-                    } }, "Notifications"),
+                react_1["default"].createElement(react_native_1.View, { style: {
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    } },
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('bell'), size: 20, style: { marginRight: 5, marginTop: 5 }, color: '#000000' }),
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            fontSize: 23,
+                            fontFamily: 'Satoshi-Bold',
+                            color: '#000000'
+                        } }, "Notifications")),
                 react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setNotifications(false); } },
                     react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: { marginRight: 15 }, size: 30, color: 'black' }))),
             react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
