@@ -113,7 +113,7 @@ const MyPills = ({setMyPills}) => {
         marginTop: 5,
         marginBottom: 5,
         marginLeft: 5,
-        marginRight: 5,
+        marginRight: props.name === 'Completed Circles' ? 15 : 5,
         borderRadius: 15,
         flexDirection: 'row',
         alignItems: 'center',

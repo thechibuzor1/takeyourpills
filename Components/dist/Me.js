@@ -7,6 +7,7 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
 var Me = function (_a) {
     var setMe = _a.setMe;
+    var _b = react_1.useState(false), edit = _b[0], setEdit = _b[1];
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',
             flex: 1,
@@ -23,11 +24,34 @@ var Me = function (_a) {
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginTop: 10
+                } }, edit ? (react_1["default"].createElement(react_native_1.View, { style: {
+                    display: 'flex',
+                    flexDirection: 'row'
                 } },
-                react_1["default"].createElement(react_native_1.TouchableOpacity, null,
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.7, style: {
+                        padding: 16,
+                        backgroundColor: 'black',
+                        borderRadius: 15,
+                        marginRight: 15
+                    } },
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            color: 'white',
+                            fontFamily: 'Satoshi-Bold'
+                        } }, "Save Changes")),
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.7, onPress: function () { return setEdit(false); }, style: {
+                        padding: 16,
+                        backgroundColor: 'white',
+                        borderRadius: 15,
+                        borderWidth: 1
+                    } },
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            color: 'black',
+                            fontFamily: 'Satoshi-Bold'
+                        } }, "Discard")))) : (react_1["default"].createElement(react_1["default"].Fragment, null,
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setEdit(true); } },
                     react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), size: 24, style: { marginRight: 15 }, color: '#000000' })),
                 react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return setMe(false); }, activeOpacity: 0.5 },
-                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: {}, size: 30, color: 'black' }))),
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: {}, size: 30, color: 'black' }))))),
             react_1["default"].createElement(react_native_1.View, { style: {
                     display: 'flex',
                     flexDirection: 'row',
@@ -53,32 +77,42 @@ var Me = function (_a) {
                     marginTop: 15
                 } }),
             react_1["default"].createElement(react_native_1.ScrollView, { showsVerticalScrollIndicator: false, style: { paddingTop: 16 } },
-                react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
-                    "Fullname:",
-                    ' ',
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } },
-                        "Igbudu Chibuzor Moses",
-                        ' ')),
-                react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
-                    "Date of birth:",
-                    ' ',
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, "May 1, 2002")),
-                react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
-                    "Age: ",
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, "20")),
-                react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
-                    "Gender: ",
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, "Male")),
-                react_1["default"].createElement(react_native_1.Text, { style: [styles.infoTxt, { marginBottom: 30 }] },
-                    "BMI: ",
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, "28"))))));
+                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
+                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "Fullname: "),
+                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { autoFocus: true, style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "Igbudu Chibuzor Moses"))),
+                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
+                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, " Date of birth: "),
+                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "May 1, 2002"))),
+                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
+                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "Gender: "),
+                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "Male"))),
+                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
+                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "BMI: "),
+                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "28")))))));
 };
 exports["default"] = Me;
 var styles = react_native_1.StyleSheet.create({
     infoTxt: {
         color: 'black',
         fontSize: 18,
+        fontFamily: 'Satoshi-Bold'
+    },
+    infoTxtR: { fontFamily: 'Satoshi-Regular', fontSize: 18, color: 'gray' },
+    textField: {
+        color: 'black',
+        fontSize: 20,
         fontFamily: 'Satoshi-Bold',
-        marginBottom: 10
+        flex: 1,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: 'gray',
+        paddingStart: 16,
+        paddingEnd: 16,
+        marginLeft: 5
+    },
+    listContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15
     }
 });

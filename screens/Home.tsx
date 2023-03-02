@@ -30,6 +30,7 @@ import {
   friPills,
   satPills,
   sunPills,
+  demoRemake,
 } from '../demodata';
 import NewPill from '../Components/NewPill';
 import Settings from '../Components/Settings';
@@ -63,34 +64,43 @@ const Home = () => {
     '#1d9aa9', //light dark blue lol
   ];
   /* Check date in duration function */
+
   /*   var datefrom = '05/05/2013';
   var dateCurr = '05/28/2013';
   var dateTo = '05/22/2013'; */
 
-  /*   function check() {
-    var dateFrom = '02/05/2013';
-    var dateTo = '02/09/2013';
-    var dateCheck = '02/07/2013';
+  function check(dF: string, dT: string, dC: string) {
+    var dateFrom = moment(new Date(dF)).format('DD/MM/YYYY');
+    var dateTo = moment(new Date(dT)).format('DD/MM/YYYY');
+    var dateCheck = moment(new Date(dC)).format('DD/MM/YYYY');
 
-    var d1 = datefrom.split('/');
+    /*     var dateFrom = '02/05/2023';
+    var dateTo = '09/03/2023';
+    var dateCheck = '05/07/2023'; */
+
+    var d1 = dateFrom.split('/');
     var d2 = dateTo.split('/');
-    var c = dateCurr.split('/');
+    var c = dateCheck.split('/');
 
     var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
     var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
     var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
 
-    console.log(check >= from && check <= to);
-  } */
+    console.log(dateFrom, dateTo, dateCheck);
+
+    return check >= from && check <= to;
+  }
 
   /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
 
   d.month(); // 1
   const [pillData, setPillData] = useState(monPills);
   const [day, setDay] = useState(d.format('dddd'));
-  const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
+  const [fullDate, setFullDate] = useState(d.format('ddd MMM D YYYY'));
   const [header, setHeader] = useState<string>('today');
   const [selectedDate, setSelectedDate] = useState(moment());
+
+  console.log(check(demoRemake[0].startDate, demoRemake[0].endDate, fullDate));
 
   useEffect(() => {
     switch (day) {
@@ -488,7 +498,7 @@ const Home = () => {
                           );
                           setFullDate(
                             moment(date.dateString.toLocaleString()).format(
-                              'dddd MMM D',
+                              'ddd MMM D YYYY',
                             ),
                           );
                           setSelectedDate(
@@ -562,7 +572,7 @@ const Home = () => {
                     setLoading(true);
                     setTimeout(() => {
                       setDay(date.format('dddd'));
-                      setFullDate(date.format('dddd MMM D'));
+                      setFullDate(date.format('ddd MMM D YYYY'));
                       setSelectedDate(date);
                       setLoading(false);
                     }, 250);
@@ -575,8 +585,8 @@ const Home = () => {
             alwaysBounceVertical
             showsVerticalScrollIndicator={false}
             bounces
-            disableLeftSwipe={fullDate !== d.format('dddd MMM D')}
-            disableRightSwipe={fullDate !== d.format('dddd MMM D')}
+            disableLeftSwipe={fullDate !== d.format('ddd MMM D YYYY')}
+            disableRightSwipe={fullDate !== d.format('ddd MMM D YYYY')}
             focusable
             closeOnRowBeginSwipe
             closeOnScroll

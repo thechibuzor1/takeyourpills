@@ -55,28 +55,30 @@ var Home = function () {
     /*   var datefrom = '05/05/2013';
     var dateCurr = '05/28/2013';
     var dateTo = '05/22/2013'; */
-    /*   function check() {
-      var dateFrom = '02/05/2013';
-      var dateTo = '02/09/2013';
-      var dateCheck = '02/07/2013';
-  
-      var d1 = datefrom.split('/');
-      var d2 = dateTo.split('/');
-      var c = dateCurr.split('/');
-  
-      var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
-      var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
-      var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
-  
-      console.log(check >= from && check <= to);
-    } */
+    function check(dF, dT, dC) {
+        var dateFrom = moment_1["default"](new Date(dF)).format('DD/MM/YYYY');
+        var dateTo = moment_1["default"](new Date(dT)).format('DD/MM/YYYY');
+        var dateCheck = moment_1["default"](new Date(dC)).format('DD/MM/YYYY');
+        /*     var dateFrom = '02/05/2023';
+        var dateTo = '09/03/2023';
+        var dateCheck = '05/07/2023'; */
+        var d1 = dateFrom.split('/');
+        var d2 = dateTo.split('/');
+        var c = dateCheck.split('/');
+        var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+        var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+        var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
+        console.log(dateFrom, dateTo, dateCheck);
+        return check >= from && check <= to;
+    }
     /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
     exports.d.month(); // 1
     var _a = react_1.useState(demodata_1.monPills), pillData = _a[0], setPillData = _a[1];
     var _b = react_1.useState(exports.d.format('dddd')), day = _b[0], setDay = _b[1];
-    var _c = react_1.useState(exports.d.format('dddd MMM D')), fullDate = _c[0], setFullDate = _c[1];
+    var _c = react_1.useState(exports.d.format('ddd MMM D YYYY')), fullDate = _c[0], setFullDate = _c[1];
     var _d = react_1.useState('today'), header = _d[0], setHeader = _d[1];
     var _e = react_1.useState(moment_1["default"]()), selectedDate = _e[0], setSelectedDate = _e[1];
+    console.log(check(demodata_1.demoRemake[0].startDate, demodata_1.demoRemake[0].endDate, fullDate));
     react_1.useEffect(function () {
         switch (day) {
             case 'Monday':
@@ -289,7 +291,7 @@ var Home = function () {
                                     setLoading(true);
                                     setTimeout(function () {
                                         setDay(moment_1["default"](date.dateString.toLocaleString()).format('dddd'));
-                                        setFullDate(moment_1["default"](date.dateString.toLocaleString()).format('dddd MMM D'));
+                                        setFullDate(moment_1["default"](date.dateString.toLocaleString()).format('ddd MMM D YYYY'));
                                         setSelectedDate(moment_1["default"](date.dateString.toLocaleString()));
                                         setLoading(false);
                                     }, 250);
@@ -340,13 +342,13 @@ var Home = function () {
                                 setLoading(true);
                                 setTimeout(function () {
                                     setDay(date.format('dddd'));
-                                    setFullDate(date.format('dddd MMM D'));
+                                    setFullDate(date.format('ddd MMM D YYYY'));
                                     setSelectedDate(date);
                                     setLoading(false);
                                 }, 250);
                             } }),
                         pillData.length === 0 && react_1["default"].createElement(Empty, null)));
-                }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== exports.d.format('dddd MMM D'), disableRightSwipe: fullDate !== exports.d.format('dddd MMM D'), focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { paddingTop: 5, paddingBottom: 15 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })))));
+                }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== exports.d.format('ddd MMM D YYYY'), disableRightSwipe: fullDate !== exports.d.format('ddd MMM D YYYY'), focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { paddingTop: 5, paddingBottom: 15 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })))));
 };
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({

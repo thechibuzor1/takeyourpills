@@ -30,12 +30,14 @@ const DeleteAllPills = ({setDeleteAllPills}) => {
         <Text
           style={{
             fontFamily: 'Satoshi-regular',
+            color: 'gray',
           }}>
           Are you sure about this?
         </Text>
         <Text
           style={{
             fontFamily: 'Satoshi-regular',
+            color: 'gray',
           }}>
           There's no going back once it's done...
         </Text>

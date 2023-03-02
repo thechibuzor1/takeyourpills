@@ -24,10 +24,12 @@ var DeleteAllPills = function (_a) {
                     marginTop: 10
                 } }, "Delete all pill records \uD83D\uDE27"),
             react_1["default"].createElement(react_native_1.Text, { style: {
-                    fontFamily: 'Satoshi-regular'
+                    fontFamily: 'Satoshi-regular',
+                    color: 'gray'
                 } }, "Are you sure about this?"),
             react_1["default"].createElement(react_native_1.Text, { style: {
-                    fontFamily: 'Satoshi-regular'
+                    fontFamily: 'Satoshi-regular',
+                    color: 'gray'
                 } }, "There's no going back once it's done..."),
             react_1["default"].createElement(react_native_1.View, { style: {
                     display: 'flex',
