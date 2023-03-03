@@ -7,7 +7,6 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
 var Apill_1 = require("./Apill");
 var moment_1 = require("moment");
-var Home_1 = require("../screens/Home");
 var MyPills = function (_a) {
     var setMyPills = _a.setMyPills, filterData = _a.filterData;
     var _b = react_1.useState(''), active = _b[0], setActive = _b[1];
@@ -20,9 +19,9 @@ var MyPills = function (_a) {
     var eveningPills = [];
     var completedcircles = [];
     //get their times in a day
-    var today = moment_1["default"](Home_1.d.format('ddd MMM D YYYY'));
+    var today = moment_1["default"](new Date());
     filterData.forEach(function (element) {
-        var end = moment_1["default"](element.endDate);
+        var end = moment_1["default"](new Date(element.endDate));
         var daysLeft = end.diff(today, 'days');
         if (daysLeft <= 0) {
             completedcircles.push(element);
@@ -74,8 +73,7 @@ var MyPills = function (_a) {
     }
     var PillBlocks = function (_a) {
         var props = _a.props;
-        var today = moment_1["default"](Home_1.d.format('ddd MMM D YYYY'));
-        var end = moment_1["default"](props.endDate);
+        var end = moment_1["default"](new Date(props.endDate));
         var daysLeft = end.diff(today, 'days');
         if (daysLeft <= 0) {
             daysLeft = 0;

@@ -31,10 +31,9 @@ const MyPills = ({setMyPills, filterData}) => {
   var completedcircles = [];
 
   //get their times in a day
-
-  var today = moment(d.format('ddd MMM D YYYY'));
+  var today = moment(new Date());
   filterData.forEach(element => {
-    var end = moment(element.endDate);
+    var end = moment(new Date(element.endDate));
     var daysLeft = end.diff(today, 'days');
     if (daysLeft <= 0) {
       completedcircles.push(element);
@@ -94,14 +93,12 @@ const MyPills = ({setMyPills, filterData}) => {
   }
 
   const PillBlocks = ({props}) => {
-    var today = moment(d.format('ddd MMM D YYYY'));
-    var end = moment(props.endDate);
+    var end = moment(new Date(props.endDate));
 
     var daysLeft = end.diff(today, 'days');
     if (daysLeft <= 0) {
       daysLeft = 0;
     }
-
     return (
       <TouchableOpacity
         onPress={() => {
