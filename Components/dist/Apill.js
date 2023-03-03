@@ -112,14 +112,10 @@ var Apill = function (_a) {
                     react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } },
                         data.endDate,
                         " ")),
-                react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
+                react_1["default"].createElement(react_native_1.Text, { style: [styles.infoTxt, { marginBottom: 30 }] },
                     "Instructions:",
                     ' ',
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.instructions)),
-                react_1["default"].createElement(react_native_1.Text, { style: [styles.infoTxt, { marginBottom: 30 }] },
-                    "Days Left:",
-                    ' ',
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.daysLeft))))));
+                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.instructions))))));
 };
 exports["default"] = Apill;
 var styles = react_native_1.StyleSheet.create({

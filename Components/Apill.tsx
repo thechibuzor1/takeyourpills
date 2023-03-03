@@ -168,15 +168,11 @@ const Apill = ({setPillActive, data, setCurrentPill}) => {
             End date:{' '}
             <Text style={{fontFamily: 'Satoshi-Regular'}}>{data.endDate} </Text>
           </Text>
-          <Text style={styles.infoTxt}>
+          <Text style={[styles.infoTxt, {marginBottom: 30}]}>
             Instructions:{' '}
             <Text style={{fontFamily: 'Satoshi-Regular'}}>
               {data.instructions}
             </Text>
-          </Text>
-          <Text style={[styles.infoTxt, {marginBottom: 30}]}>
-            Days Left:{' '}
-            <Text style={{fontFamily: 'Satoshi-Regular'}}>{data.daysLeft}</Text>
           </Text>
         </ScrollView>
       </ImageBackground>

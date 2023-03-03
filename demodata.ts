@@ -318,7 +318,7 @@ interface MyPills {
   name: string;
   desc: string;
   dosage: string;
-  duration: number;
+  duration: string;
   timesPerDay: number;
   times: [string] | [string, string] | [string, string, string];
   startDate: string;
@@ -332,7 +332,7 @@ export var demoRemake: MyPills[] = [
     name: 'Nora - BE',
     desc: 'Norenthindrone - 0.35mg',
     dosage: '2',
-    duration: 30,
+    duration: '30',
     timesPerDay: 1,
     times: ['9:00'],
     startDate: 'Wed Mar 1 2023', //format('dddd MMM D')
@@ -344,7 +344,7 @@ export var demoRemake: MyPills[] = [
     name: 'Phenol H - BE',
     desc: 'Norenthindrone - 0.35mg',
     dosage: '3',
-    duration: 30,
+    duration: '30',
     timesPerDay: 2,
     times: ['9:00', '14:00'],
     startDate: 'Thu Feb 2 2023', //format('dddd MMM D')
@@ -356,7 +356,7 @@ export var demoRemake: MyPills[] = [
     name: 'Noraphenol - JI',
     desc: 'Norenthindrone - 0.35mg',
     dosage: '2',
-    duration: 30,
+    duration: '30',
     timesPerDay: 1,
     times: ['7:00'],
     startDate: 'Thu May 4 2023', //format('dddd MMM D')
@@ -368,7 +368,7 @@ export var demoRemake: MyPills[] = [
     name: 'Paracetamol',
     desc: 'Norenthindrone - 0.35mg',
     dosage: '3',
-    duration: 3,
+    duration: '3',
     timesPerDay: 3,
     times: ['7:00', '14:00', '19:00'],
     startDate: 'Thu Jun 15 2023', //format('dddd MMM D')

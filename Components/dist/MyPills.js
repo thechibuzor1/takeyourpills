@@ -6,12 +6,65 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
 var Apill_1 = require("./Apill");
-var demodata_1 = require("../demodata");
+var moment_1 = require("moment");
+var Home_1 = require("../screens/Home");
 var MyPills = function (_a) {
-    var setMyPills = _a.setMyPills;
+    var setMyPills = _a.setMyPills, filterData = _a.filterData;
     var _b = react_1.useState(''), active = _b[0], setActive = _b[1];
-    var _c = react_1.useState(), currentPill = _c[0], setCurrentPill = _c[1];
-    var _d = react_1.useState(false), pillActive = _d[0], setPillActive = _d[1];
+    var _c = react_1.useState(filterData), data = _c[0], setData = _c[1];
+    /*   morning: 00:00 to 12:00
+    after: 12:01 to 18:00
+    evening: 18:01 to 23:59 */
+    var morningPills = [];
+    var afternoonPills = [];
+    var eveningPills = [];
+    var completedcircles = [];
+    //get their times in a day
+    var today = moment_1["default"](Home_1.d.format('ddd MMM D YYYY'));
+    filterData.forEach(function (element) {
+        var end = moment_1["default"](element.endDate);
+        var daysLeft = end.diff(today, 'days');
+        if (daysLeft <= 0) {
+            completedcircles.push(element);
+        }
+        else {
+            element.times.forEach(function (ele) {
+                if (Number(ele.replace(':', '') >= 0 && Number(ele.replace(':', '') <= 1200))) {
+                    morningPills.push(element);
+                }
+                else if (Number(ele.replace(':', '') >= 1201 &&
+                    Number(ele.replace(':', '') <= 1800))) {
+                    afternoonPills.push(element);
+                }
+                else {
+                    eveningPills.push(element);
+                }
+            });
+        }
+    });
+    react_1.useEffect(function () {
+        switch (active) {
+            case 'Morning':
+                setData(morningPills);
+                break;
+            case 'Afternoon':
+                setData(afternoonPills);
+                break;
+            case 'Evening':
+                setData(eveningPills);
+                break;
+            case 'Completed Circles':
+                setData(completedcircles);
+                break;
+            case '':
+                setData(filterData);
+                break;
+            default:
+                setData(filterData);
+        }
+    }, [active]);
+    var _d = react_1.useState(), currentPill = _d[0], setCurrentPill = _d[1];
+    var _e = react_1.useState(false), pillActive = _e[0], setPillActive = _e[1];
     function handleActive(name) {
         if (name === active) {
             setActive('');
@@ -21,12 +74,24 @@ var MyPills = function (_a) {
     }
     var PillBlocks = function (_a) {
         var props = _a.props;
+        var today = moment_1["default"](Home_1.d.format('ddd MMM D YYYY'));
+        var end = moment_1["default"](props.endDate);
+        var daysLeft = end.diff(today, 'days');
+        if (daysLeft <= 0) {
+            daysLeft = 0;
+        }
         return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
                 setCurrentPill(props);
                 setPillActive(true);
             }, activeOpacity: 0.8, style: {
                 padding: 16,
-                backgroundColor: '#132342',
+                backgroundColor: daysLeft <= 0
+                    ? '#ECECEC'
+                    : daysLeft <= 5
+                        ? '#ED1D24'
+                        : daysLeft <= 15
+                            ? '#FFAD00'
+                            : '#132342',
                 borderRadius: 15,
                 margin: 5,
                 justifyContent: 'center',
@@ -42,14 +107,14 @@ var MyPills = function (_a) {
                         flexDirection: 'row',
                         alignItems: 'center'
                     } },
-                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('pills'), size: 20, style: { marginRight: 5 }, color: '#ffffff' }),
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('pills'), size: 20, style: { marginRight: 5 }, color: daysLeft <= 0 ? '#000000' : '#ffffff' }),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             fontSize: 28,
                             fontFamily: 'Satoshi-Bold',
-                            color: '#ffffff',
+                            color: daysLeft <= 0 ? '#000000' : '#ffffff',
                             width: '80%'
                         } }, props.name)),
-                react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('circle-info'), size: 24, color: '#ffffff', style: {
+                react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('circle-info'), size: 24, color: daysLeft <= 0 ? '#000000' : '#ffffff', style: {
                         marginTop: 5,
                         marginLeft: 5
                     } })),
@@ -57,7 +122,7 @@ var MyPills = function (_a) {
                     fontSize: 16,
                     fontFamily: 'Satoshi-Bold',
                     marginTop: 15,
-                    color: '#ffffff'
+                    color: daysLeft <= 0 ? '#000000' : '#ffffff'
                 } },
                 "Dosage: ",
                 props.dosage),
@@ -66,10 +131,10 @@ var MyPills = function (_a) {
                     fontFamily: 'Satoshi-Bold',
                     marginTop: 5,
                     marginBottom: 15,
-                    color: '#ffffff'
+                    color: daysLeft <= 0 ? '#000000' : '#ffffff'
                 } },
                 "Days Left: ",
-                props.daysLeft)));
+                daysLeft)));
     };
     var FilterButtons = function (props) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return handleActive(props.name); }, activeOpacity: 0.7, style: {
             padding: 15,
@@ -138,7 +203,7 @@ var MyPills = function (_a) {
                         alignSelf: 'center',
                         marginTop: 5
                     } }),
-                react_1["default"].createElement(react_native_1.FlatList, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 }, data: demodata_1.demoRemake, renderItem: function (data) { return react_1["default"].createElement(PillBlocks, { props: data.item }); } }),
+                react_1["default"].createElement(react_native_1.FlatList, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 }, data: data, renderItem: function (data) { return react_1["default"].createElement(PillBlocks, { props: data.item }); } }),
                 react_1["default"].createElement(react_native_1.ScrollView, null)))));
 };
 exports["default"] = MyPills;

@@ -20,16 +20,17 @@ import {Divider} from 'react-native-elements';
 
 const NewPill = ({
   setPillModal,
-  pillData,
-  setPillData,
   setShowNotif,
   setMessage,
+  mainDrive,
+  filterData,
+  setFilterData,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pillName, setPillName] = useState<string>('');
   const [pillDesc, setPillDesc] = useState<string>('');
   const [dosage, setDosage] = useState<string>('');
-
+  const [duration, setDuration] = useState<string>('');
   const [instructions, setInstructions] = useState<string>('');
 
   const [value, setValue] = useState<any>(1);
@@ -48,47 +49,38 @@ const NewPill = ({
   const [eveningTime, setEveningTime] = useState<string>('20:00');
   const [isEvening, setEveningVisibility] = useState<boolean>(false);
 
-  const [startDate, setStartDate] = useState<string>(d.format('dddd MMM D'));
+  const [startDate, setStartDate] = useState<string>(
+    d.format('ddd MMM D YYYY'),
+  );
   const [startDatePicker, setStartDatePicker] = useState<boolean>(false);
 
   function handleSave() {
-    const clonedData = [...pillData];
-    let index = 0;
-    let found = false;
+    const clonedData = [...filterData];
+    var endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + Number(duration));
+
     const newPills = {
-      id: 1,
+      id: clonedData.length + 1,
       name: pillName,
       desc: pillDesc,
-      instruction: instructions,
       dosage: dosage,
+      duration: duration,
+      timesPerDay: value,
+      times:
+        value === 1
+          ? [morningTime]
+          : value === 2
+          ? [morningTime, afternoonTime]
+          : [morningTime, afternoonTime, eveningTime],
+      startDate: startDate,
+      endDate: moment(endDate).format('ddd MMM D YYYY'),
+      instructions: instructions,
     };
-    const newData = {
-      time: morningTime,
-      pills: [newPills],
-      taken: false,
-    };
 
-    clonedData.forEach(element => {
-      if (element.time === morningTime) {
-        found = true;
-        index = clonedData.indexOf(element);
-      }
-    });
+    clonedData.push(newPills);
+    setFilterData(clonedData);
+    mainDrive(d.format('ddd MMM D YYYY'));
 
-    if (found) {
-      const newPillsX = {
-        id: clonedData[index].pills.length + 1,
-        name: pillName,
-        desc: pillDesc,
-        instruction: instructions,
-        dosage: dosage,
-      };
-      clonedData[index].pills.push(newPillsX);
-    } else {
-      clonedData.push(newData);
-    }
-
-    setPillData(clonedData);
     setPillName('');
     setPillDesc('');
     setDosage('');
@@ -197,7 +189,7 @@ const NewPill = ({
 
             <TextInput
               multiline
-              value={pillData}
+              value={pillDesc}
               onChangeText={text => setPillDesc(text)}
               style={{
                 marginTop: 15,
@@ -326,6 +318,8 @@ const NewPill = ({
             </Text>
             <View style={{display: 'flex', flexDirection: 'row'}}>
               <TextInput
+                value={duration}
+                onChangeText={text => setDuration(text)}
                 keyboardType="numeric"
                 maxLength={2}
                 style={{
@@ -653,7 +647,7 @@ const NewPill = ({
               minimumDate={new Date()}
               onConfirm={data => {
                 let date = moment(data);
-                setStartDate(date.format('dddd MMM D'));
+                setStartDate(date.format('ddd MMM D YYYY'));
               }}
               onCancel={() => setStartDatePicker(false)}
             />

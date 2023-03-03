@@ -174,7 +174,7 @@ const MedicineContainer = ({
                       ]}>
                       {pill.name}
                     </Text>
-                    <TouchableOpacity
+                   {/*  <TouchableOpacity
                       activeOpacity={0.5}
                       onPress={() => setEditPill(true)}>
                       <FontAwesomeIcon
@@ -185,7 +185,7 @@ const MedicineContainer = ({
                           timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black'
                         }
                       />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
 
                   <Text

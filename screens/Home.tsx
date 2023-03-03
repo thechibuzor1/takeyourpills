@@ -46,6 +46,7 @@ export function dateDifference(startDate, endDate) {
 }
 const date = new Date();
 export var d = moment(date);
+
 const Home = () => {
   const colors = [
     '#4D4DFF',
@@ -89,7 +90,7 @@ const Home = () => {
     //cheack if date is in range of two dates
     return check >= from && check <= to;
   }
-
+  const [filterData, setFilterData] = useState(demoRemake);
   function mainDrive(date) {
     //set data based on date
     var listInDuration = []; //empty list of piils in range of selected date
@@ -97,7 +98,7 @@ const Home = () => {
     var pills = [];
 
     //check if pills are in ramge of current date
-    demoRemake.forEach(element => {
+    filterData.forEach(element => {
       if (check(element.startDate, element.endDate, date)) {
         listInDuration.push(element); //add those in range to the list
         return;
@@ -157,7 +158,10 @@ const Home = () => {
   }
   /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
 
+  useEffect(() => mainDrive(day), [filterData]);
+
   d.month(); // 1
+  const [day, setDay] = useState(d.format('ddd MMM D YYYY'));
   const [pillData, setPillData] = useState([]);
   const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
@@ -347,10 +351,11 @@ const Home = () => {
         {
           <NewPill
             setPillModal={setPillModal}
-            pillData={pillData}
-            setPillData={setPillData}
             setShowNotif={setShowNotif}
             setMessage={setMessage}
+            mainDrive={mainDrive}
+            filterData={filterData}
+            setFilterData={setFilterData}
           />
         }
       </Modal>
@@ -400,7 +405,7 @@ const Home = () => {
         visible={myPills}
         transparent
         onRequestClose={() => setMyPills(false)}>
-        {<MyPills setMyPills={setMyPills} />}
+        {<MyPills setMyPills={setMyPills} filterData={filterData} />}
       </Modal>
 
       {loading ? (
@@ -555,6 +560,11 @@ const Home = () => {
                       onDayPress={date => {
                         setLoading(true);
                         setTimeout(() => {
+                          setDay(
+                            moment(date.dateString.toLocaleString()).format(
+                              'ddd MMM D YYYY',
+                            ),
+                          );
                           mainDrive(
                             moment(date.dateString.toLocaleString()).format(
                               'ddd MMM D YYYY',
@@ -619,6 +629,7 @@ const Home = () => {
                   onDateSelected={date => {
                     setLoading(true);
                     setTimeout(() => {
+                      setDay(date.format('ddd MMM D YYYY'));
                       mainDrive(date.format('ddd MMM D YYYY'));
                       setFullDate(date.format('dddd MMM D'));
                       setSelectedDate(date);

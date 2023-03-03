@@ -8,15 +8,80 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
 import Apill from './Apill';
 import {demoRemake} from '../demodata';
+import moment from 'moment';
+import {d} from '../screens/Home';
 
-const MyPills = ({setMyPills}) => {
+const MyPills = ({setMyPills, filterData}) => {
   const [active, setActive] = useState<string>('');
+  const [data, setData] = useState(filterData);
+
+  /*   morning: 00:00 to 12:00
+  after: 12:01 to 18:00
+  evening: 18:01 to 23:59 */
+
+  var morningPills = [];
+  var afternoonPills = [];
+  var eveningPills = [];
+  var completedcircles = [];
+
+  //get their times in a day
+
+  var today = moment(d.format('ddd MMM D YYYY'));
+  filterData.forEach(element => {
+    var end = moment(element.endDate);
+    var daysLeft = end.diff(today, 'days');
+    if (daysLeft <= 0) {
+      completedcircles.push(element);
+    } else {
+      element.times.forEach(ele => {
+        if (
+          Number(
+            ele.replace(':', '') >= 0 && Number(ele.replace(':', '') <= 1200),
+          )
+        ) {
+          morningPills.push(element);
+        } else if (
+          Number(
+            ele.replace(':', '') >= 1201 &&
+              Number(ele.replace(':', '') <= 1800),
+          )
+        ) {
+          afternoonPills.push(element);
+        } else {
+          eveningPills.push(element);
+        }
+      });
+    }
+  });
+
+  useEffect(() => {
+    switch (active) {
+      case 'Morning':
+        setData(morningPills);
+        break;
+      case 'Afternoon':
+        setData(afternoonPills);
+        break;
+      case 'Evening':
+        setData(eveningPills);
+        break;
+      case 'Completed Circles':
+        setData(completedcircles);
+        break;
+      case '':
+        setData(filterData);
+        break;
+      default:
+        setData(filterData);
+    }
+  }, [active]);
+
   const [currentPill, setCurrentPill] = useState();
 
   const [pillActive, setPillActive] = useState<boolean>(false);
@@ -28,81 +93,98 @@ const MyPills = ({setMyPills}) => {
     setActive(name);
   }
 
-  const PillBlocks = ({props}) => (
-    <TouchableOpacity
-      onPress={() => {
-        setCurrentPill(props);
-        setPillActive(true);
-      }}
-      activeOpacity={0.8}
-      style={{
-        padding: 16,
-        backgroundColor: '#132342',
-        borderRadius: 15,
-        margin: 5,
-        justifyContent: 'center',
-        marginBottom: 20,
-      }}>
-      <View
+  const PillBlocks = ({props}) => {
+    var today = moment(d.format('ddd MMM D YYYY'));
+    var end = moment(props.endDate);
+
+    var daysLeft = end.diff(today, 'days');
+    if (daysLeft <= 0) {
+      daysLeft = 0;
+    }
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setCurrentPill(props);
+          setPillActive(true);
+        }}
+        activeOpacity={0.8}
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
+          padding: 16,
+          backgroundColor:
+            daysLeft <= 0
+              ? '#ECECEC'
+              : daysLeft <= 5
+              ? '#ED1D24'
+              : daysLeft <= 15
+              ? '#FFAD00'
+              : '#132342',
+          borderRadius: 15,
+          margin: 5,
+          justifyContent: 'center',
+          marginBottom: 20,
         }}>
         <View
           style={{
             display: 'flex',
             flexDirection: 'row',
-            alignItems: 'center',
+            justifyContent: 'space-between',
           }}>
-          <FontAwesomeIcon
-            icon={solid('pills')}
-            size={20}
-            style={{marginRight: 5}}
-            color={'#ffffff'}
-          />
-          <Text
+          <View
             style={{
-              fontSize: 28,
-              fontFamily: 'Satoshi-Bold',
-              color: '#ffffff',
-              width: '80%',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
             }}>
-            {props.name}
-          </Text>
-        </View>
+            <FontAwesomeIcon
+              icon={solid('pills')}
+              size={20}
+              style={{marginRight: 5}}
+              color={daysLeft <= 0 ? '#000000' : '#ffffff'}
+            />
+            <Text
+              style={{
+                fontSize: 28,
+                fontFamily: 'Satoshi-Bold',
+                color: daysLeft <= 0 ? '#000000' : '#ffffff',
+                width: '80%',
+              }}>
+              {props.name}
+            </Text>
+          </View>
 
-        <FontAwesomeIcon
-          icon={solid('circle-info')}
-          size={24}
-          color={'#ffffff'}
+          <FontAwesomeIcon
+            icon={solid('circle-info')}
+            size={24}
+            color={daysLeft <= 0 ? '#000000' : '#ffffff'}
+            style={{
+              marginTop: 5,
+              marginLeft: 5,
+            }}
+          />
+        </View>
+        <Text
           style={{
+            fontSize: 16,
+            fontFamily: 'Satoshi-Bold',
+            marginTop: 15,
+            color: daysLeft <= 0 ? '#000000' : '#ffffff',
+          }}>
+          Dosage: {props.dosage}
+        </Text>
+        <Text
+          style={{
+            fontSize: 16,
+            fontFamily: 'Satoshi-Bold',
             marginTop: 5,
-            marginLeft: 5,
-          }}
-        />
-      </View>
-      <Text
-        style={{
-          fontSize: 16,
-          fontFamily: 'Satoshi-Bold',
-          marginTop: 15,
-          color: '#ffffff',
-        }}>
-        Dosage: {props.dosage}
-      </Text>
-      <Text
-        style={{
-          fontSize: 16,
-          fontFamily: 'Satoshi-Bold',
-          marginTop: 5,
-          marginBottom: 15,
-          color: '#ffffff',
-        }}>
-        Days Left: {props.daysLeft}
-      </Text>
-    </TouchableOpacity>
-  );
+            marginBottom: 15,
+            color: daysLeft <= 0 ? '#000000' : '#ffffff',
+          }}>
+          Days Left: {daysLeft}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   const FilterButtons = props => (
     <TouchableOpacity
@@ -239,7 +321,7 @@ const MyPills = ({setMyPills}) => {
             bounces
             bouncesZoom
             style={{paddingTop: 15}}
-            data={demoRemake}
+            data={data}
             renderItem={data => <PillBlocks props={data.item} />}
           />
           <ScrollView></ScrollView>

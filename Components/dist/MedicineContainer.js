@@ -108,9 +108,7 @@ var MedicineContainer = function (_a) {
                                     marginLeft: 15
                                 },
                                 style.textColor,
-                            ] }, pill.name),
-                        react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.5, onPress: function () { return setEditPill(true); } },
-                            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), style: { marginRight: 15 }, size: 24, color: timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black' }))),
+                            ] }, pill.name)),
                     react_1["default"].createElement(react_native_1.Text, { style: [
                             {
                                 marginLeft: 15,
