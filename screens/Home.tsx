@@ -584,6 +584,7 @@ const Home = () => {
                           dotColor: '#132342',
                         },
                       }}
+                      initialDate={selectedDate.format('YYYY-MM-DD').toString()}
                     />
                   </View>
                 )}

@@ -364,7 +364,7 @@ var Home = function () {
                                         marked: true,
                                         dotColor: '#132342'
                                     },
-                                    _a) }))),
+                                    _a), initialDate: selectedDate.format('YYYY-MM-DD').toString() }))),
                         react_1["default"].createElement(react_native_calendar_strip_1["default"], { scrollable: true, scrollerPaging: true, calendarHeaderStyle: { display: 'none' }, style: {
                                 height: 80,
                                 paddingTop: 10,
