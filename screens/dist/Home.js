@@ -56,6 +56,7 @@ var Home = function () {
     var dateCurr = '05/28/2013';
     var dateTo = '05/22/2013'; */
     function check(dF, dT, dC) {
+        //convert dates to 'day/month/year' format
         var dateFrom = moment_1["default"](new Date(dF)).format('DD/MM/YYYY');
         var dateTo = moment_1["default"](new Date(dT)).format('DD/MM/YYYY');
         var dateCheck = moment_1["default"](new Date(dC)).format('DD/MM/YYYY');
@@ -68,44 +69,102 @@ var Home = function () {
         var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
         var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
         var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
-        console.log(dateFrom, dateTo, dateCheck);
+        //cheack if date is in range of two dates
         return check >= from && check <= to;
+    }
+    function mainDrive(date) {
+        //set data based on date
+        var listInDuration = []; //empty list of piils in range of selected date
+        var listInDurationTimes = []; //empty list of times in date range
+        var pills = [];
+        //check if pills are in ramge of current date
+        demodata_1.demoRemake.forEach(function (element) {
+            if (check(element.startDate, element.endDate, date)) {
+                listInDuration.push(element); //add those in range to the list
+                return;
+            }
+        });
+        //get their times in a day
+        listInDuration.forEach(function (element) {
+            element.times.forEach(function (element) {
+                listInDurationTimes.push(element);
+            });
+        });
+        //remove repeated times
+        listInDurationTimes = __spreadArrays(new Set(listInDurationTimes));
+        var mainReturn = [];
+        //create pill with times
+        listInDurationTimes.forEach(function (element) {
+            var newData = {
+                time: element,
+                pills: [],
+                taken: false
+            };
+            mainReturn.push(newData);
+        });
+        //recreate pills without nested times list but only a specific time
+        listInDuration.forEach(function (ele) {
+            ele.times.forEach(function (element) {
+                var pill = {
+                    id: ele.id,
+                    name: ele.name,
+                    desc: ele.desc,
+                    dosage: ele.dosage,
+                    duration: ele.duration,
+                    timesPerDay: ele.timesPerDay,
+                    time: element,
+                    startDate: ele.startDate,
+                    endDate: ele.endDate,
+                    instructions: ele.instructions
+                };
+                pills.push(pill); //add new piils to list of piils
+            });
+        });
+        //add pills at specific times list
+        mainReturn.forEach(function (ele) {
+            pills.forEach(function (element) {
+                if (element.time === ele.time) {
+                    ele.pills.push(element);
+                }
+            });
+        });
+        //set new data
+        setPillData(mainReturn);
     }
     /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
     exports.d.month(); // 1
-    var _a = react_1.useState(demodata_1.monPills), pillData = _a[0], setPillData = _a[1];
-    var _b = react_1.useState(exports.d.format('dddd')), day = _b[0], setDay = _b[1];
-    var _c = react_1.useState(exports.d.format('ddd MMM D YYYY')), fullDate = _c[0], setFullDate = _c[1];
-    var _d = react_1.useState('today'), header = _d[0], setHeader = _d[1];
-    var _e = react_1.useState(moment_1["default"]()), selectedDate = _e[0], setSelectedDate = _e[1];
-    console.log(check(demodata_1.demoRemake[0].startDate, demodata_1.demoRemake[0].endDate, fullDate));
-    react_1.useEffect(function () {
-        switch (day) {
-            case 'Monday':
-                setPillData(demodata_1.monPills);
-                break;
-            case 'Tuesday':
-                setPillData(demodata_1.tuePills);
-                break;
-            case 'Wednesday':
-                setPillData(demodata_1.wedPills);
-                break;
-            case 'Thursday':
-                setPillData(demodata_1.thuPills);
-                break;
-            case 'Friday':
-                setPillData(demodata_1.friPills);
-                break;
-            case 'Saturday':
-                setPillData(demodata_1.satPills);
-                break;
-            case 'Sunday':
-                setPillData(demodata_1.sunPills);
-                break;
-            default:
-                setPillData([]);
-        }
+    var _a = react_1.useState([]), pillData = _a[0], setPillData = _a[1];
+    var _b = react_1.useState(exports.d.format('dddd MMM D')), fullDate = _b[0], setFullDate = _b[1];
+    var _c = react_1.useState('today'), header = _c[0], setHeader = _c[1];
+    var _d = react_1.useState(moment_1["default"]()), selectedDate = _d[0], setSelectedDate = _d[1];
+    /*   useEffect(() => {
+      switch (day) {
+        case 'Monday':
+          setPillData(monPills);
+          break;
+        case 'Tuesday':
+          setPillData(tuePills);
+          break;
+        case 'Wednesday':
+          setPillData(wedPills);
+          break;
+        case 'Thursday':
+          setPillData(thuPills);
+          break;
+        case 'Friday':
+          setPillData(friPills);
+          break;
+        case 'Saturday':
+          setPillData(satPills);
+          break;
+        case 'Sunday':
+          setPillData(sunPills);
+          break;
+        default:
+          setPillData([]);
+      }
     }, [day]);
+   */
     react_1.useEffect(function () {
         if (fullDate === exports.d.format('dddd MMM D')) {
             setHeader('today');
@@ -114,10 +173,10 @@ var Home = function () {
             setHeader(fullDate);
         }
     }, [fullDate]);
-    var _f = react_1.useState(false), showCalendar = _f[0], setShowCalendar = _f[1];
+    var _e = react_1.useState(false), showCalendar = _e[0], setShowCalendar = _e[1];
     var pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
     /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
-    var _g = react_1.useState(false), confetti = _g[0], setConfetti = _g[1];
+    var _f = react_1.useState(false), confetti = _f[0], setConfetti = _f[1];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
         react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, pillDataX: pillData, setPillDataX: setPillData, index: data.index, confetti: confetti, setConfetti: setConfetti, setShowNotif: setShowNotif, setMessage: setMessage }))); };
     var renderHiddenItem = function (data, rowMap) {
@@ -149,12 +208,12 @@ var Home = function () {
             } },
             react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'white' })));
     };
-    var _h = react_1.useState(false), newPill = _h[0], setPillModal = _h[1];
-    var _j = react_1.useState(false), settings = _j[0], setSettings = _j[1];
-    var _k = react_1.useState(false), myPills = _k[0], setMyPills = _k[1];
-    var _l = react_1.useState(false), loading = _l[0], setLoading = _l[1];
-    var _m = react_1.useState(true), splash = _m[0], setSplash = _m[1];
-    var _o = react_1.useState(false), notifications = _o[0], setNotifications = _o[1];
+    var _g = react_1.useState(false), newPill = _g[0], setPillModal = _g[1];
+    var _h = react_1.useState(false), settings = _h[0], setSettings = _h[1];
+    var _j = react_1.useState(false), myPills = _j[0], setMyPills = _j[1];
+    var _k = react_1.useState(false), loading = _k[0], setLoading = _k[1];
+    var _l = react_1.useState(true), splash = _l[0], setSplash = _l[1];
+    var _m = react_1.useState(false), notifications = _m[0], setNotifications = _m[1];
     var Loading = function () { return (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: {
             display: 'flex',
             flex: 1,
@@ -183,13 +242,14 @@ var Home = function () {
     /*  make shift splash screen  */
     react_1.useEffect(function () {
         setTimeout(function () {
+            mainDrive(exports.d.format('ddd MMM D YYYY'));
             setSplash(false);
         }, 500);
     }, []);
-    var _p = react_1.useState(false), showNotif = _p[0], setShowNotif = _p[1];
-    var _q = react_1.useState(false), me = _q[0], setMe = _q[1];
-    var _r = react_1.useState(false), deleteAllPills = _r[0], setDeleteAllPills = _r[1];
-    var _s = react_1.useState(''), message = _s[0], setMessage = _s[1];
+    var _o = react_1.useState(false), showNotif = _o[0], setShowNotif = _o[1];
+    var _p = react_1.useState(false), me = _p[0], setMe = _p[1];
+    var _q = react_1.useState(false), deleteAllPills = _q[0], setDeleteAllPills = _q[1];
+    var _r = react_1.useState(''), message = _r[0], setMessage = _r[1];
     react_1.useEffect(function () {
         setTimeout(function () {
             setShowNotif(false);
@@ -290,8 +350,8 @@ var Home = function () {
                                 }, enableSwipeMonths: true, onDayPress: function (date) {
                                     setLoading(true);
                                     setTimeout(function () {
-                                        setDay(moment_1["default"](date.dateString.toLocaleString()).format('dddd'));
-                                        setFullDate(moment_1["default"](date.dateString.toLocaleString()).format('ddd MMM D YYYY'));
+                                        mainDrive(moment_1["default"](date.dateString.toLocaleString()).format('ddd MMM D YYYY'));
+                                        setFullDate(moment_1["default"](date.dateString.toLocaleString()).format('dddd MMM D'));
                                         setSelectedDate(moment_1["default"](date.dateString.toLocaleString()));
                                         setLoading(false);
                                     }, 250);
@@ -300,27 +360,9 @@ var Home = function () {
                                         color: '#2CA6FF',
                                         selected: true,
                                         startingDay: true,
-                                        endingDay: false,
+                                        endingDay: true,
                                         marked: true,
                                         dotColor: '#132342'
-                                    },
-                                    _a['2023-01-20'] = {
-                                        color: '#2CA6FF',
-                                        selected: true,
-                                        startingDay: false,
-                                        endingDay: false
-                                    },
-                                    _a['2023-01-21'] = {
-                                        color: '#2CA6FF',
-                                        selected: true,
-                                        startingDay: false,
-                                        endingDay: false
-                                    },
-                                    _a['2023-01-22'] = {
-                                        color: '#2CA6FF',
-                                        selected: true,
-                                        startingDay: false,
-                                        endingDay: true
                                     },
                                     _a) }))),
                         react_1["default"].createElement(react_native_calendar_strip_1["default"], { scrollable: true, scrollerPaging: true, calendarHeaderStyle: { display: 'none' }, style: {
@@ -341,14 +383,14 @@ var Home = function () {
                             }, iconStyle: { display: 'none' }, selectedDate: selectedDate, onDateSelected: function (date) {
                                 setLoading(true);
                                 setTimeout(function () {
-                                    setDay(date.format('dddd'));
-                                    setFullDate(date.format('ddd MMM D YYYY'));
+                                    mainDrive(date.format('ddd MMM D YYYY'));
+                                    setFullDate(date.format('dddd MMM D'));
                                     setSelectedDate(date);
                                     setLoading(false);
                                 }, 250);
                             } }),
                         pillData.length === 0 && react_1["default"].createElement(Empty, null)));
-                }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== exports.d.format('ddd MMM D YYYY'), disableRightSwipe: fullDate !== exports.d.format('ddd MMM D YYYY'), focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { paddingTop: 5, paddingBottom: 15 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })))));
+                }, recalculateHiddenLayout: true, alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, disableLeftSwipe: fullDate !== exports.d.format('dddd MMM D'), disableRightSwipe: true, focusable: true, closeOnRowBeginSwipe: true, closeOnScroll: true, bouncesZoom: true, scrollEnabled: true, useAnimatedList: true, style: { paddingTop: 5, paddingBottom: 15 }, data: pillData, renderItem: renderItem, renderHiddenItem: renderHiddenItem, rightOpenValue: -70, previewRowKey: '0', previewOpenValue: -40, previewOpenDelay: 3000 })))));
 };
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({

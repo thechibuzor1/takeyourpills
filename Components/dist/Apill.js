@@ -20,18 +20,26 @@ var Apill = function (_a) {
                 paddingBottom: 0
             } },
             react_1["default"].createElement(react_native_1.View, { style: {
-                    alignSelf: 'flex-end',
+                    display: 'flex',
                     flexDirection: 'row',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     marginTop: 10
                 } },
-                react_1["default"].createElement(react_native_1.TouchableOpacity, null,
-                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), size: 24, style: { marginRight: 15 }, color: '#000000' })),
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
-                        setPillActive(false);
-                        setCurrentPill(null);
-                    }, activeOpacity: 0.5 },
-                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: {}, size: 30, color: 'black' }))),
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.7 },
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('trash-can'), size: 25, style: { marginRight: 15 }, color: 'red' })),
+                react_1["default"].createElement(react_native_1.View, { style: {
+                        alignSelf: 'flex-end',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    } },
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.7 },
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), size: 24, style: { marginRight: 15 }, color: '#000000' })),
+                    react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                            setPillActive(false);
+                            setCurrentPill(null);
+                        }, activeOpacity: 0.5 },
+                        react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('xmark'), style: {}, size: 30, color: 'black' })))),
             react_1["default"].createElement(react_native_1.View, { style: {
                     display: 'flex',
                     flexDirection: 'row',
@@ -93,9 +101,7 @@ var Apill = function (_a) {
                 react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
                     "Times:",
                     ' ',
-                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } },
-                        data.times,
-                        " ")),
+                    react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.times)),
                 react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
                     "Start date:",
                     ' ',

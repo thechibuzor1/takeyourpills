@@ -65,7 +65,7 @@ const DeleteAllPills = ({setDeleteAllPills}) => {
 
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Yes, I'am sure 😪
+              Yes, I'm sure 😪
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

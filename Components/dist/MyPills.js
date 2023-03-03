@@ -6,6 +6,7 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
 var Apill_1 = require("./Apill");
+var demodata_1 = require("../demodata");
 var MyPills = function (_a) {
     var setMyPills = _a.setMyPills;
     var _b = react_1.useState(''), active = _b[0], setActive = _b[1];
@@ -18,55 +19,58 @@ var MyPills = function (_a) {
         }
         setActive(name);
     }
-    var PillBlocks = function (props) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
-            setCurrentPill(props);
-            setPillActive(true);
-        }, activeOpacity: 0.8, style: {
-            padding: 16,
-            backgroundColor: props.color,
-            borderRadius: 15,
-            margin: 5,
-            justifyContent: 'center',
-            marginBottom: 20
-        } },
-        react_1["default"].createElement(react_native_1.View, { style: {
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between'
+    var PillBlocks = function (_a) {
+        var props = _a.props;
+        return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                setCurrentPill(props);
+                setPillActive(true);
+            }, activeOpacity: 0.8, style: {
+                padding: 16,
+                backgroundColor: '#132342',
+                borderRadius: 15,
+                margin: 5,
+                justifyContent: 'center',
+                marginBottom: 20
             } },
             react_1["default"].createElement(react_native_1.View, { style: {
                     display: 'flex',
                     flexDirection: 'row',
-                    alignItems: 'center'
+                    justifyContent: 'space-between'
                 } },
-                react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('pills'), size: 20, style: { marginRight: 5 }, color: props.color === '#132342' ? '#ffffff' : '#000000' }),
-                react_1["default"].createElement(react_native_1.Text, { style: {
-                        fontSize: 28,
-                        fontFamily: 'Satoshi-Bold',
-                        color: props.color === '#132342' ? '#ffffff' : '#000000',
-                        width: '80%'
-                    } }, props.name)),
-            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('circle-info'), size: 24, color: '#ffffff', style: {
+                react_1["default"].createElement(react_native_1.View, { style: {
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center'
+                    } },
+                    react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('pills'), size: 20, style: { marginRight: 5 }, color: '#ffffff' }),
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            fontSize: 28,
+                            fontFamily: 'Satoshi-Bold',
+                            color: '#ffffff',
+                            width: '80%'
+                        } }, props.name)),
+                react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('circle-info'), size: 24, color: '#ffffff', style: {
+                        marginTop: 5,
+                        marginLeft: 5
+                    } })),
+            react_1["default"].createElement(react_native_1.Text, { style: {
+                    fontSize: 16,
+                    fontFamily: 'Satoshi-Bold',
+                    marginTop: 15,
+                    color: '#ffffff'
+                } },
+                "Dosage: ",
+                props.dosage),
+            react_1["default"].createElement(react_native_1.Text, { style: {
+                    fontSize: 16,
+                    fontFamily: 'Satoshi-Bold',
                     marginTop: 5,
-                    marginLeft: 5
-                } })),
-        react_1["default"].createElement(react_native_1.Text, { style: {
-                fontSize: 16,
-                fontFamily: 'Satoshi-Bold',
-                marginTop: 15,
-                color: props.color === '#132342' ? '#ffffff' : '#000000'
-            } },
-            "Dosage: ",
-            props.dosage),
-        react_1["default"].createElement(react_native_1.Text, { style: {
-                fontSize: 16,
-                fontFamily: 'Satoshi-Bold',
-                marginTop: 5,
-                marginBottom: 15,
-                color: props.color === '#132342' ? '#ffffff' : '#000000'
-            } },
-            "Days Left: ",
-            props.daysLeft))); };
+                    marginBottom: 15,
+                    color: '#ffffff'
+                } },
+                "Days Left: ",
+                props.daysLeft)));
+    };
     var FilterButtons = function (props) { return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return handleActive(props.name); }, activeOpacity: 0.7, style: {
             padding: 15,
             backgroundColor: active === props.name ? '#000000' : '#ffffff',
@@ -134,15 +138,8 @@ var MyPills = function (_a) {
                         alignSelf: 'center',
                         marginTop: 5
                     } }),
-                react_1["default"].createElement(react_native_1.ScrollView, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 } },
-                    react_1["default"].createElement(PillBlocks, { name: 'Nora - BE', color: '#132342', dosage: 3, daysLeft: 15 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Phenol H - BE', color: '#FF66CC', dosage: 2, daysLeft: 5 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Paracetamol', color: '#EF6F3A', dosage: 3, daysLeft: 3 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Nora - BE', color: '#132342', dosage: 3, daysLeft: 15 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Phillel -B', color: '#EF6F3A', dosage: 3, daysLeft: 4 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Phillel - BE', color: '#00958A', dosage: 3, daysLeft: 41 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Phillel - BE', color: '#EF6F3A', dosage: 3, daysLeft: 4 }),
-                    react_1["default"].createElement(PillBlocks, { name: 'Nora - BE', color: '#ED1D24', dosage: 3, daysLeft: 15 }))))));
+                react_1["default"].createElement(react_native_1.FlatList, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 }, data: demodata_1.demoRemake, renderItem: function (data) { return react_1["default"].createElement(PillBlocks, { props: data.item }); } }),
+                react_1["default"].createElement(react_native_1.ScrollView, null)))));
 };
 exports["default"] = MyPills;
 var styles = react_native_1.StyleSheet.create({});

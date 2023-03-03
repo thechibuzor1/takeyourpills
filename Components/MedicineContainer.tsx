@@ -108,7 +108,8 @@ const MedicineContainer = ({
             <TouchableOpacity
               key={pill.id}
               style={{marginTop: 0}}
-              onPress={() => handleActive(pill)}>
+              onPress={() => handleActive(pill)}
+              activeOpacity={0.7}>
               {active !== pill.id ? (
                 <View>
                   <Text
@@ -209,7 +210,7 @@ const MedicineContainer = ({
                       },
                       style.textColor,
                     ]}>
-                    Instructions: {pill.instruction}
+                    Instructions: {pill.instructions}
                   </Text>
                   <Text
                     style={[

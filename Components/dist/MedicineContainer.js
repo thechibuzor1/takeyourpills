@@ -68,7 +68,7 @@ var MedicineContainer = function (_a) {
         react_1["default"].createElement(react_native_1.View, { style: __assign({}, style.box) },
             confetti && props.taken && (react_1["default"].createElement(lottie_react_native_1["default"], { style: { height: 200, position: 'absolute', right: 0, top: '25%' }, source: require('../assets/confetti.json'), autoPlay: true, speed: 2 })),
             props.pills.map(function (pill) {
-                return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { marginTop: 0 }, onPress: function () { return handleActive(pill); } }, active !== pill.id ? (react_1["default"].createElement(react_native_1.View, null,
+                return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { marginTop: 0 }, onPress: function () { return handleActive(pill); }, activeOpacity: 0.7 }, active !== pill.id ? (react_1["default"].createElement(react_native_1.View, null,
                     react_1["default"].createElement(react_native_1.Text, { style: [
                             {
                                 fontSize: 28,
@@ -130,7 +130,7 @@ var MedicineContainer = function (_a) {
                             style.textColor,
                         ] },
                         "Instructions: ",
-                        pill.instruction),
+                        pill.instructions),
                     react_1["default"].createElement(react_native_1.Text, { style: [
                             {
                                 marginLeft: 15,

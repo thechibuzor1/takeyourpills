@@ -48,7 +48,7 @@ var DeleteAllPills = function (_a) {
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             color: 'red',
                             fontFamily: 'Satoshi-Bold'
-                        } }, "Yes, I'am sure \uD83D\uDE2A")),
+                        } }, "Yes, I'm sure \uD83D\uDE2A")),
                 react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return setDeleteAllPills(false); }, activeOpacity: 0.7, style: {
                         padding: 16,
                         backgroundColor: 'white',

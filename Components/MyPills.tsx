@@ -6,12 +6,14 @@ import {
   View,
   TouchableOpacity,
   Modal,
+  FlatList,
 } from 'react-native';
 import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
 import Apill from './Apill';
+import {demoRemake} from '../demodata';
 
 const MyPills = ({setMyPills}) => {
   const [active, setActive] = useState<string>('');
@@ -26,7 +28,7 @@ const MyPills = ({setMyPills}) => {
     setActive(name);
   }
 
-  const PillBlocks = props => (
+  const PillBlocks = ({props}) => (
     <TouchableOpacity
       onPress={() => {
         setCurrentPill(props);
@@ -35,7 +37,7 @@ const MyPills = ({setMyPills}) => {
       activeOpacity={0.8}
       style={{
         padding: 16,
-        backgroundColor: props.color,
+        backgroundColor: '#132342',
         borderRadius: 15,
         margin: 5,
         justifyContent: 'center',
@@ -57,13 +59,13 @@ const MyPills = ({setMyPills}) => {
             icon={solid('pills')}
             size={20}
             style={{marginRight: 5}}
-            color={props.color === '#132342' ? '#ffffff' : '#000000'}
+            color={'#ffffff'}
           />
           <Text
             style={{
               fontSize: 28,
               fontFamily: 'Satoshi-Bold',
-              color: props.color === '#132342' ? '#ffffff' : '#000000',
+              color: '#ffffff',
               width: '80%',
             }}>
             {props.name}
@@ -85,7 +87,7 @@ const MyPills = ({setMyPills}) => {
           fontSize: 16,
           fontFamily: 'Satoshi-Bold',
           marginTop: 15,
-          color: props.color === '#132342' ? '#ffffff' : '#000000',
+          color: '#ffffff',
         }}>
         Dosage: {props.dosage}
       </Text>
@@ -95,7 +97,7 @@ const MyPills = ({setMyPills}) => {
           fontFamily: 'Satoshi-Bold',
           marginTop: 5,
           marginBottom: 15,
-          color: props.color === '#132342' ? '#ffffff' : '#000000',
+          color: '#ffffff',
         }}>
         Days Left: {props.daysLeft}
       </Text>
@@ -230,61 +232,17 @@ const MyPills = ({setMyPills}) => {
               marginTop: 5,
             }}
           />
-          <ScrollView
+
+          <FlatList
             alwaysBounceVertical
             showsVerticalScrollIndicator={false}
             bounces
             bouncesZoom
-            style={{paddingTop: 15}}>
-            <PillBlocks
-              name={'Nora - BE'}
-              color={'#132342'}
-              dosage={3}
-              daysLeft={15}
-            />
-            <PillBlocks
-              name={'Phenol H - BE'}
-              color={'#FF66CC'}
-              dosage={2}
-              daysLeft={5}
-            />
-            <PillBlocks
-              name={'Paracetamol'}
-              color={'#EF6F3A'}
-              dosage={3}
-              daysLeft={3}
-            />
-            <PillBlocks
-              name={'Nora - BE'}
-              color={'#132342'}
-              dosage={3}
-              daysLeft={15}
-            />
-            <PillBlocks
-              name={'Phillel -B'}
-              color={'#EF6F3A'}
-              dosage={3}
-              daysLeft={4}
-            />
-            <PillBlocks
-              name={'Phillel - BE'}
-              color={'#00958A'}
-              dosage={3}
-              daysLeft={41}
-            />
-            <PillBlocks
-              name={'Phillel - BE'}
-              color={'#EF6F3A'}
-              dosage={3}
-              daysLeft={4}
-            />
-            <PillBlocks
-              name={'Nora - BE'}
-              color={'#ED1D24'}
-              dosage={3}
-              daysLeft={15}
-            />
-          </ScrollView>
+            style={{paddingTop: 15}}
+            data={demoRemake}
+            renderItem={data => <PillBlocks props={data.item} />}
+          />
+          <ScrollView></ScrollView>
         </ImageBackground>
       </View>
     </>

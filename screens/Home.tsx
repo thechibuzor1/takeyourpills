@@ -14,7 +14,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useEffect, useMemo, useState, useRef} from 'react';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import {Calendar} from 'react-native-calendars';
 import {Divider, Badge} from 'react-native-elements';
 import CalendarStrip from 'react-native-calendar-strip';
 import moment from 'moment';
@@ -70,6 +70,7 @@ const Home = () => {
   var dateTo = '05/22/2013'; */
 
   function check(dF: string, dT: string, dC: string) {
+    //convert dates to 'day/month/year' format
     var dateFrom = moment(new Date(dF)).format('DD/MM/YYYY');
     var dateTo = moment(new Date(dT)).format('DD/MM/YYYY');
     var dateCheck = moment(new Date(dC)).format('DD/MM/YYYY');
@@ -85,24 +86,84 @@ const Home = () => {
     var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
     var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
     var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
-
-    console.log(dateFrom, dateTo, dateCheck);
-
+    //cheack if date is in range of two dates
     return check >= from && check <= to;
   }
 
+  function mainDrive(date) {
+    //set data based on date
+    var listInDuration = []; //empty list of piils in range of selected date
+    var listInDurationTimes = []; //empty list of times in date range
+    var pills = [];
+
+    //check if pills are in ramge of current date
+    demoRemake.forEach(element => {
+      if (check(element.startDate, element.endDate, date)) {
+        listInDuration.push(element); //add those in range to the list
+        return;
+      }
+    });
+
+    //get their times in a day
+    listInDuration.forEach(element => {
+      element.times.forEach(element => {
+        listInDurationTimes.push(element);
+      });
+    });
+    //remove repeated times
+    listInDurationTimes = [...new Set(listInDurationTimes)];
+
+    var mainReturn = [];
+
+    //create pill with times
+    listInDurationTimes.forEach(element => {
+      const newData = {
+        time: element,
+        pills: [],
+        taken: false,
+      };
+      mainReturn.push(newData);
+    });
+
+    //recreate pills without nested times list but only a specific time
+    listInDuration.forEach(ele => {
+      ele.times.forEach(element => {
+        const pill = {
+          id: ele.id,
+          name: ele.name,
+          desc: ele.desc,
+          dosage: ele.dosage,
+          duration: ele.duration,
+          timesPerDay: ele.timesPerDay,
+          time: element, //from [] to string
+          startDate: ele.startDate,
+          endDate: ele.endDate,
+          instructions: ele.instructions,
+        };
+        pills.push(pill); //add new piils to list of piils
+      });
+    });
+
+    //add pills at specific times list
+    mainReturn.forEach(ele => {
+      pills.forEach(element => {
+        if (element.time === ele.time) {
+          ele.pills.push(element);
+        }
+      });
+    });
+    //set new data
+    setPillData(mainReturn);
+  }
   /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
 
   d.month(); // 1
-  const [pillData, setPillData] = useState(monPills);
-  const [day, setDay] = useState(d.format('dddd'));
-  const [fullDate, setFullDate] = useState(d.format('ddd MMM D YYYY'));
+  const [pillData, setPillData] = useState([]);
+  const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
   const [selectedDate, setSelectedDate] = useState(moment());
 
-  console.log(check(demoRemake[0].startDate, demoRemake[0].endDate, fullDate));
-
-  useEffect(() => {
+  /*   useEffect(() => {
     switch (day) {
       case 'Monday':
         setPillData(monPills);
@@ -129,6 +190,8 @@ const Home = () => {
         setPillData([]);
     }
   }, [day]);
+ */
+
   useEffect(() => {
     if (fullDate === d.format('dddd MMM D')) {
       setHeader('today');
@@ -255,6 +318,7 @@ const Home = () => {
   /*  make shift splash screen  */
   useEffect(() => {
     setTimeout(() => {
+      mainDrive(d.format('ddd MMM D YYYY'));
       setSplash(false);
     }, 500);
   }, []);
@@ -491,19 +555,20 @@ const Home = () => {
                       onDayPress={date => {
                         setLoading(true);
                         setTimeout(() => {
-                          setDay(
+                          mainDrive(
                             moment(date.dateString.toLocaleString()).format(
-                              'dddd',
+                              'ddd MMM D YYYY',
                             ),
                           );
                           setFullDate(
                             moment(date.dateString.toLocaleString()).format(
-                              'ddd MMM D YYYY',
+                              'dddd MMM D',
                             ),
                           );
                           setSelectedDate(
                             moment(date.dateString.toLocaleString()),
                           );
+
                           setLoading(false);
                         }, 250);
                       }}
@@ -514,27 +579,9 @@ const Home = () => {
                           color: '#2CA6FF',
                           selected: true,
                           startingDay: true,
-                          endingDay: false,
+                          endingDay: true,
                           marked: true,
                           dotColor: '#132342',
-                        },
-                        '2023-01-20': {
-                          color: '#2CA6FF',
-                          selected: true,
-                          startingDay: false,
-                          endingDay: false,
-                        },
-                        '2023-01-21': {
-                          color: '#2CA6FF',
-                          selected: true,
-                          startingDay: false,
-                          endingDay: false,
-                        },
-                        '2023-01-22': {
-                          color: '#2CA6FF',
-                          selected: true,
-                          startingDay: false,
-                          endingDay: true,
                         },
                       }}
                     />
@@ -571,8 +618,8 @@ const Home = () => {
                   onDateSelected={date => {
                     setLoading(true);
                     setTimeout(() => {
-                      setDay(date.format('dddd'));
-                      setFullDate(date.format('ddd MMM D YYYY'));
+                      mainDrive(date.format('ddd MMM D YYYY'));
+                      setFullDate(date.format('dddd MMM D'));
                       setSelectedDate(date);
                       setLoading(false);
                     }, 250);
@@ -585,8 +632,8 @@ const Home = () => {
             alwaysBounceVertical
             showsVerticalScrollIndicator={false}
             bounces
-            disableLeftSwipe={fullDate !== d.format('ddd MMM D YYYY')}
-            disableRightSwipe={fullDate !== d.format('ddd MMM D YYYY')}
+            disableLeftSwipe={fullDate !== d.format('dddd MMM D')}
+            disableRightSwipe={true}
             focusable
             closeOnRowBeginSwipe
             closeOnScroll
