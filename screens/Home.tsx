@@ -32,9 +32,10 @@ import NotificationBar from '../Components/NotificationBar';
 import MyPills from '../Components/MyPills';
 import Me from '../Components/Me';
 import DeleteAllPills from '../Components/DeleteAllPills';
-export function dateDifference(startDate, endDate) {
+import HiddenItem from '../Components/HiddenItem';
+/* export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
-}
+} */
 const date = new Date();
 export var d = moment(date);
 
@@ -131,6 +132,7 @@ const Home = () => {
           startDate: ele.startDate,
           endDate: ele.endDate,
           instructions: ele.instructions,
+          daysTaken: ele.daysTaken,
         };
         pills.push(pill); //add new piils to list of piils
       });
@@ -206,47 +208,18 @@ const Home = () => {
         props={data.item}
         confetti={confetti}
         setConfetti={setConfetti}
+        day={day}
       />
     </View>
   );
-  const renderHiddenItem = (data, rowMap) => {
-    function handleTaken() {
-      const newPillData = [...pillData];
-      const newData = {
-        time: data.item.time,
-        pills: data.item.pills,
-        taken: true,
-      };
-      newPillData[data.index] = newData;
-      setPillData(newPillData);
-      setConfetti(true);
-    }
-
-    return (
-      <TouchableOpacity
-        /*  onPress={handleAnimation} */
-        onPress={handleTaken}
-        activeOpacity={0.8}
-        style={{
-          alignSelf: 'flex-end',
-          justifyContent: 'center',
-          alignItems: 'flex-end',
-          width: 150,
-          height: 300 * data.item.pills.length,
-          borderRadius: 15,
-          backgroundColor: '#2CA6FF',
-          marginRight: 15,
-          display: data.item.taken ? 'none' : 'flex',
-        }}>
-        <FontAwesomeIcon
-          icon={solid('check')}
-          style={{marginRight: 25}}
-          size={24}
-          color={'white'}
-        />
-      </TouchableOpacity>
-    );
-  };
+  const renderHiddenItem = data => (
+    <HiddenItem
+      props={data.item}
+      filterData={filterData}
+      setFilterData={setFilterData}
+      mainDrive={mainDrive}
+    />
+  );
 
   const [newPill, setPillModal] = useState<boolean>(false);
   const [settings, setSettings] = useState<boolean>(false);

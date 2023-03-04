@@ -82,6 +82,7 @@ const NewPill = ({
       startDate: startDate,
       endDate: moment(endDate).format('ddd MMM D YYYY'),
       instructions: instructions,
+      daysTaken: [],
     };
 
     clonedData.push(newPills);
@@ -412,6 +413,7 @@ const NewPill = ({
                   onConfirm={data => {
                     let date = moment(data);
                     setMorningTime(date.format('H:mm'));
+                    setMorningVisibility(false);
                   }}
                   onCancel={() => setMorningVisibility(false)}
                 />
@@ -452,6 +454,7 @@ const NewPill = ({
                   onConfirm={data => {
                     let date = moment(data);
                     setMorningTime(date.format('H:mm'));
+                    setMorningVisibility(false);
                   }}
                   onCancel={() => setMorningVisibility(false)}
                 />
@@ -488,6 +491,7 @@ const NewPill = ({
                   onConfirm={data => {
                     let date = moment(data);
                     setEveningTime(date.format('H:mm'));
+                    setEveningVisibility(false);
                   }}
                   onCancel={() => setEveningVisibility(false)}
                 />
@@ -528,6 +532,7 @@ const NewPill = ({
                   onConfirm={data => {
                     let date = moment(data);
                     setMorningTime(date.format('H:mm'));
+                    setMorningVisibility(false);
                   }}
                   onCancel={() => setMorningVisibility(false)}
                 />
@@ -564,6 +569,7 @@ const NewPill = ({
                   onConfirm={data => {
                     let date = moment(data);
                     setAfternoonTime(date.format('H:mm'));
+                    setAfternoonVisibility(false);
                   }}
                   onCancel={() => setAfternoonVisibility(false)}
                 />
@@ -600,12 +606,12 @@ const NewPill = ({
                   onConfirm={data => {
                     let date = moment(data);
                     setEveningTime(date.format('H:mm'));
+                    setEveningVisibility(false);
                   }}
                   onCancel={() => setEveningVisibility(false)}
                 />
               </>
             )}
-
             <Text
               style={{
                 color: 'black',

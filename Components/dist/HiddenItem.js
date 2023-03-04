@@ -12,17 +12,67 @@ var react_1 = require("react");
 var Home_1 = require("../screens/Home");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
-var HiddenItem = function (data, rowMap) {
+var HiddenItem = function (_a) {
+    var props = _a.props, filterData = _a.filterData, setFilterData = _a.setFilterData, mainDrive = _a.mainDrive;
+    var _b = react_1.useState(false), taken = _b[0], setTaken = _b[1];
+    var pillCount = props.pills.length;
+    var takenCount = 0;
+    var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
+    var windowOpen = Number(props.time.replace(':', '')) - 300;
+    var windowClosed = Number(props.time.replace(':', '')) + 300;
+    props.pills.forEach(function (element) {
+        element.daysTaken.forEach(function (elem) {
+            if (elem.date === Home_1.d.format('ddd MMM D YYYY')) {
+                elem.time.forEach(function (i) {
+                    if (Number(i.replace(':', '')) > windowOpen &&
+                        Number(i.replace(':', '')) < windowClosed) {
+                        takenCount += 1;
+                    }
+                });
+            }
+        });
+    });
+    react_1.useEffect(function () {
+        if (takenCount === pillCount) {
+            setTaken(true);
+        }
+        else {
+            setTaken(false);
+        }
+    }, [takenCount, pillCount]);
     function handleTaken() {
-        var newPillData = __spreadArrays(Home_1.pillData);
-        var newData = {
-            time: data.item.time,
-            pills: data.item.pills,
-            taken: true
-        };
-        newPillData[data.index] = newData;
-        Home_1.setPillData(newPillData);
+        var clonedData = __spreadArrays(filterData);
+        var pills = props.pills;
+        clonedData.forEach(function (ele) {
+            pills.forEach(function (element) {
+                if (element.id === ele.id) {
+                    if (ele.daysTaken.length === 0) {
+                        ele.daysTaken.push({
+                            date: Home_1.d.format('ddd MMM D YYYY'),
+                            time: [Home_1.d.format('HH:mm')]
+                        });
+                    }
+                    else {
+                        ele.daysTaken.forEach(function (elem) {
+                            if (elem.date === Home_1.d.format('ddd MMM D YYYY')) {
+                                elem.time.push(Home_1.d.format('HH:mm'));
+                            }
+                            else {
+                                ele.daysTaken.push({
+                                    date: Home_1.d.format('ddd MMM D YYYY'),
+                                    time: [Home_1.d.format('HH:mm')]
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        });
+        setFilterData(clonedData);
+        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
     }
+    /* console.log(diff(props.time, d.format('HH:mm'))); */
+    /*  console.log(Number(d.format('HH:mm').replace(':', ''))); */
     return (react_1["default"].createElement(react_native_1.TouchableOpacity
     /*  onPress={handleAnimation} */
     , { 
@@ -32,11 +82,13 @@ var HiddenItem = function (data, rowMap) {
             justifyContent: 'center',
             alignItems: 'flex-end',
             width: 150,
-            height: 300 * data.item.pills.length,
+            height: 300 * props.pills.length,
             borderRadius: 15,
             backgroundColor: '#2CA6FF',
             marginRight: 15,
-            display: data.item.taken ? 'none' : 'flex'
+            display: currentTime >= windowOpen && currentTime <= windowClosed && !taken
+                ? 'flex'
+                : 'none'
         } },
         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'white' })));
 };

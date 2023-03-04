@@ -317,8 +317,9 @@ exports.demoRemake = [
         timesPerDay: 1,
         times: ['9:00'],
         startDate: 'Wed Mar 1 2023',
-        endDate: 'Fri Mar 3 2023',
-        instructions: 'Take after a meal'
+        endDate: 'Fri Mar 13 2023',
+        instructions: 'Take after a meal',
+        daysTaken: [{ date: 'Sat Mar 4 2023', time: ['10:00'] }]
     },
     {
         id: 2,
@@ -330,7 +331,8 @@ exports.demoRemake = [
         times: ['9:00', '14:00'],
         startDate: 'Thu Feb 2 2023',
         endDate: 'Fri Mar 3 2023',
-        instructions: 'Take after a meal'
+        instructions: 'Take after a meal',
+        daysTaken: [{ date: 'Wed Mar 1 2023', time: ['10:00', '13:00'] }]
     },
     {
         id: 3,
@@ -342,7 +344,8 @@ exports.demoRemake = [
         times: ['7:00'],
         startDate: 'Thu May 4 2023',
         endDate: 'Sat May 20 2023',
-        instructions: 'Take after a meal'
+        instructions: 'Take after a meal',
+        daysTaken: []
     },
     {
         id: 4,
@@ -354,6 +357,10 @@ exports.demoRemake = [
         times: ['7:00', '14:00', '19:00'],
         startDate: 'Thu Jun 15 2023',
         endDate: 'Tue Jun 27 2023',
-        instructions: 'Take after a meal'
+        instructions: 'Take after a meal',
+        daysTaken: [
+            { date: 'Thu Jun 15 2023', time: ['9:00', '13;30', '20:00'] },
+            { date: 'Thu Jun 17 2023', time: ['9:00', '13;30', '20:00'] },
+        ]
     },
 ];

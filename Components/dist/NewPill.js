@@ -60,7 +60,8 @@ var NewPill = function (_a) {
                     : [morningTime, afternoonTime, eveningTime],
             startDate: startDate,
             endDate: moment_1["default"](endDate).format('ddd MMM D YYYY'),
-            instructions: instructions
+            instructions: instructions,
+            daysTaken: []
         };
         clonedData.push(newPills);
         setFilterData(clonedData);
@@ -261,6 +262,7 @@ var NewPill = function (_a) {
                         react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: isMorning, mode: "time", onConfirm: function (data) {
                                 var date = moment_1["default"](data);
                                 setMorningTime(date.format('H:mm'));
+                                setMorningVisibility(false);
                             }, onCancel: function () { return setMorningVisibility(false); } }))),
                     value === 2 && (react_1["default"].createElement(react_1["default"].Fragment, null,
                         react_1["default"].createElement(react_native_1.View, { style: {
@@ -279,6 +281,7 @@ var NewPill = function (_a) {
                         react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: isMorning, mode: "time", onConfirm: function (data) {
                                 var date = moment_1["default"](data);
                                 setMorningTime(date.format('H:mm'));
+                                setMorningVisibility(false);
                             }, onCancel: function () { return setMorningVisibility(false); } }),
                         react_1["default"].createElement(react_native_1.View, { style: {
                                 display: 'flex',
@@ -296,6 +299,7 @@ var NewPill = function (_a) {
                         react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: isEvening, mode: "time", onConfirm: function (data) {
                                 var date = moment_1["default"](data);
                                 setEveningTime(date.format('H:mm'));
+                                setEveningVisibility(false);
                             }, onCancel: function () { return setEveningVisibility(false); } }))),
                     value === 3 && (react_1["default"].createElement(react_1["default"].Fragment, null,
                         react_1["default"].createElement(react_native_1.View, { style: {
@@ -314,6 +318,7 @@ var NewPill = function (_a) {
                         react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: isMorning, mode: "time", onConfirm: function (data) {
                                 var date = moment_1["default"](data);
                                 setMorningTime(date.format('H:mm'));
+                                setMorningVisibility(false);
                             }, onCancel: function () { return setMorningVisibility(false); } }),
                         react_1["default"].createElement(react_native_1.View, { style: {
                                 display: 'flex',
@@ -331,6 +336,7 @@ var NewPill = function (_a) {
                         react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: isAfternoon, mode: "time", onConfirm: function (data) {
                                 var date = moment_1["default"](data);
                                 setAfternoonTime(date.format('H:mm'));
+                                setAfternoonVisibility(false);
                             }, onCancel: function () { return setAfternoonVisibility(false); } }),
                         react_1["default"].createElement(react_native_1.View, { style: {
                                 display: 'flex',
@@ -348,6 +354,7 @@ var NewPill = function (_a) {
                         react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: isEvening, mode: "time", onConfirm: function (data) {
                                 var date = moment_1["default"](data);
                                 setEveningTime(date.format('H:mm'));
+                                setEveningVisibility(false);
                             }, onCancel: function () { return setEveningVisibility(false); } }))),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             color: 'black',

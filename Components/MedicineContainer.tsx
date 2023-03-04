@@ -13,26 +13,70 @@ import React, {useEffect, useMemo, useState, useRef} from 'react';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {d, dateDifference} from '../screens/Home';
+import {d} from '../screens/Home';
 import EditPills from './EditPills';
 import AnimatedLottieView from 'lottie-react-native';
 
-const MedicineContainer = ({props, confetti, setConfetti}) => {
-  var endTime = moment(props.time, 'HH:mm:ss a');
-  var timeDiff = dateDifference(d, endTime);
-  timeDiff = Math.abs(timeDiff);
+const MedicineContainer = ({props, confetti, setConfetti, day}) => {
+  const [taken, setTaken] = useState<string>('NONE');
+  /* how many pills are there??  */
+  const pillCount = props.pills.length;
+  var takenCount = 0;
+  var windowOpen = Number(props.time.replace(':', '')) - 300;
+  var windowClosed = Number(props.time.replace(':', '')) + 300;
+
+  /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
+     
+    } */
+
+  props.pills.forEach(element => {
+    element.daysTaken.forEach(elem => {
+      if (elem.date === day) {
+        elem.time.forEach(ti => {
+          if (
+            Number(ti.replace(':', '')) > windowOpen &&
+            Number(ti.replace(':', '')) < windowClosed
+          ) {
+            takenCount += 1;
+          }
+        });
+      }
+    });
+  });
+
+  useEffect(() => {
+    if (takenCount === pillCount) {
+      setTaken('ALL');
+    } else if (takenCount < pillCount && takenCount > 0) {
+      setTaken('SOME');
+    } else {
+      setTaken('NONE');
+    }
+  }, [takenCount, pillCount]);
+
+  var currentTime = Number(d.format('HH:mm').replace(':', ''));
+  var dataTime = Number(props.time.replace(':', ''));
+
   /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
    */
+
   const style = StyleSheet.create({
     box: {
       borderRadius: 15,
-      backgroundColor: props.taken
-        ? '#69CA90'
-        : timeDiff <= 3 && timeDiff > 0
-        ? '#F9DD71'
-        : timeDiff > 3 && timeDiff <= 6
-        ? '#132342'
-        : '#ECECEC',
+      backgroundColor:
+        day !== d.format('ddd MMM D YYYY')
+          ? '#768692'
+          : taken == 'ALL'
+          ? '#69CA90'
+          : taken == 'SOME'
+          ? '#FFC600'
+          : dataTime < currentTime
+          ? '#ED1D24'
+          : dataTime - currentTime < 300
+          ? '#F9DD71'
+          : dataTime - currentTime > 300 && dataTime - currentTime <= 600
+          ? '#132342'
+          : '#ECECEC',
       display: 'flex',
       width: '95%',
       alignSelf: 'center',
@@ -40,7 +84,10 @@ const MedicineContainer = ({props, confetti, setConfetti}) => {
       height: props.pills.length * 300,
     },
     textColor: {
-      color: timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black',
+      color:
+        dataTime - currentTime > 300 && dataTime - currentTime <= 600
+          ? 'white'
+          : 'black',
     },
   });
   const [active, setActive] = useState(null);
@@ -112,9 +159,10 @@ const MedicineContainer = ({props, confetti, setConfetti}) => {
                     marginTop: 60,
                   }}
                   color={
-                    timeDiff <= 3
+                    dataTime < currentTime
                       ? '#FFFFFF'
-                      : timeDiff > 3 && timeDiff <= 6
+                      : dataTime - currentTime > 300 &&
+                        dataTime - currentTime <= 600
                       ? '#FF66CC'
                       : '#EF6F3A'
                   }

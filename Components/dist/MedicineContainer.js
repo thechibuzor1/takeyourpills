@@ -19,22 +19,59 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var lottie_react_native_1 = require("lottie-react-native");
 var MedicineContainer = function (_a) {
-    var props = _a.props, confetti = _a.confetti, setConfetti = _a.setConfetti;
-    var endTime = moment_1["default"](props.time, 'HH:mm:ss a');
-    var timeDiff = Home_1.dateDifference(Home_1.d, endTime);
-    timeDiff = Math.abs(timeDiff);
+    var props = _a.props, confetti = _a.confetti, setConfetti = _a.setConfetti, day = _a.day;
+    var _b = react_1.useState('NONE'), taken = _b[0], setTaken = _b[1];
+    /* how many pills are there??  */
+    var pillCount = props.pills.length;
+    var takenCount = 0;
+    var windowOpen = Number(props.time.replace(':', '')) - 300;
+    var windowClosed = Number(props.time.replace(':', '')) + 300;
+    /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
+       
+      } */
+    props.pills.forEach(function (element) {
+        element.daysTaken.forEach(function (elem) {
+            if (elem.date === day) {
+                elem.time.forEach(function (ti) {
+                    if (Number(ti.replace(':', '')) > windowOpen &&
+                        Number(ti.replace(':', '')) < windowClosed) {
+                        takenCount += 1;
+                    }
+                });
+            }
+        });
+    });
+    react_1.useEffect(function () {
+        if (takenCount === pillCount) {
+            setTaken('ALL');
+        }
+        else if (takenCount < pillCount && takenCount > 0) {
+            setTaken('SOME');
+        }
+        else {
+            setTaken('NONE');
+        }
+    }, [takenCount, pillCount]);
+    var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
+    var dataTime = Number(props.time.replace(':', ''));
     /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
      */
     var style = react_native_1.StyleSheet.create({
         box: {
             borderRadius: 15,
-            backgroundColor: props.taken
-                ? '#69CA90'
-                : timeDiff <= 3 && timeDiff > 0
-                    ? '#F9DD71'
-                    : timeDiff > 3 && timeDiff <= 6
-                        ? '#132342'
-                        : '#ECECEC',
+            backgroundColor: day !== Home_1.d.format('ddd MMM D YYYY')
+                ? '#768692'
+                : taken == 'ALL'
+                    ? '#69CA90'
+                    : taken == 'SOME'
+                        ? '#FFC600'
+                        : dataTime < currentTime
+                            ? '#ED1D24'
+                            : dataTime - currentTime < 300
+                                ? '#F9DD71'
+                                : dataTime - currentTime > 300 && dataTime - currentTime <= 600
+                                    ? '#132342'
+                                    : '#ECECEC',
             display: 'flex',
             width: '95%',
             alignSelf: 'center',
@@ -42,10 +79,12 @@ var MedicineContainer = function (_a) {
             height: props.pills.length * 300
         },
         textColor: {
-            color: timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black'
+            color: dataTime - currentTime > 300 && dataTime - currentTime <= 600
+                ? 'white'
+                : 'black'
         }
     });
-    var _b = react_1.useState(null), active = _b[0], setActive = _b[1];
+    var _c = react_1.useState(null), active = _c[0], setActive = _c[1];
     function handleActive(pill) {
         if (active !== pill.id) {
             setActive(pill.id);
@@ -82,9 +121,10 @@ var MedicineContainer = function (_a) {
                 react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: props.pills.length > 1 ? import_macro_1.solid('pills') : import_macro_1.solid('tablets'), size: 50, style: {
                         alignSelf: 'center',
                         marginTop: 60
-                    }, color: timeDiff <= 3
+                    }, color: dataTime < currentTime
                         ? '#FFFFFF'
-                        : timeDiff > 3 && timeDiff <= 6
+                        : dataTime - currentTime > 300 &&
+                            dataTime - currentTime <= 600
                             ? '#FF66CC'
                             : '#EF6F3A' }))) : (react_1["default"].createElement(react_native_1.View, null,
                 react_1["default"].createElement(react_native_1.View, { style: {

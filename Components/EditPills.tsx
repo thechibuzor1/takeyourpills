@@ -84,6 +84,7 @@ const EditPills = ({
       startDate: startDate,
       endDate: moment(endDate).format('ddd MMM D YYYY'),
       instructions: instructions,
+      daysTaken: data?.daysTaken,
     };
 
     clonedData[index] = edittedPill;
@@ -411,6 +412,7 @@ const EditPills = ({
                 onConfirm={data => {
                   let date = moment(data);
                   setMorningTime(date.format('H:mm'));
+                  setMorningVisibility(false);
                 }}
                 onCancel={() => setMorningVisibility(false)}
               />
@@ -451,6 +453,7 @@ const EditPills = ({
                 onConfirm={data => {
                   let date = moment(data);
                   setMorningTime(date.format('H:mm'));
+                  setMorningVisibility(false);
                 }}
                 onCancel={() => setMorningVisibility(false)}
               />
@@ -487,6 +490,7 @@ const EditPills = ({
                 onConfirm={data => {
                   let date = moment(data);
                   setEveningTime(date.format('H:mm'));
+                  setEveningVisibility(false);
                 }}
                 onCancel={() => setEveningVisibility(false)}
               />
@@ -527,6 +531,7 @@ const EditPills = ({
                 onConfirm={data => {
                   let date = moment(data);
                   setMorningTime(date.format('H:mm'));
+                  setMorningVisibility(false);
                 }}
                 onCancel={() => setMorningVisibility(false)}
               />
@@ -563,6 +568,7 @@ const EditPills = ({
                 onConfirm={data => {
                   let date = moment(data);
                   setAfternoonTime(date.format('H:mm'));
+                  setAfternoonVisibility(false);
                 }}
                 onCancel={() => setAfternoonVisibility(false)}
               />
@@ -599,6 +605,7 @@ const EditPills = ({
                 onConfirm={data => {
                   let date = moment(data);
                   setEveningTime(date.format('H:mm'));
+                  setEveningVisibility(false);
                 }}
                 onCancel={() => setEveningVisibility(false)}
               />

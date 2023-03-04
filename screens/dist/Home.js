@@ -7,7 +7,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 exports.__esModule = true;
-exports.d = exports.dateDifference = void 0;
+exports.d = void 0;
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
@@ -31,10 +31,10 @@ var NotificationBar_1 = require("../Components/NotificationBar");
 var MyPills_1 = require("../Components/MyPills");
 var Me_1 = require("../Components/Me");
 var DeleteAllPills_1 = require("../Components/DeleteAllPills");
-function dateDifference(startDate, endDate) {
-    return moment_1["default"](startDate).diff(moment_1["default"](endDate), 'hours');
-}
-exports.dateDifference = dateDifference;
+var HiddenItem_1 = require("../Components/HiddenItem");
+/* export function dateDifference(startDate, endDate) {
+  return moment(startDate).diff(moment(endDate), 'hours');
+} */
 var date = new Date();
 exports.d = moment_1["default"](date);
 var Home = function () {
@@ -116,7 +116,8 @@ var Home = function () {
                     time: element,
                     startDate: ele.startDate,
                     endDate: ele.endDate,
-                    instructions: ele.instructions
+                    instructions: ele.instructions,
+                    daysTaken: ele.daysTaken
                 };
                 pills.push(pill); //add new piils to list of piils
             });
@@ -181,36 +182,8 @@ var Home = function () {
     /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
     var _h = react_1.useState(false), confetti = _h[0], setConfetti = _h[1];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
-        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, confetti: confetti, setConfetti: setConfetti }))); };
-    var renderHiddenItem = function (data, rowMap) {
-        function handleTaken() {
-            var newPillData = __spreadArrays(pillData);
-            var newData = {
-                time: data.item.time,
-                pills: data.item.pills,
-                taken: true
-            };
-            newPillData[data.index] = newData;
-            setPillData(newPillData);
-            setConfetti(true);
-        }
-        return (react_1["default"].createElement(react_native_1.TouchableOpacity
-        /*  onPress={handleAnimation} */
-        , { 
-            /*  onPress={handleAnimation} */
-            onPress: handleTaken, activeOpacity: 0.8, style: {
-                alignSelf: 'flex-end',
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-                width: 150,
-                height: 300 * data.item.pills.length,
-                borderRadius: 15,
-                backgroundColor: '#2CA6FF',
-                marginRight: 15,
-                display: data.item.taken ? 'none' : 'flex'
-            } },
-            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), style: { marginRight: 25 }, size: 24, color: 'white' })));
-    };
+        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, confetti: confetti, setConfetti: setConfetti, day: day }))); };
+    var renderHiddenItem = function (data) { return (react_1["default"].createElement(HiddenItem_1["default"], { props: data.item, filterData: filterData, setFilterData: setFilterData, mainDrive: mainDrive })); };
     var _j = react_1.useState(false), newPill = _j[0], setPillModal = _j[1];
     var _k = react_1.useState(false), settings = _k[0], setSettings = _k[1];
     var _l = react_1.useState(false), myPills = _l[0], setMyPills = _l[1];
