@@ -181,7 +181,7 @@ var Home = function () {
     /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
     var _h = react_1.useState(false), confetti = _h[0], setConfetti = _h[1];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
-        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, pillDataX: pillData, setPillDataX: setPillData, index: data.index, confetti: confetti, setConfetti: setConfetti, setShowNotif: setShowNotif, setMessage: setMessage }))); };
+        react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, confetti: confetti, setConfetti: setConfetti }))); };
     var renderHiddenItem = function (data, rowMap) {
         function handleTaken() {
             var newPillData = __spreadArrays(pillData);
@@ -262,10 +262,10 @@ var Home = function () {
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, filterData: filterData, setFilterData: setFilterData })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], { setSettings: setSettings, setLoading: setLoading, setMyPills: setMyPills, setMe: setMe, setDeleteAllPills: setDeleteAllPills })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications, setMyPills: setMyPills })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: me, transparent: true, onRequestClose: function () { return setMe(false); } }, react_1["default"].createElement(Me_1["default"], { setMe: setMe })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: deleteAllPills, transparent: true, onRequestClose: function () { return setDeleteAllPills(false); } }, react_1["default"].createElement(DeleteAllPills_1["default"], { setDeleteAllPills: setDeleteAllPills })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: myPills, transparent: true, onRequestClose: function () { return setMyPills(false); } }, react_1["default"].createElement(MyPills_1["default"], { setMyPills: setMyPills, filterData: filterData })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: deleteAllPills, transparent: true, onRequestClose: function () { return setDeleteAllPills(false); } }, react_1["default"].createElement(DeleteAllPills_1["default"], { setDeleteAllPills: setDeleteAllPills, setFilterData: setFilterData, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: myPills, transparent: true, onRequestClose: function () { return setMyPills(false); } }, react_1["default"].createElement(MyPills_1["default"], { setMyPills: setMyPills, filterData: filterData, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, setFilterData: setFilterData, showNotif: showNotif, message: message })),
         loading ? (react_1["default"].createElement(Loading, null)) : (react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: { display: 'flex', flex: 1 } },
             react_1["default"].createElement(react_native_1.View, { style: styles.DateCon },
                 react_1["default"].createElement(react_native_1.View, { style: styles.DateConL },
@@ -328,7 +328,9 @@ var Home = function () {
                         alignSelf: 'center',
                         marginTop: 15
                     } })),
-            showNotif && react_1["default"].createElement(NotificationBar_1["default"], { text: message }),
+            message !== 'Pills Edit Sucessful! 🥶' &&
+                message !== 'Pills have been deleted! 🤯' &&
+                showNotif && react_1["default"].createElement(NotificationBar_1["default"], { text: message }),
             react_1["default"].createElement(react_native_swipe_list_view_1.SwipeListView, { ListHeaderComponent: function () {
                     var _a;
                     return (react_1["default"].createElement(react_native_1.View, null,

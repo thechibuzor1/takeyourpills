@@ -11,65 +11,66 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
 
-const NotificationBlocks = props => (
-  <>
-    <Text
-      style={{
-        paddingTop: 15,
-        color: 'gray',
-        fontSize: 14,
-        fontFamily: 'Satoshi-Regular',
-        textAlign: 'right',
-        paddingBottom: 5,
-      }}>
-      {props.date}
-    </Text>
-    <TouchableOpacity
-      activeOpacity={0.7}
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-      <FontAwesomeIcon
-        icon={solid('prescription-bottle')}
-        size={30}
-        color={props.color}
+const Notifications = ({setNotifications, setMyPills}) => {
+  const NotificationBlocks = props => (
+    <>
+      <Text
+        style={{
+          paddingTop: 15,
+          color: 'gray',
+          fontSize: 14,
+          fontFamily: 'Satoshi-Regular',
+          textAlign: 'right',
+          paddingBottom: 5,
+        }}>
+        {props.date}
+      </Text>
+      <TouchableOpacity
+        onPress={() => props.pilldetails && setMyPills(true)}
+        activeOpacity={0.7}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <FontAwesomeIcon
+          icon={solid('prescription-bottle')}
+          size={30}
+          color={props.color}
+        />
+        <View style={{flex: 1, marginLeft: 15}}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 18,
+
+              fontFamily: 'Satoshi-Bold',
+            }}>
+            {props.message}
+          </Text>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 16,
+              marginTop: 5,
+              fontFamily: 'Satoshi-Regular',
+            }}>
+            {props.sub}
+          </Text>
+        </View>
+      </TouchableOpacity>
+      <Divider
+        width={0.5}
+        style={{
+          width: '100%',
+          alignSelf: 'center',
+          marginTop: 15,
+        }}
       />
-      <View style={{flex: 1, marginLeft: 15}}>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 18,
+    </>
+  );
 
-            fontFamily: 'Satoshi-Bold',
-          }}>
-          {props.message}
-        </Text>
-        <Text
-          style={{
-            color: 'black',
-            fontSize: 16,
-            marginTop: 5,
-            fontFamily: 'Satoshi-Regular',
-          }}>
-          {props.sub}
-        </Text>
-      </View>
-    </TouchableOpacity>
-    <Divider
-      width={0.5}
-      style={{
-        width: '100%',
-        alignSelf: 'center',
-        marginTop: 15,
-      }}
-    />
-  </>
-);
-
-const Notifications = ({setNotifications}) => {
   return (
     <View
       style={{
@@ -142,6 +143,8 @@ const Notifications = ({setNotifications}) => {
           bouncesZoom
           style={{}}>
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'Today'}
             color={'#FFAD00'}
             message={
@@ -150,12 +153,15 @@ const Notifications = ({setNotifications}) => {
             sub={'Phenol H - BE, Nora - BE and 5 more.'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
             date={'Today'}
             color={'#ED1D24'}
             message={'Hey, You missed taking your 7:00 pills today:'}
             sub={'Phenol H - BE, Nora - BE and 1 more.'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'Yesterday'}
             color={'#00958A'}
             message={
@@ -165,24 +171,32 @@ const Notifications = ({setNotifications}) => {
           />
 
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'May 3rd'}
             color={'#132342'}
             message={'Hello Chibuzor, your circle is done with some pills: '}
             sub={'Nora - BE and 1 more.'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'May 7th'}
             color={'#132342'}
             message={'Hello Chibuzor, your circle is done with some pills: '}
             sub={'Paracetamol'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'March 3rd'}
             color={'#132342'}
             message={'Hello Chibuzor, your circle is done with some pills: '}
             sub={'Trent'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'March 11th'}
             color={'#00958A'}
             message={
@@ -191,6 +205,8 @@ const Notifications = ({setNotifications}) => {
             sub={'Nora - BE and 1 more.'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
+            pilldetails={true}
             date={'March 11th'}
             color={'#00958A'}
             message={
@@ -199,12 +215,14 @@ const Notifications = ({setNotifications}) => {
             sub={'Phenol H - BE, Nora - BE and 1 more.'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
             date={'Jan 20th'}
             color={'#ED1D24'}
             message={'Hey, You missed taking your 7:00 pills today:'}
             sub={'Phenol H - BE, Nora - BE and 1 more.'}
           />
           <NotificationBlocks
+            setMyPills={setMyPills}
             date={'Jan 19th'}
             color={'#ED1D24'}
             message={'Hey, You missed taking your 7:00 pills today:'}

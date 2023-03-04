@@ -16,10 +16,21 @@ import Apill from './Apill';
 import {demoRemake} from '../demodata';
 import moment from 'moment';
 import {d} from '../screens/Home';
+import NotificationBar from './NotificationBar';
 
-const MyPills = ({setMyPills, filterData}) => {
+const MyPills = ({
+  setMyPills,
+  filterData,
+  showNotif,
+  message,
+  setShowNotif,
+  setMessage,
+  mainDrive,
+  setFilterData,
+}) => {
   const [active, setActive] = useState<string>('');
   const [data, setData] = useState(filterData);
+  useEffect(() => setData(filterData), [filterData]);
 
   /*   morning: 00:00 to 12:00
   after: 12:01 to 18:00
@@ -82,6 +93,7 @@ const MyPills = ({setMyPills, filterData}) => {
   }, [active]);
 
   const [currentPill, setCurrentPill] = useState();
+  const [index, setIndex] = useState<number>();
 
   const [pillActive, setPillActive] = useState<boolean>(false);
   function handleActive(name: string) {
@@ -102,6 +114,7 @@ const MyPills = ({setMyPills, filterData}) => {
     return (
       <TouchableOpacity
         onPress={() => {
+          setIndex(filterData.indexOf(props));
           setCurrentPill(props);
           setPillActive(true);
         }}
@@ -223,9 +236,18 @@ const MyPills = ({setMyPills, filterData}) => {
       </Text>
     </TouchableOpacity>
   );
+  const Empty = () => (
+    <View style={{paddingTop: 15}}>
+      <Text style={styles.noPills}>Your Pill Cabinet Is Empty.</Text>
+    </View>
+  );
 
   return (
     <>
+      {(showNotif && message === 'Pills Edit Sucessful! 🥶') ||
+        (message === 'Pills have been deleted! 🤯' && (
+          <NotificationBar text={message} />
+        ))}
       <Modal
         animated
         animationType="slide"
@@ -237,6 +259,13 @@ const MyPills = ({setMyPills, filterData}) => {
             setPillActive={setPillActive}
             data={currentPill}
             setCurrentPill={setCurrentPill}
+            setIndex={setIndex}
+            index={index}
+            setShowNotif={setShowNotif}
+            setMessage={setMessage}
+            filterData={filterData}
+            mainDrive={mainDrive}
+            setFilterData={setFilterData}
           />
         }
       </Modal>
@@ -311,17 +340,19 @@ const MyPills = ({setMyPills, filterData}) => {
               marginTop: 5,
             }}
           />
-
-          <FlatList
-            alwaysBounceVertical
-            showsVerticalScrollIndicator={false}
-            bounces
-            bouncesZoom
-            style={{paddingTop: 15}}
-            data={data}
-            renderItem={data => <PillBlocks props={data.item} />}
-          />
-          <ScrollView></ScrollView>
+          {data.length === 0 ? (
+            <Empty />
+          ) : (
+            <FlatList
+              alwaysBounceVertical
+              showsVerticalScrollIndicator={false}
+              bounces
+              bouncesZoom
+              style={{paddingTop: 15}}
+              data={data}
+              renderItem={data => <PillBlocks props={data.item} />}
+            />
+          )}
         </ImageBackground>
       </View>
     </>
@@ -330,4 +361,11 @@ const MyPills = ({setMyPills, filterData}) => {
 
 export default MyPills;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  noPills: {
+    color: 'gray',
+    fontFamily: 'Satoshi-Regular',
+    fontSize: 20,
+    textAlign: 'center',
+  },
+});

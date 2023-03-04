@@ -7,10 +7,12 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
 var Apill_1 = require("./Apill");
 var moment_1 = require("moment");
+var NotificationBar_1 = require("./NotificationBar");
 var MyPills = function (_a) {
-    var setMyPills = _a.setMyPills, filterData = _a.filterData;
+    var setMyPills = _a.setMyPills, filterData = _a.filterData, showNotif = _a.showNotif, message = _a.message, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage, mainDrive = _a.mainDrive, setFilterData = _a.setFilterData;
     var _b = react_1.useState(''), active = _b[0], setActive = _b[1];
     var _c = react_1.useState(filterData), data = _c[0], setData = _c[1];
+    react_1.useEffect(function () { return setData(filterData); }, [filterData]);
     /*   morning: 00:00 to 12:00
     after: 12:01 to 18:00
     evening: 18:01 to 23:59 */
@@ -63,7 +65,8 @@ var MyPills = function (_a) {
         }
     }, [active]);
     var _d = react_1.useState(), currentPill = _d[0], setCurrentPill = _d[1];
-    var _e = react_1.useState(false), pillActive = _e[0], setPillActive = _e[1];
+    var _e = react_1.useState(), index = _e[0], setIndex = _e[1];
+    var _f = react_1.useState(false), pillActive = _f[0], setPillActive = _f[1];
     function handleActive(name) {
         if (name === active) {
             setActive('');
@@ -79,6 +82,7 @@ var MyPills = function (_a) {
             daysLeft = 0;
         }
         return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+                setIndex(filterData.indexOf(props));
                 setCurrentPill(props);
                 setPillActive(true);
             }, activeOpacity: 0.8, style: {
@@ -158,8 +162,12 @@ var MyPills = function (_a) {
                 fontFamily: 'Satoshi-Regular',
                 textAlign: 'center'
             } }, props.name))); };
+    var Empty = function () { return (react_1["default"].createElement(react_native_1.View, { style: { paddingTop: 15 } },
+        react_1["default"].createElement(react_native_1.Text, { style: styles.noPills }, "Your Pill Cabinet Is Empty."))); };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: pillActive, transparent: true, onRequestClose: function () { return setPillActive(false); } }, react_1["default"].createElement(Apill_1["default"], { setPillActive: setPillActive, data: currentPill, setCurrentPill: setCurrentPill })),
+        (showNotif && message === 'Pills Edit Sucessful! 🥶') ||
+            (message === 'Pills have been deleted! 🤯' && (react_1["default"].createElement(NotificationBar_1["default"], { text: message }))),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: pillActive, transparent: true, onRequestClose: function () { return setPillActive(false); } }, react_1["default"].createElement(Apill_1["default"], { setPillActive: setPillActive, data: currentPill, setCurrentPill: setCurrentPill, setIndex: setIndex, index: index, setShowNotif: setShowNotif, setMessage: setMessage, filterData: filterData, mainDrive: mainDrive, setFilterData: setFilterData })),
         react_1["default"].createElement(react_native_1.View, { style: {
                 display: 'flex',
                 flex: 1,
@@ -201,8 +209,14 @@ var MyPills = function (_a) {
                         alignSelf: 'center',
                         marginTop: 5
                     } }),
-                react_1["default"].createElement(react_native_1.FlatList, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 }, data: data, renderItem: function (data) { return react_1["default"].createElement(PillBlocks, { props: data.item }); } }),
-                react_1["default"].createElement(react_native_1.ScrollView, null)))));
+                data.length === 0 ? (react_1["default"].createElement(Empty, null)) : (react_1["default"].createElement(react_native_1.FlatList, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: { paddingTop: 15 }, data: data, renderItem: function (data) { return react_1["default"].createElement(PillBlocks, { props: data.item }); } }))))));
 };
 exports["default"] = MyPills;
-var styles = react_native_1.StyleSheet.create({});
+var styles = react_native_1.StyleSheet.create({
+    noPills: {
+        color: 'gray',
+        fontFamily: 'Satoshi-Regular',
+        fontSize: 20,
+        textAlign: 'center'
+    }
+});

@@ -17,19 +17,7 @@ import {d, dateDifference} from '../screens/Home';
 import EditPills from './EditPills';
 import AnimatedLottieView from 'lottie-react-native';
 
-const MedicineContainer = ({
-  props,
-  pillDataX,
-  setPillDataX,
-  index,
-  confetti,
-  setConfetti,
-  setShowNotif,
-  setMessage,
-}) => {
-  const [editPill, setEditPill] = useState<boolean>(false);
-  const [pillData, setPillData] = useState(null);
-
+const MedicineContainer = ({props, confetti, setConfetti}) => {
   var endTime = moment(props.time, 'HH:mm:ss a');
   var timeDiff = dateDifference(d, endTime);
   timeDiff = Math.abs(timeDiff);
@@ -60,12 +48,10 @@ const MedicineContainer = ({
   function handleActive(pill) {
     if (active !== pill.id) {
       setActive(pill.id);
-      setPillData(pill);
 
       return;
     }
     setActive(null);
-    setPillData(null);
   }
 
   useEffect(() => {
@@ -74,107 +60,88 @@ const MedicineContainer = ({
     }, 500);
   }, [confetti]);
   return (
-    <>
-      <Modal
-        animated
-        animationType="slide"
-        visible={editPill}
-        transparent
-        onRequestClose={() => setEditPill(false)}>
-        {
-          <EditPills
-            setEditPill={setEditPill}
-            pillData={pillData}
-            pillDataX={pillDataX}
-            setPillDataX={setPillDataX}
-            index={index}
-            setShowNotif={setShowNotif}
-            setMessage={setMessage}
-          />
-        }
-      </Modal>
-      <View style={{...style.box}}>
-        {confetti && props.taken && (
-          <AnimatedLottieView
-            style={{height: 200, position: 'absolute', right: 0, top: '25%'}}
-            source={require('../assets/confetti.json')}
-            autoPlay
-            speed={2}
-          />
-        )}
+    <View style={{...style.box}}>
+      {confetti && props.taken && (
+        <AnimatedLottieView
+          style={{height: 200, position: 'absolute', right: 0, top: '25%'}}
+          source={require('../assets/confetti.json')}
+          autoPlay
+          speed={2}
+        />
+      )}
 
-        {props.pills.map(pill => {
-          return (
-            <TouchableOpacity
-              key={pill.id}
-              style={{marginTop: 0}}
-              onPress={() => handleActive(pill)}
-              activeOpacity={0.7}>
-              {active !== pill.id ? (
-                <View>
+      {props.pills.map(pill => {
+        return (
+          <TouchableOpacity
+            key={pill.id}
+            style={{marginTop: 0}}
+            onPress={() => handleActive(pill)}
+            activeOpacity={0.7}>
+            {active !== pill.id ? (
+              <View>
+                <Text
+                  style={[
+                    {
+                      fontSize: 28,
+                      fontFamily: 'Satoshi-Bold',
+                      marginLeft: 15,
+                      marginTop: 15,
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.name}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 14,
+                      fontFamily: 'Satoshi-Bold',
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.desc}
+                </Text>
+                <FontAwesomeIcon
+                  icon={
+                    props.pills.length > 1 ? solid('pills') : solid('tablets')
+                  }
+                  size={50}
+                  style={{
+                    alignSelf: 'center',
+                    marginTop: 60,
+                  }}
+                  color={
+                    timeDiff <= 3
+                      ? '#FFFFFF'
+                      : timeDiff > 3 && timeDiff <= 6
+                      ? '#FF66CC'
+                      : '#EF6F3A'
+                  }
+                />
+              </View>
+            ) : (
+              <View>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: 15,
+                  }}>
                   <Text
                     style={[
                       {
                         fontSize: 28,
                         fontFamily: 'Satoshi-Bold',
                         marginLeft: 15,
-                        marginTop: 15,
                       },
                       style.textColor,
                     ]}>
                     {pill.name}
                   </Text>
-                  <Text
-                    style={[
-                      {
-                        marginLeft: 15,
-                        fontSize: 14,
-                        fontFamily: 'Satoshi-Bold',
-                      },
-                      style.textColor,
-                    ]}>
-                    {pill.desc}
-                  </Text>
-                  <FontAwesomeIcon
-                    icon={
-                      props.pills.length > 1 ? solid('pills') : solid('tablets')
-                    }
-                    size={50}
-                    style={{
-                      alignSelf: 'center',
-                      marginTop: 60,
-                    }}
-                    color={
-                      timeDiff <= 3
-                        ? '#FFFFFF'
-                        : timeDiff > 3 && timeDiff <= 6
-                        ? '#FF66CC'
-                        : '#EF6F3A'
-                    }
-                  />
-                </View>
-              ) : (
-                <View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      marginTop: 15,
-                    }}>
-                    <Text
-                      style={[
-                        {
-                          fontSize: 28,
-                          fontFamily: 'Satoshi-Bold',
-                          marginLeft: 15,
-                        },
-                        style.textColor,
-                      ]}>
-                      {pill.name}
-                    </Text>
-                   {/*  <TouchableOpacity
+                  {/*  <TouchableOpacity
                       activeOpacity={0.5}
                       onPress={() => setEditPill(true)}>
                       <FontAwesomeIcon
@@ -186,62 +153,61 @@ const MedicineContainer = ({
                         }
                       />
                     </TouchableOpacity> */}
-                  </View>
-
-                  <Text
-                    style={[
-                      {
-                        marginLeft: 15,
-                        fontSize: 14,
-                        marginBottom: 15,
-                        fontFamily: 'Satoshi-Bold',
-                      },
-                      style.textColor,
-                    ]}>
-                    {pill.desc}
-                  </Text>
-                  <Text
-                    style={[
-                      {
-                        marginLeft: 15,
-                        fontSize: 18,
-                        fontFamily: 'Satoshi-Bold',
-                        marginBottom: 15,
-                      },
-                      style.textColor,
-                    ]}>
-                    Instructions: {pill.instructions}
-                  </Text>
-                  <Text
-                    style={[
-                      {
-                        marginLeft: 15,
-                        fontSize: 18,
-                        fontFamily: 'Satoshi-Bold',
-                      },
-                      style.textColor,
-                    ]}>
-                    Dosage: {pill.dosage}
-                  </Text>
                 </View>
-              )}
-            </TouchableOpacity>
-          );
-        })}
 
-        <Text
-          style={[
-            {
-              fontFamily: 'Satoshi-Bold',
-              bottom: 15,
-              marginLeft: 15,
-            },
-            style.textColor,
-          ]}>
-          {moment(`${props.time}`, ['h:m a', 'H:m']).format('H:mm')}
-        </Text>
-      </View>
-    </>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 14,
+                      marginBottom: 15,
+                      fontFamily: 'Satoshi-Bold',
+                    },
+                    style.textColor,
+                  ]}>
+                  {pill.desc}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 18,
+                      fontFamily: 'Satoshi-Bold',
+                      marginBottom: 15,
+                    },
+                    style.textColor,
+                  ]}>
+                  Instructions: {pill.instructions}
+                </Text>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 15,
+                      fontSize: 18,
+                      fontFamily: 'Satoshi-Bold',
+                    },
+                    style.textColor,
+                  ]}>
+                  Dosage: {pill.dosage}
+                </Text>
+              </View>
+            )}
+          </TouchableOpacity>
+        );
+      })}
+
+      <Text
+        style={[
+          {
+            fontFamily: 'Satoshi-Bold',
+            bottom: 15,
+            marginLeft: 15,
+          },
+          style.textColor,
+        ]}>
+        {moment(`${props.time}`, ['h:m a', 'H:m']).format('H:mm')}
+      </Text>
+    </View>
   );
 };
 

@@ -2,18 +2,29 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {d} from '../screens/Home';
 
-const DeleteAllPills = ({
-  setDeleteAllPills,
+const DeleteApill = ({
+  data,
+  index,
+  setDeleteAPill,
+  filterData,
   setFilterData,
   setShowNotif,
   setMessage,
   mainDrive,
+  setPillActive,
+  setCurrentPill,
+  setIndex,
 }) => {
   function handleDelete() {
-    setFilterData([]);
+    // array.splice(start_index, no_of_elements_to_remove)
+    const clonedData = [...filterData];
+    clonedData.splice(index, 1);
+    setFilterData(clonedData);
     mainDrive(d.format('ddd MMM D YYYY'));
-    setDeleteAllPills(false);
-    setMessage('All Pills have been deleted! 🤯');
+    setPillActive(false);
+    setCurrentPill(null);
+    setIndex(null);
+    setMessage('Pills have been deleted! 🤯');
     setShowNotif(true);
   }
 
@@ -40,7 +51,7 @@ const DeleteAllPills = ({
             marginBottom: 10,
             marginTop: 10,
           }}>
-          Delete all pill records 😧
+          Delete {data.name}? 😧
         </Text>
         <Text
           style={{
@@ -68,8 +79,8 @@ const DeleteAllPills = ({
             marginTop: 8,
           }}>
           <TouchableOpacity
-            onPress={handleDelete}
             activeOpacity={0.7}
+            onPress={handleDelete}
             style={{
               padding: 16,
               backgroundColor: 'black',
@@ -85,7 +96,7 @@ const DeleteAllPills = ({
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => setDeleteAllPills(false)}
+            onPress={() => setDeleteAPill(false)}
             activeOpacity={0.7}
             style={{
               padding: 16,
@@ -108,6 +119,6 @@ const DeleteAllPills = ({
   );
 };
 
-export default DeleteAllPills;
+export default DeleteApill;
 
 const styles = StyleSheet.create({});

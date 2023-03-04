@@ -39,6 +39,10 @@ var NewPill = function (_a) {
     var _r = react_1.useState(Home_1.d.format('ddd MMM D YYYY')), startDate = _r[0], setStartDate = _r[1];
     var _s = react_1.useState(false), startDatePicker = _s[0], setStartDatePicker = _s[1];
     function handleSave() {
+        if (!pillName.trim() || !dosage.trim() || !duration.trim()) {
+            react_native_1.Alert.alert('Umm... 😑 ', 'Please fill all fields with "*" at the end... 😐');
+            return;
+        }
         var clonedData = __spreadArrays(filterData);
         var endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + Number(duration));
@@ -66,7 +70,7 @@ var NewPill = function (_a) {
         setDosage('');
         setInstructions('');
         setPillModal(false);
-        setMessage('New Pills Added!');
+        setMessage('New Pills Added! 🥵');
         setShowNotif(true);
     }
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
@@ -106,8 +110,8 @@ var NewPill = function (_a) {
                             fontSize: 14,
                             fontFamily: 'Satoshi-Bold',
                             color: 'black'
-                        } }, "Pill Name"),
-                    react_1["default"].createElement(react_native_1.TextInput, { value: pillName, autoFocus: true, onChangeText: function (text) { return setPillName(text); }, style: {
+                        } }, "Pill Name *"),
+                    react_1["default"].createElement(react_native_1.TextInput, { value: pillName, autoFocus: true, placeholder: "example: Nora - BE", placeholderTextColor: 'gray', onChangeText: function (text) { return setPillName(text); }, style: {
                             marginTop: 15,
                             color: 'black',
                             height: 50,
@@ -126,7 +130,7 @@ var NewPill = function (_a) {
                             color: 'black',
                             marginTop: 15
                         } }, "Pill Description"),
-                    react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: pillDesc, onChangeText: function (text) { return setPillDesc(text); }, style: {
+                    react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: pillDesc, placeholder: "example: Norenthindrone - 0.35mg", placeholderTextColor: 'gray', onChangeText: function (text) { return setPillDesc(text); }, style: {
                             marginTop: 15,
                             color: 'black',
                             height: 70,
@@ -145,7 +149,7 @@ var NewPill = function (_a) {
                             fontSize: 23,
                             marginTop: 20,
                             fontFamily: 'Satoshi-Bold'
-                        } }, "Dosage"),
+                        } }, "Dosage *"),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             fontSize: 14,
                             fontFamily: 'Satoshi-Bold',
@@ -202,7 +206,7 @@ var NewPill = function (_a) {
                             fontSize: 23,
                             marginTop: 20,
                             fontFamily: 'Satoshi-Bold'
-                        } }, "Duration"),
+                        } }, "Duration *"),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             fontSize: 14,
                             fontFamily: 'Satoshi-Bold',
@@ -234,7 +238,7 @@ var NewPill = function (_a) {
                             fontSize: 23,
                             marginTop: 20,
                             fontFamily: 'Satoshi-Bold'
-                        } }, "Time?"),
+                        } }, "Time? *"),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             fontSize: 14,
                             fontFamily: 'Satoshi-Bold',
@@ -350,7 +354,7 @@ var NewPill = function (_a) {
                             fontSize: 23,
                             marginTop: 20,
                             fontFamily: 'Satoshi-Bold'
-                        } }, "Start Date?"),
+                        } }, "Start Date? *"),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             fontSize: 14,
                             fontFamily: 'Satoshi-Bold',

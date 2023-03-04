@@ -22,16 +22,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
-import {
-  monPills,
-  tuePills,
-  wedPills,
-  thuPills,
-  friPills,
-  satPills,
-  sunPills,
-  demoRemake,
-} from '../demodata';
+import {demoRemake} from '../demodata';
 import NewPill from '../Components/NewPill';
 import Settings from '../Components/Settings';
 import MedicineContainer from '../Components/MedicineContainer';
@@ -213,13 +204,8 @@ const Home = () => {
     <View style={styles.rowFront}>
       <MedicineContainer
         props={data.item}
-        pillDataX={pillData}
-        setPillDataX={setPillData}
-        index={data.index}
         confetti={confetti}
         setConfetti={setConfetti}
-        setShowNotif={setShowNotif}
-        setMessage={setMessage}
       />
     </View>
   );
@@ -381,7 +367,12 @@ const Home = () => {
         visible={notifications}
         transparent
         onRequestClose={() => setNotifications(false)}>
-        {<Notifications setNotifications={setNotifications} />}
+        {
+          <Notifications
+            setNotifications={setNotifications}
+            setMyPills={setMyPills}
+          />
+        }
       </Modal>
       <Modal
         animated
@@ -397,7 +388,15 @@ const Home = () => {
         visible={deleteAllPills}
         transparent
         onRequestClose={() => setDeleteAllPills(false)}>
-        {<DeleteAllPills setDeleteAllPills={setDeleteAllPills} />}
+        {
+          <DeleteAllPills
+            setDeleteAllPills={setDeleteAllPills}
+            setFilterData={setFilterData}
+            setShowNotif={setShowNotif}
+            setMessage={setMessage}
+            mainDrive={mainDrive}
+          />
+        }
       </Modal>
       <Modal
         animated
@@ -405,7 +404,18 @@ const Home = () => {
         visible={myPills}
         transparent
         onRequestClose={() => setMyPills(false)}>
-        {<MyPills setMyPills={setMyPills} filterData={filterData} />}
+        {
+          <MyPills
+            setMyPills={setMyPills}
+            filterData={filterData}
+            setShowNotif={setShowNotif}
+            setMessage={setMessage}
+            mainDrive={mainDrive}
+            setFilterData={setFilterData}
+            showNotif={showNotif}
+            message={message}
+          />
+        }
       </Modal>
 
       {loading ? (
@@ -529,7 +539,9 @@ const Home = () => {
               }}
             />
           </View>
-          {showNotif && <NotificationBar text={message} />}
+          {message !== 'Pills Edit Sucessful! 🥶' &&
+            message !== 'Pills have been deleted! 🤯' &&
+            showNotif && <NotificationBar text={message} />}
           <SwipeListView
             ListHeaderComponent={() => (
               <View>

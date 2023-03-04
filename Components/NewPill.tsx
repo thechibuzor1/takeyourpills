@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-  Modal,
+  Alert,
   TextInput,
   StatusBar,
   ScrollView,
@@ -55,6 +55,13 @@ const NewPill = ({
   const [startDatePicker, setStartDatePicker] = useState<boolean>(false);
 
   function handleSave() {
+    if (!pillName.trim() || !dosage.trim() || !duration.trim()) {
+      Alert.alert(
+        'Umm... 😑 ',
+        'Please fill all fields with "*" at the end... 😐',
+      );
+      return;
+    }
     const clonedData = [...filterData];
     var endDate = new Date(startDate);
     endDate.setDate(endDate.getDate() + Number(duration));
@@ -86,7 +93,7 @@ const NewPill = ({
     setDosage('');
     setInstructions('');
     setPillModal(false);
-    setMessage('New Pills Added!');
+    setMessage('New Pills Added! 🥵');
     setShowNotif(true);
   }
 
@@ -155,12 +162,14 @@ const NewPill = ({
                 fontFamily: 'Satoshi-Bold',
                 color: 'black',
               }}>
-              Pill Name
+              Pill Name *
             </Text>
 
             <TextInput
               value={pillName}
               autoFocus
+              placeholder="example: Nora - BE"
+              placeholderTextColor={'gray'}
               onChangeText={text => setPillName(text)}
               style={{
                 marginTop: 15,
@@ -190,6 +199,8 @@ const NewPill = ({
             <TextInput
               multiline
               value={pillDesc}
+              placeholder="example: Norenthindrone - 0.35mg"
+              placeholderTextColor={'gray'}
               onChangeText={text => setPillDesc(text)}
               style={{
                 marginTop: 15,
@@ -215,7 +226,7 @@ const NewPill = ({
                 marginTop: 20,
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Dosage
+              Dosage *
             </Text>
             <Text
               style={{
@@ -306,7 +317,7 @@ const NewPill = ({
                 marginTop: 20,
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Duration
+              Duration *
             </Text>
             <Text
               style={{
@@ -356,7 +367,7 @@ const NewPill = ({
                 marginTop: 20,
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Time?
+              Time? *
             </Text>
             <Text
               style={{
@@ -603,7 +614,7 @@ const NewPill = ({
                 marginTop: 20,
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Start Date?
+              Start Date? *
             </Text>
             <Text
               style={{

@@ -147,12 +147,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 15,
-    marginBottom: 15,
   },
   modalA: {
     display: 'flex',
     flexDirection: 'row',
     marginTop: 15,
+    marginBottom: 15,
   },
   modalContainer: {
     flex: 1,

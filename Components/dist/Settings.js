@@ -81,13 +81,13 @@ var styles = react_native_1.StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 15,
-        marginBottom: 15
+        marginTop: 15
     },
     modalA: {
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 15
+        marginTop: 15,
+        marginBottom: 15
     },
     modalContainer: {
         flex: 1,

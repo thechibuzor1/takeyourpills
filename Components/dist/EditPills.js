@@ -17,43 +17,63 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var react_native_elements_1 = require("react-native-elements");
 var EditPills = function (_a) {
-    var setEditPill = _a.setEditPill, pillData = _a.pillData, pillDataX = _a.pillDataX, setPillDataX = _a.setPillDataX, index = _a.index, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage;
+    var setEditPill = _a.setEditPill, filterData = _a.filterData, data = _a.data, index = _a.index, setFilterData = _a.setFilterData, mainDrive = _a.mainDrive, setMessage = _a.setMessage, setShowNotif = _a.setShowNotif, setPillActive = _a.setPillActive, setCurrentPill = _a.setCurrentPill, setIndex = _a.setIndex;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
-    var _c = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.name), pillName = _c[0], setPillName = _c[1];
-    var _d = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.dosage.toString()), dosage = _d[0], setDosage = _d[1];
-    var _e = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.desc), pillDesc = _e[0], setPillDesc = _e[1];
-    var _f = react_1.useState(pillData === null || pillData === void 0 ? void 0 : pillData.instruction), instructions = _f[0], setInstructions = _f[1];
-    var _g = react_1.useState(1), value = _g[0], setValue = _g[1];
-    var _h = react_1.useState([
+    var _c = react_1.useState(data === null || data === void 0 ? void 0 : data.name), pillName = _c[0], setPillName = _c[1];
+    var _d = react_1.useState(data === null || data === void 0 ? void 0 : data.dosage), dosage = _d[0], setDosage = _d[1];
+    var _e = react_1.useState(data === null || data === void 0 ? void 0 : data.duration), duration = _e[0], setDuration = _e[1];
+    var _f = react_1.useState(data === null || data === void 0 ? void 0 : data.desc), pillDesc = _f[0], setPillDesc = _f[1];
+    var _g = react_1.useState(data === null || data === void 0 ? void 0 : data.instructions), instructions = _g[0], setInstructions = _g[1];
+    var _h = react_1.useState(data === null || data === void 0 ? void 0 : data.timesPerDay), value = _h[0], setValue = _h[1];
+    var _j = react_1.useState([
         { label: 'Once a day', value: 1 },
         { label: 'Twice a day', value: 2 },
         { label: 'Three Times a day', value: 3 },
-    ]), items = _h[0], setItems = _h[1];
-    var _j = react_1.useState('9:00'), morningTime = _j[0], setMorningTime = _j[1];
-    var _k = react_1.useState(false), isMorning = _k[0], setMorningVisibility = _k[1];
-    var _l = react_1.useState('14:00'), afternoonTime = _l[0], setAfternoonTime = _l[1];
-    var _m = react_1.useState(false), isAfternoon = _m[0], setAfternoonVisibility = _m[1];
-    var _o = react_1.useState('20:00'), eveningTime = _o[0], setEveningTime = _o[1];
-    var _p = react_1.useState(false), isEvening = _p[0], setEveningVisibility = _p[1];
-    var _q = react_1.useState(Home_1.d.format('dddd MMM D')), startDate = _q[0], setStartDate = _q[1];
-    var _r = react_1.useState(false), startDatePicker = _r[0], setStartDatePicker = _r[1];
+    ]), items = _j[0], setItems = _j[1];
+    var _k = react_1.useState(data === null || data === void 0 ? void 0 : data.times[0]), morningTime = _k[0], setMorningTime = _k[1];
+    var _l = react_1.useState(false), isMorning = _l[0], setMorningVisibility = _l[1];
+    var _m = react_1.useState('14:00'), afternoonTime = _m[0], setAfternoonTime = _m[1];
+    var _o = react_1.useState(false), isAfternoon = _o[0], setAfternoonVisibility = _o[1];
+    var _p = react_1.useState('19:00'), eveningTime = _p[0], setEveningTime = _p[1];
+    var _q = react_1.useState(false), isEvening = _q[0], setEveningVisibility = _q[1];
+    var _r = react_1.useState(data === null || data === void 0 ? void 0 : data.startDate), startDate = _r[0], setStartDate = _r[1];
+    var _s = react_1.useState(false), startDatePicker = _s[0], setStartDatePicker = _s[1];
     function handleSave() {
-        var clonedData = __spreadArrays(pillDataX);
+        if (!pillName.trim() || !dosage.trim() || !duration.trim()) {
+            react_native_1.Alert.alert('Umm... 😑 ', 'Please fill all fields with "*" at the end... 😐');
+            return;
+        }
+        var clonedData = __spreadArrays(filterData);
+        var endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + Number(duration));
         var edittedPill = {
-            id: pillData.id,
+            id: data.id,
             name: pillName,
             desc: pillDesc,
-            instruction: instructions,
-            dosage: dosage
+            dosage: dosage,
+            duration: duration,
+            timesPerDay: value,
+            times: value === 1
+                ? [morningTime]
+                : value === 2
+                    ? [morningTime, afternoonTime]
+                    : [morningTime, afternoonTime, eveningTime],
+            startDate: startDate,
+            endDate: moment_1["default"](endDate).format('ddd MMM D YYYY'),
+            instructions: instructions
         };
-        clonedData[index].pills[pillData.id - 1] = edittedPill;
-        setPillDataX(clonedData);
+        clonedData[index] = edittedPill;
+        setFilterData(clonedData);
+        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
         setPillName('');
         setPillDesc('');
         setDosage('');
         setInstructions('');
         setEditPill(false);
-        setMessage('Pills Edit Sucessful!');
+        setPillActive(false);
+        setCurrentPill(null);
+        setIndex(null);
+        setMessage('Pills Edit Sucessful! 🥶');
         setShowNotif(true);
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
@@ -194,7 +214,7 @@ var EditPills = function (_a) {
                         color: 'black'
                     } }, "How long will you take the pills?"),
                 react_1["default"].createElement(react_native_1.View, { style: { display: 'flex', flexDirection: 'row' } },
-                    react_1["default"].createElement(react_native_1.TextInput, { keyboardType: "numeric", maxLength: 2, style: {
+                    react_1["default"].createElement(react_native_1.TextInput, { value: duration, onChangeText: function (text) { return setDuration(text); }, keyboardType: "numeric", maxLength: 2, style: {
                             marginTop: 15,
                             color: 'black',
                             height: 50,
@@ -356,7 +376,7 @@ var EditPills = function (_a) {
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('pen-to-square'), style: { marginLeft: 15 }, size: 24, color: 'black' }))),
                 react_1["default"].createElement(react_native_modal_datetime_picker_1["default"], { isVisible: startDatePicker, mode: "date", minimumDate: new Date(), onConfirm: function (data) {
                         var date = moment_1["default"](data);
-                        setStartDate(date.format('dddd MMM D'));
+                        setStartDate(date.format('ddd MMM D YYYY'));
                     }, onCancel: function () { return setStartDatePicker(false); } }),
                 react_1["default"].createElement(react_native_1.Text, { style: {
                         color: 'black',

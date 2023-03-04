@@ -4,7 +4,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-  Modal,
+  Alert,
   TextInput,
   StatusBar,
   ScrollView,
@@ -20,56 +20,85 @@ import {Divider} from 'react-native-elements';
 
 const EditPills = ({
   setEditPill,
-  pillData,
-  pillDataX,
-  setPillDataX,
+  filterData,
+  data,
   index,
-  setShowNotif,
+  setFilterData,
+  mainDrive,
   setMessage,
+  setShowNotif,
+  setPillActive,
+  setCurrentPill,
+  setIndex,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [pillName, setPillName] = useState<string>(pillData?.name);
-  const [dosage, setDosage] = useState<string>(pillData?.dosage.toString());
-  const [pillDesc, setPillDesc] = useState<string>(pillData?.desc);
-  const [instructions, setInstructions] = useState<string>(
-    pillData?.instruction,
-  );
-  const [value, setValue] = useState<any>(1);
+  const [pillName, setPillName] = useState<string>(data?.name);
+  const [dosage, setDosage] = useState<string>(data?.dosage);
+  const [duration, setDuration] = useState<string>(data?.duration);
+  const [pillDesc, setPillDesc] = useState<string>(data?.desc);
+  const [instructions, setInstructions] = useState<string>(data?.instructions);
+  const [value, setValue] = useState<any>(data?.timesPerDay);
   const [items, setItems] = useState<any>([
     {label: 'Once a day', value: 1},
     {label: 'Twice a day', value: 2},
     {label: 'Three Times a day', value: 3},
   ]);
 
-  const [morningTime, setMorningTime] = useState<string>('9:00');
+  const [morningTime, setMorningTime] = useState<string>(data?.times[0]);
   const [isMorning, setMorningVisibility] = useState<boolean>(false);
 
   const [afternoonTime, setAfternoonTime] = useState<string>('14:00');
   const [isAfternoon, setAfternoonVisibility] = useState<boolean>(false);
 
-  const [eveningTime, setEveningTime] = useState<string>('20:00');
+  const [eveningTime, setEveningTime] = useState<string>('19:00');
   const [isEvening, setEveningVisibility] = useState<boolean>(false);
 
-  const [startDate, setStartDate] = useState<string>(d.format('dddd MMM D'));
+  const [startDate, setStartDate] = useState<string>(data?.startDate);
   const [startDatePicker, setStartDatePicker] = useState<boolean>(false);
 
   function handleSave() {
-    const clonedData = [...pillDataX];
+    if (!pillName.trim() || !dosage.trim() || !duration.trim()) {
+      Alert.alert(
+        'Umm... 😑 ',
+        'Please fill all fields with "*" at the end... 😐',
+      );
+      return;
+    }
+    const clonedData = [...filterData];
+    var endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + Number(duration));
+
     const edittedPill = {
-      id: pillData.id,
+      id: data.id,
       name: pillName,
       desc: pillDesc,
-      instruction: instructions,
       dosage: dosage,
+      duration: duration,
+      timesPerDay: value,
+      times:
+        value === 1
+          ? [morningTime]
+          : value === 2
+          ? [morningTime, afternoonTime]
+          : [morningTime, afternoonTime, eveningTime],
+      startDate: startDate,
+      endDate: moment(endDate).format('ddd MMM D YYYY'),
+      instructions: instructions,
     };
-    clonedData[index].pills[pillData.id - 1] = edittedPill;
-    setPillDataX(clonedData);
+
+    clonedData[index] = edittedPill;
+    setFilterData(clonedData);
+    mainDrive(d.format('ddd MMM D YYYY'));
+
     setPillName('');
     setPillDesc('');
     setDosage('');
     setInstructions('');
     setEditPill(false);
-    setMessage('Pills Edit Sucessful!');
+    setPillActive(false);
+    setCurrentPill(null);
+    setIndex(null);
+    setMessage('Pills Edit Sucessful! 🥶');
     setShowNotif(true);
   }
 
@@ -299,6 +328,8 @@ const EditPills = ({
           </Text>
           <View style={{display: 'flex', flexDirection: 'row'}}>
             <TextInput
+              value={duration}
+              onChangeText={text => setDuration(text)}
               keyboardType="numeric"
               maxLength={2}
               style={{
@@ -626,7 +657,7 @@ const EditPills = ({
             minimumDate={new Date()}
             onConfirm={data => {
               let date = moment(data);
-              setStartDate(date.format('dddd MMM D'));
+              setStartDate(date.format('ddd MMM D YYYY'));
             }}
             onCancel={() => setStartDatePicker(false)}
           />
