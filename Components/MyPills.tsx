@@ -244,10 +244,7 @@ const MyPills = ({
 
   return (
     <>
-      {(showNotif && message === 'Pills Edit Sucessful! 🥶') ||
-        (message === 'Pills have been deleted! 🤯' && (
-          <NotificationBar text={message} />
-        ))}
+      {showNotif && <NotificationBar text={message} />}
       <Modal
         animated
         animationType="slide"

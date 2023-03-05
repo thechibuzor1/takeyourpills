@@ -5,14 +5,54 @@ import {
   Text,
   View,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
+import {d} from '../screens/Home';
 
 const Notifications = ({setNotifications, setMyPills}) => {
-  const NotificationBlocks = props => (
+  interface notificationStructure {
+    date: string;
+    tag: string;
+    message: string;
+    sub: string;
+    setMyPills: {setMyPills};
+    redirect: boolean;
+  }
+
+  const notificationData: notificationStructure[] = [
+    {
+      date: 'Sun Mar 5 2023',
+      tag: 'almost done',
+      message:
+        "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+      sub: 'Phenol H - BE, Nora - BE and 5 more.',
+      setMyPills: {setMyPills},
+      redirect: true,
+    },
+    {
+      date: 'Thu Mar 1 2023',
+      tag: 'missed',
+      message: 'Hey, You missed taking your 7:00 pills today:',
+      sub: 'Phenol H - BE, Nora - BE and 1 more.',
+      setMyPills: {setMyPills},
+      redirect: false,
+    },
+    {
+      date: 'Wed Feb 13 2023',
+      tag: 'last day',
+      message:
+        "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+      sub: 'Phenol H - BE, Nora - BE and 1 more.',
+      setMyPills: {setMyPills},
+      redirect: true,
+    },
+  ];
+
+  const NotificationBlocks = ({props}) => (
     <>
       <Text
         style={{
@@ -23,11 +63,13 @@ const Notifications = ({setNotifications, setMyPills}) => {
           textAlign: 'right',
           paddingBottom: 5,
         }}>
-        {props.date}
+        {props.date !== d.format('ddd MMM D YYYY')
+          ? props.date.slice(0, -5)
+          : 'Today'}
       </Text>
       <TouchableOpacity
-        onPress={() => props.pilldetails && setMyPills(true)}
-        activeOpacity={0.7}
+        onPress={() => props.redirect && setMyPills(true)}
+        activeOpacity={props.redirect ? 0.7 : 1}
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -37,7 +79,13 @@ const Notifications = ({setNotifications, setMyPills}) => {
         <FontAwesomeIcon
           icon={solid('prescription-bottle')}
           size={30}
-          color={props.color}
+          color={
+            props.tag === 'almost done'
+              ? '#FFAD00'
+              : props.tag === 'missed'
+              ? '#ED1D24'
+              : '#132342'
+          }
         />
         <View style={{flex: 1, marginLeft: 15}}>
           <Text
@@ -136,15 +184,19 @@ const Notifications = ({setNotifications, setMyPills}) => {
           }}
         />
 
-        <ScrollView
+        <FlatList
           alwaysBounceVertical
           showsVerticalScrollIndicator={false}
           bounces
           bouncesZoom
+          data={notificationData}
+          renderItem={data => <NotificationBlocks props={data.item} />}
+        />
+
+        {/*  <ScrollView
+         
           style={{}}>
           <NotificationBlocks
-            setMyPills={setMyPills}
-            pilldetails={true}
             date={'Today'}
             color={'#FFAD00'}
             message={
@@ -228,7 +280,7 @@ const Notifications = ({setNotifications, setMyPills}) => {
             message={'Hey, You missed taking your 7:00 pills today:'}
             sub={'Phenol H - BE, Nora - BE and 1 more.'}
           />
-        </ScrollView>
+        </ScrollView> */}
       </ImageBackground>
     </View>
   );

@@ -24,6 +24,7 @@ var MedicineContainer = function (_a) {
     /* how many pills are there??  */
     var pillCount = props.pills.length;
     var takenCount = 0;
+    var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
     var windowOpen = Number(props.time.replace(':', '')) - 300;
     var windowClosed = Number(props.time.replace(':', '')) + 300;
     /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
@@ -52,14 +53,13 @@ var MedicineContainer = function (_a) {
             setTaken('NONE');
         }
     }, [takenCount, pillCount]);
-    var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
     var dataTime = Number(props.time.replace(':', ''));
     /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
      */
     var style = react_native_1.StyleSheet.create({
         box: {
             borderRadius: 15,
-            backgroundColor: day !== Home_1.d.format('ddd MMM D YYYY')
+            backgroundColor: new Date(day) > new Date()
                 ? '#768692'
                 : taken == 'ALL'
                     ? '#69CA90'

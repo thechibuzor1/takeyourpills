@@ -34,7 +34,7 @@ var NewPill = function (_a) {
     var _l = react_1.useState(false), isMorning = _l[0], setMorningVisibility = _l[1];
     var _m = react_1.useState('14:00'), afternoonTime = _m[0], setAfternoonTime = _m[1];
     var _o = react_1.useState(false), isAfternoon = _o[0], setAfternoonVisibility = _o[1];
-    var _p = react_1.useState('20:00'), eveningTime = _p[0], setEveningTime = _p[1];
+    var _p = react_1.useState('21:00'), eveningTime = _p[0], setEveningTime = _p[1];
     var _q = react_1.useState(false), isEvening = _q[0], setEveningVisibility = _q[1];
     var _r = react_1.useState(Home_1.d.format('ddd MMM D YYYY')), startDate = _r[0], setStartDate = _r[1];
     var _s = react_1.useState(false), startDatePicker = _s[0], setStartDatePicker = _s[1];
@@ -47,7 +47,7 @@ var NewPill = function (_a) {
         var endDate = new Date(startDate);
         endDate.setDate(endDate.getDate() + Number(duration));
         var newPills = {
-            id: clonedData.length + 1,
+            id: clonedData.length === 0 ? 1 : clonedData[clonedData.length - 1].id + 1,
             name: pillName,
             desc: pillDesc,
             dosage: dosage,
@@ -143,7 +143,7 @@ var NewPill = function (_a) {
                             borderWidth: 1,
                             borderColor: 'gray',
                             textAlignVertical: 'top',
-                            padding: 8
+                            padding: 16
                         } }),
                     react_1["default"].createElement(react_native_1.Text, { style: {
                             color: 'black',

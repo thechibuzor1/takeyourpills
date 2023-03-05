@@ -339,7 +339,11 @@ export var demoRemake: MyPills[] = [
     startDate: 'Wed Mar 1 2023', //format('dddd MMM D')
     endDate: 'Fri Mar 13 2023',
     instructions: 'Take after a meal',
-    daysTaken: [{date: 'Sat Mar 4 2023', time: ['10:00']}],
+    daysTaken: [
+      {date: 'Sat Mar 4 2023', time: ['10:00']},
+      {date: 'Wed Mar 1 2023', time: ['10:00']},
+      {date: 'Fri Mar 3 2023', time: ['10:00']},
+    ],
   },
   {
     id: 2,
@@ -375,12 +379,9 @@ export var demoRemake: MyPills[] = [
     duration: '3',
     timesPerDay: 3,
     times: ['7:00', '14:00', '19:00'],
-    startDate: 'Thu Jun 15 2023', //format('dddd MMM D')
+    startDate: 'Thu Mar 1 2023', //format('dddd MMM D')
     endDate: 'Tue Jun 27 2023',
     instructions: 'Take after a meal',
-    daysTaken: [
-      {date: 'Thu Jun 15 2023', time: ['9:00', '13;30', '20:00']},
-      {date: 'Thu Jun 17 2023', time: ['9:00', '13;30', '20:00']},
-    ],
+    daysTaken: [],
   },
 ];

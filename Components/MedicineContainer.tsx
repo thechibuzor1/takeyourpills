@@ -22,6 +22,8 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
   /* how many pills are there??  */
   const pillCount = props.pills.length;
   var takenCount = 0;
+
+  var currentTime = Number(d.format('HH:mm').replace(':', ''));
   var windowOpen = Number(props.time.replace(':', '')) - 300;
   var windowClosed = Number(props.time.replace(':', '')) + 300;
 
@@ -54,7 +56,6 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
     }
   }, [takenCount, pillCount]);
 
-  var currentTime = Number(d.format('HH:mm').replace(':', ''));
   var dataTime = Number(props.time.replace(':', ''));
 
   /*  const pillColor = pillColors[Math.floor(Math.random() * pillColors.length)];
@@ -64,7 +65,7 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
     box: {
       borderRadius: 15,
       backgroundColor:
-        day !== d.format('ddd MMM D YYYY')
+        new Date(day) > new Date()
           ? '#768692'
           : taken == 'ALL'
           ? '#69CA90'

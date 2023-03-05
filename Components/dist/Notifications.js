@@ -5,41 +5,77 @@ var react_1 = require("react");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
+var Home_1 = require("../screens/Home");
 var Notifications = function (_a) {
     var setNotifications = _a.setNotifications, setMyPills = _a.setMyPills;
-    var NotificationBlocks = function (props) { return (react_1["default"].createElement(react_1["default"].Fragment, null,
-        react_1["default"].createElement(react_native_1.Text, { style: {
-                paddingTop: 15,
-                color: 'gray',
-                fontSize: 14,
-                fontFamily: 'Satoshi-Regular',
-                textAlign: 'right',
-                paddingBottom: 5
-            } }, props.date),
-        react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return props.pilldetails && setMyPills(true); }, activeOpacity: 0.7, style: {
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            } },
-            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('prescription-bottle'), size: 30, color: props.color }),
-            react_1["default"].createElement(react_native_1.View, { style: { flex: 1, marginLeft: 15 } },
-                react_1["default"].createElement(react_native_1.Text, { style: {
-                        color: 'black',
-                        fontSize: 18,
-                        fontFamily: 'Satoshi-Bold'
-                    } }, props.message),
-                react_1["default"].createElement(react_native_1.Text, { style: {
-                        color: 'black',
-                        fontSize: 16,
-                        marginTop: 5,
-                        fontFamily: 'Satoshi-Regular'
-                    } }, props.sub))),
-        react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
-                width: '100%',
-                alignSelf: 'center',
-                marginTop: 15
-            } }))); };
+    var notificationData = [
+        {
+            date: 'Sun Mar 5 2023',
+            tag: 'almost done',
+            message: "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+            sub: 'Phenol H - BE, Nora - BE and 5 more.',
+            setMyPills: { setMyPills: setMyPills },
+            redirect: true
+        },
+        {
+            date: 'Thu Mar 1 2023',
+            tag: 'missed',
+            message: 'Hey, You missed taking your 7:00 pills today:',
+            sub: 'Phenol H - BE, Nora - BE and 1 more.',
+            setMyPills: { setMyPills: setMyPills },
+            redirect: false
+        },
+        {
+            date: 'Wed Feb 13 2023',
+            tag: 'last day',
+            message: "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+            sub: 'Phenol H - BE, Nora - BE and 1 more.',
+            setMyPills: { setMyPills: setMyPills },
+            redirect: true
+        },
+    ];
+    var NotificationBlocks = function (_a) {
+        var props = _a.props;
+        return (react_1["default"].createElement(react_1["default"].Fragment, null,
+            react_1["default"].createElement(react_native_1.Text, { style: {
+                    paddingTop: 15,
+                    color: 'gray',
+                    fontSize: 14,
+                    fontFamily: 'Satoshi-Regular',
+                    textAlign: 'right',
+                    paddingBottom: 5
+                } }, props.date !== Home_1.d.format('ddd MMM D YYYY')
+                ? props.date.slice(0, -5)
+                : 'Today'),
+            react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return props.redirect && setMyPills(true); }, activeOpacity: props.redirect ? 0.7 : 1, style: {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                } },
+                react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('prescription-bottle'), size: 30, color: props.tag === 'almost done'
+                        ? '#FFAD00'
+                        : props.tag === 'missed'
+                            ? '#ED1D24'
+                            : '#132342' }),
+                react_1["default"].createElement(react_native_1.View, { style: { flex: 1, marginLeft: 15 } },
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            color: 'black',
+                            fontSize: 18,
+                            fontFamily: 'Satoshi-Bold'
+                        } }, props.message),
+                    react_1["default"].createElement(react_native_1.Text, { style: {
+                            color: 'black',
+                            fontSize: 16,
+                            marginTop: 5,
+                            fontFamily: 'Satoshi-Regular'
+                        } }, props.sub))),
+            react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
+                    width: '100%',
+                    alignSelf: 'center',
+                    marginTop: 15
+                } })));
+    };
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',
             flex: 1,
@@ -76,17 +112,7 @@ var Notifications = function (_a) {
                     alignSelf: 'center',
                     marginTop: 15
                 } }),
-            react_1["default"].createElement(react_native_1.ScrollView, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, style: {} },
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'Today', color: '#FFAD00', message: "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:", sub: 'Phenol H - BE, Nora - BE and 5 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, date: 'Today', color: '#ED1D24', message: 'Hey, You missed taking your 7:00 pills today:', sub: 'Phenol H - BE, Nora - BE and 1 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'Yesterday', color: '#00958A', message: "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ", sub: 'Phenol H - BE, Nora - BE and 1 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'May 3rd', color: '#132342', message: 'Hello Chibuzor, your circle is done with some pills: ', sub: 'Nora - BE and 1 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'May 7th', color: '#132342', message: 'Hello Chibuzor, your circle is done with some pills: ', sub: 'Paracetamol' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'March 3rd', color: '#132342', message: 'Hello Chibuzor, your circle is done with some pills: ', sub: 'Trent' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'March 11th', color: '#00958A', message: "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ", sub: 'Nora - BE and 1 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, pilldetails: true, date: 'March 11th', color: '#00958A', message: "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ", sub: 'Phenol H - BE, Nora - BE and 1 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, date: 'Jan 20th', color: '#ED1D24', message: 'Hey, You missed taking your 7:00 pills today:', sub: 'Phenol H - BE, Nora - BE and 1 more.' }),
-                react_1["default"].createElement(NotificationBlocks, { setMyPills: setMyPills, date: 'Jan 19th', color: '#ED1D24', message: 'Hey, You missed taking your 7:00 pills today:', sub: 'Phenol H - BE, Nora - BE and 1 more.' })))));
+            react_1["default"].createElement(react_native_1.FlatList, { alwaysBounceVertical: true, showsVerticalScrollIndicator: false, bounces: true, bouncesZoom: true, data: notificationData, renderItem: function (data) { return react_1["default"].createElement(NotificationBlocks, { props: data.item }); } }))));
 };
 exports["default"] = Notifications;
 var styles = react_native_1.StyleSheet.create({});

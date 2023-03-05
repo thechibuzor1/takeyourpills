@@ -165,8 +165,7 @@ var MyPills = function (_a) {
     var Empty = function () { return (react_1["default"].createElement(react_native_1.View, { style: { paddingTop: 15 } },
         react_1["default"].createElement(react_native_1.Text, { style: styles.noPills }, "Your Pill Cabinet Is Empty."))); };
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
-        (showNotif && message === 'Pills Edit Sucessful! 🥶') ||
-            (message === 'Pills have been deleted! 🤯' && (react_1["default"].createElement(NotificationBar_1["default"], { text: message }))),
+        showNotif && react_1["default"].createElement(NotificationBar_1["default"], { text: message }),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: pillActive, transparent: true, onRequestClose: function () { return setPillActive(false); } }, react_1["default"].createElement(Apill_1["default"], { setPillActive: setPillActive, data: currentPill, setCurrentPill: setCurrentPill, setIndex: setIndex, index: index, setShowNotif: setShowNotif, setMessage: setMessage, filterData: filterData, mainDrive: mainDrive, setFilterData: setFilterData })),
         react_1["default"].createElement(react_native_1.View, { style: {
                 display: 'flex',

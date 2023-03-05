@@ -46,7 +46,7 @@ const NewPill = ({
   const [afternoonTime, setAfternoonTime] = useState<string>('14:00');
   const [isAfternoon, setAfternoonVisibility] = useState<boolean>(false);
 
-  const [eveningTime, setEveningTime] = useState<string>('20:00');
+  const [eveningTime, setEveningTime] = useState<string>('21:00');
   const [isEvening, setEveningVisibility] = useState<boolean>(false);
 
   const [startDate, setStartDate] = useState<string>(
@@ -67,7 +67,8 @@ const NewPill = ({
     endDate.setDate(endDate.getDate() + Number(duration));
 
     const newPills = {
-      id: clonedData.length + 1,
+      id:
+        clonedData.length === 0 ? 1 : clonedData[clonedData.length - 1].id + 1,
       name: pillName,
       desc: pillDesc,
       dosage: dosage,
@@ -215,7 +216,7 @@ const NewPill = ({
                 borderWidth: 1,
                 borderColor: 'gray',
                 textAlignVertical: 'top',
-                padding: 8,
+                padding: 16,
               }}
             />
 
