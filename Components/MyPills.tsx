@@ -45,7 +45,8 @@ const MyPills = ({
   var today = moment(new Date());
   filterData.forEach(element => {
     var end = moment(new Date(element.endDate));
-    var daysLeft = end.diff(today, 'days');
+    var daysLeft = end.diff(today, 'days') + 1;
+
     if (daysLeft <= 0) {
       completedcircles.push(element);
     } else {
@@ -107,7 +108,7 @@ const MyPills = ({
   const PillBlocks = ({props}) => {
     var end = moment(new Date(props.endDate));
 
-    var daysLeft = end.diff(today, 'days');
+    var daysLeft = end.diff(today, 'days') + 1;
     if (daysLeft <= 0) {
       daysLeft = 0;
     }

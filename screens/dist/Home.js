@@ -51,6 +51,12 @@ var Home = function () {
         '#7da19d',
         '#1d9aa9',
     ];
+    exports.d.month(); // 1
+    var _a = react_1.useState(exports.d.format('ddd MMM D YYYY')), day = _a[0], setDay = _a[1];
+    var _b = react_1.useState([]), pillData = _b[0], setPillData = _b[1];
+    var _c = react_1.useState(exports.d.format('dddd MMM D')), fullDate = _c[0], setFullDate = _c[1];
+    var _d = react_1.useState('today'), header = _d[0], setHeader = _d[1];
+    var _e = react_1.useState(moment_1["default"]()), selectedDate = _e[0], setSelectedDate = _e[1];
     /* Check date in duration function */
     /*   var datefrom = '05/05/2013';
     var dateCurr = '05/28/2013';
@@ -72,7 +78,7 @@ var Home = function () {
         //cheack if date is in range of two dates
         return check >= from && check <= to;
     }
-    var _a = react_1.useState(demodata_1.demoRemake), filterData = _a[0], setFilterData = _a[1];
+    var _f = react_1.useState(demodata_1.demoRemake), filterData = _f[0], setFilterData = _f[1];
     function mainDrive(date) {
         //set data based on date
         var listInDuration = []; //empty list of piils in range of selected date
@@ -93,6 +99,9 @@ var Home = function () {
         });
         //remove repeated times
         listInDurationTimes = __spreadArrays(new Set(listInDurationTimes));
+        listInDurationTimes.sort(function (a, b) {
+            return Number(a.replace(':', '')) - Number(b.replace(':', ''));
+        });
         var mainReturn = [];
         //create pill with times
         listInDurationTimes.forEach(function (element) {
@@ -125,22 +134,17 @@ var Home = function () {
         //add pills at specific times list
         mainReturn.forEach(function (ele) {
             pills.forEach(function (element) {
+                /* const reminder = `Hey Chibuzor, Its time to take your ${element.time}` */
                 if (element.time === ele.time) {
                     ele.pills.push(element);
                 }
             });
         });
-        //set new data
         setPillData(mainReturn);
+        //set new data
     }
     /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
     react_1.useEffect(function () { return mainDrive(day); }, [filterData]);
-    exports.d.month(); // 1
-    var _b = react_1.useState(exports.d.format('ddd MMM D YYYY')), day = _b[0], setDay = _b[1];
-    var _c = react_1.useState([]), pillData = _c[0], setPillData = _c[1];
-    var _d = react_1.useState(exports.d.format('dddd MMM D')), fullDate = _d[0], setFullDate = _d[1];
-    var _e = react_1.useState('today'), header = _e[0], setHeader = _e[1];
-    var _f = react_1.useState(moment_1["default"]()), selectedDate = _f[0], setSelectedDate = _f[1];
     /*   useEffect(() => {
       switch (day) {
         case 'Monday':
@@ -215,27 +219,168 @@ var Home = function () {
       edit: false,
       data: {},
     }; */
-    /*  make shift splash screen  */
+    var _q = react_1.useState([]), newNotificationData = _q[0], setNewNotification = _q[1];
+    var _r = react_1.useState([
+        {
+            date: 'Sun Mar 5 2023',
+            tag: 'almost done',
+            message: "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+            sub: 'Phenol H - BE, Nora - BE and 5 more.',
+            setMyPills: { setMyPills: setMyPills },
+            redirect: true
+        },
+        {
+            date: 'Thu Mar 1 2023',
+            tag: 'missed',
+            message: 'Hey, You missed taking your 7:00 pills today:',
+            sub: 'Phenol H - BE, Nora - BE and 1 more.',
+            setMyPills: { setMyPills: setMyPills },
+            redirect: false
+        },
+        {
+            date: 'Wed Feb 13 2023',
+            tag: 'last day',
+            message: "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+            sub: 'Phenol H - BE, Nora - BE and 1 more.',
+            setMyPills: { setMyPills: setMyPills },
+            redirect: true
+        },
+    ]), notificationData = _r[0], setNotificationData = _r[1];
+    function generateNotifications() {
+        var today = moment_1["default"](new Date());
+        var currentTime = Number(exports.d.format('HH:mm').replace(':', ''));
+        pillData === null || pillData === void 0 ? void 0 : pillData.forEach(function (element) {
+            var dataTime = Number(element.time.replace(':', ''));
+            var windowOpen = Number(element.time.replace(':', '')) - 100;
+            var windowClosed = Number(element.time.replace(':', '')) + 100;
+            var takenCount = 0;
+            var pillCount = element.pills.length;
+            var pillName = [];
+            element.pills.forEach(function (element) {
+                pillName.push(element.name + ' ');
+                element.daysTaken.forEach(function (elem) {
+                    if (elem.date === exports.d.format('ddd MMM D YYYY')) {
+                        elem.time.forEach(function (ti) {
+                            if (Number(ti.replace(':', '')) > windowOpen &&
+                                Number(ti.replace(':', '')) < windowClosed) {
+                                takenCount += 1;
+                            }
+                        });
+                    }
+                });
+            });
+            if (pillCount !== takenCount &&
+                dataTime < currentTime &&
+                currentTime >= windowOpen &&
+                currentTime <= windowClosed) {
+                var notif = {
+                    date: exports.d.format('ddd MMM D YYYY'),
+                    tag: 'missed',
+                    message: "It's not too late to take the pills you missed by " + element.time + ":",
+                    sub: pillName,
+                    setMyPills: { setMyPills: setMyPills },
+                    redirect: false
+                };
+                newNotificationData.unshift(notif);
+            }
+            else if (pillCount !== takenCount && dataTime < currentTime) {
+                var notif = {
+                    date: exports.d.format('ddd MMM D YYYY'),
+                    tag: 'missed',
+                    message: "Hey, You missed taking your " + element.time + " pills today:",
+                    sub: pillName,
+                    setMyPills: { setMyPills: setMyPills },
+                    redirect: false
+                };
+                newNotificationData.unshift(notif);
+            }
+        });
+        demodata_1.demoRemake === null || demodata_1.demoRemake === void 0 ? void 0 : demodata_1.demoRemake.forEach(function (element) {
+            var end = moment_1["default"](new Date(element.endDate));
+            var daysLeft = end.diff(today, 'days') + 1;
+            var pillName = [];
+            if (daysLeft <= 5 && daysLeft >= 3) {
+                pillName.push(element.name + ' ');
+                var notif = {
+                    date: exports.d.format('ddd MMM D YYYY'),
+                    tag: 'almost done',
+                    message: "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+                    sub: pillName,
+                    setMyPills: { setMyPills: setMyPills },
+                    redirect: true
+                };
+                newNotificationData.unshift(notif);
+            }
+            else if (daysLeft === 0) {
+                pillName.push(element.name + ' ');
+                var notif = {
+                    date: exports.d.format('ddd MMM D YYYY'),
+                    tag: 'last day',
+                    message: "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+                    sub: pillName,
+                    setMyPills: { setMyPills: setMyPills },
+                    redirect: true
+                };
+                newNotificationData.unshift(notif);
+            }
+            else if (daysLeft === 1) {
+                pillName.push(element.name + ' ');
+                var notif = {
+                    date: exports.d.format('ddd MMM D YYYY'),
+                    tag: 'almost done',
+                    message: 'Hello Chibuzor, your circle ends in a day with some pills: ',
+                    sub: pillName,
+                    setMyPills: { setMyPills: setMyPills },
+                    redirect: true
+                };
+                newNotificationData.unshift(notif);
+            }
+            else if (daysLeft === -1) {
+                pillName.push(element.name + ' ');
+                var notif = {
+                    date: exports.d.format('ddd MMM D YYYY'),
+                    tag: 'done',
+                    message: 'Hello Chibuzor, your circle is done with some pills: ',
+                    sub: pillName,
+                    setMyPills: { setMyPills: setMyPills },
+                    redirect: true
+                };
+                newNotificationData.unshift(notif);
+            }
+        });
+        var clonedData = __spreadArrays(notificationData);
+        newNotificationData.forEach(function (ele) {
+            if (!clonedData.includes(ele)) {
+                clonedData.unshift(ele);
+            }
+        });
+        setNotificationData(clonedData);
+    }
+    /*  makeshift splash screen  */
     react_1.useEffect(function () {
         setTimeout(function () {
             mainDrive(exports.d.format('ddd MMM D YYYY'));
             setSplash(false);
+            generateNotifications();
         }, 500);
     }, []);
-    var _q = react_1.useState(false), showNotif = _q[0], setShowNotif = _q[1];
-    var _r = react_1.useState(false), me = _r[0], setMe = _r[1];
-    var _s = react_1.useState(false), deleteAllPills = _s[0], setDeleteAllPills = _s[1];
-    var _t = react_1.useState(''), message = _t[0], setMessage = _t[1];
+    var _s = react_1.useState(false), showNotif = _s[0], setShowNotif = _s[1];
+    var _t = react_1.useState(false), me = _t[0], setMe = _t[1];
+    var _u = react_1.useState(false), deleteAllPills = _u[0], setDeleteAllPills = _u[1];
+    var _v = react_1.useState(''), message = _v[0], setMessage = _v[1];
     react_1.useEffect(function () {
         setTimeout(function () {
             setShowNotif(false);
         }, 3000);
     }, [showNotif]);
+    /*   useEffect(() => {
+      generateNotifications();
+    }, [d.format('mm')]); */
     return splash ? (react_1["default"].createElement(Splash, null)) : (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, filterData: filterData, setFilterData: setFilterData })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], { setSettings: setSettings, setLoading: setLoading, setMyPills: setMyPills, setMe: setMe, setDeleteAllPills: setDeleteAllPills })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications, setMyPills: setMyPills })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications, setMyPills: setMyPills, notificationData: notificationData, pillData: pillData, setNewNotification: setNewNotification })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: me, transparent: true, onRequestClose: function () { return setMe(false); } }, react_1["default"].createElement(Me_1["default"], { setMe: setMe })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: deleteAllPills, transparent: true, onRequestClose: function () { return setDeleteAllPills(false); } }, react_1["default"].createElement(DeleteAllPills_1["default"], { setDeleteAllPills: setDeleteAllPills, setFilterData: setFilterData, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: myPills, transparent: true, onRequestClose: function () { return setMyPills(false); } }, react_1["default"].createElement(MyPills_1["default"], { setMyPills: setMyPills, filterData: filterData, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, setFilterData: setFilterData, showNotif: showNotif, message: message })),
@@ -264,10 +409,11 @@ var Home = function () {
                             }, 150);
                         } },
                         react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('bell'), style: { marginLeft: 5 }, size: 22, color: 'black' }),
-                        react_1["default"].createElement(react_native_elements_1.Badge, { value: 5, badgeStyle: { backgroundColor: 'red' }, containerStyle: {
+                        react_1["default"].createElement(react_native_elements_1.Badge, { value: newNotificationData.length, badgeStyle: { backgroundColor: 'red' }, containerStyle: {
                                 position: 'absolute',
                                 top: -4,
-                                right: 4
+                                right: 4,
+                                display: newNotificationData.length !== 0 ? 'flex' : 'none'
                             } }))),
                 react_1["default"].createElement(react_native_1.View, { style: {
                         display: 'flex',

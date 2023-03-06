@@ -407,7 +407,7 @@ var NewPill = function (_a) {
                             borderWidth: 1,
                             borderColor: 'gray',
                             textAlignVertical: 'top',
-                            padding: 8
+                            padding: 16
                         } }),
                     react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: handleSave, activeOpacity: 0.5, style: {
                             display: 'flex',

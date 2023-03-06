@@ -364,4 +364,43 @@ exports.demoRemake = [
         instructions: 'Take after a meal',
         daysTaken: []
     },
+    {
+        id: 5,
+        name: 'ParacetamolBK',
+        desc: 'Norenthindrone - 0.35mg',
+        dosage: '3',
+        duration: '3',
+        timesPerDay: 3,
+        times: ['7:00', '14:00', '19:00'],
+        startDate: 'Thu Mar 1 2023',
+        endDate: 'Tue Mar 7 2023',
+        instructions: 'Take after a meal',
+        daysTaken: []
+    },
+    {
+        id: 6,
+        name: 'Cocaine',
+        desc: 'Norenthindrone - 0.35mg',
+        dosage: '3',
+        duration: '3',
+        timesPerDay: 3,
+        times: ['7:00', '14:00', '19:00'],
+        startDate: 'Thu Mar 1 2023',
+        endDate: 'Tue Mar 7 2023',
+        instructions: 'Take after a meal',
+        daysTaken: []
+    },
+    {
+        id: 7,
+        name: 'Cocaine1',
+        desc: 'Norenthindrone - 0.35mg',
+        dosage: '3',
+        duration: '3',
+        timesPerDay: 3,
+        times: ['7:00', '14:00', '17:50'],
+        startDate: 'Thu Mar 1 2023',
+        endDate: 'Tue Mar 7 2023',
+        instructions: 'Take after a meal',
+        daysTaken: []
+    },
 ];

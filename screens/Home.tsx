@@ -36,6 +36,7 @@ import HiddenItem from '../Components/HiddenItem';
 /* export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
 } */
+
 const date = new Date();
 export var d = moment(date);
 
@@ -56,6 +57,12 @@ const Home = () => {
     '#7da19d', //gray
     '#1d9aa9', //light dark blue lol
   ];
+  d.month(); // 1
+  const [day, setDay] = useState(d.format('ddd MMM D YYYY'));
+  const [pillData, setPillData] = useState([]);
+  const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
+  const [header, setHeader] = useState<string>('today');
+  const [selectedDate, setSelectedDate] = useState(moment());
   /* Check date in duration function */
 
   /*   var datefrom = '05/05/2013';
@@ -106,6 +113,9 @@ const Home = () => {
     //remove repeated times
     listInDurationTimes = [...new Set(listInDurationTimes)];
 
+    listInDurationTimes.sort(function (a: string, b: string) {
+      return Number(a.replace(':', '')) - Number(b.replace(':', ''));
+    });
     var mainReturn = [];
 
     //create pill with times
@@ -141,24 +151,29 @@ const Home = () => {
     //add pills at specific times list
     mainReturn.forEach(ele => {
       pills.forEach(element => {
+        /* const reminder = `Hey Chibuzor, Its time to take your ${element.time}` */
         if (element.time === ele.time) {
           ele.pills.push(element);
         }
       });
     });
-    //set new data
     setPillData(mainReturn);
+
+    //set new data
   }
+
+  interface notificationStructure {
+    date: string;
+    tag: string;
+    message: string;
+    sub: string | [];
+    setMyPills: {setMyPills};
+    redirect: boolean;
+  }
+
   /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
 
   useEffect(() => mainDrive(day), [filterData]);
-
-  d.month(); // 1
-  const [day, setDay] = useState(d.format('ddd MMM D YYYY'));
-  const [pillData, setPillData] = useState([]);
-  const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
-  const [header, setHeader] = useState<string>('today');
-  const [selectedDate, setSelectedDate] = useState(moment());
 
   /*   useEffect(() => {
     switch (day) {
@@ -278,11 +293,167 @@ const Home = () => {
     data: {},
   }; */
 
-  /*  make shift splash screen  */
+  const [newNotificationData, setNewNotification] = useState([]);
+  var [notificationData, setNotificationData] = useState<
+    notificationStructure[]
+  >([
+    {
+      date: 'Sun Mar 5 2023',
+      tag: 'almost done',
+      message:
+        "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+      sub: 'Phenol H - BE, Nora - BE and 5 more.',
+      setMyPills: {setMyPills},
+      redirect: true,
+    },
+    {
+      date: 'Thu Mar 1 2023',
+      tag: 'missed',
+      message: 'Hey, You missed taking your 7:00 pills today:',
+      sub: 'Phenol H - BE, Nora - BE and 1 more.',
+      setMyPills: {setMyPills},
+      redirect: false,
+    },
+    {
+      date: 'Wed Feb 13 2023',
+      tag: 'last day',
+      message:
+        "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+      sub: 'Phenol H - BE, Nora - BE and 1 more.',
+      setMyPills: {setMyPills},
+      redirect: true,
+    },
+  ]);
+  function generateNotifications() {
+    var today = moment(new Date());
+    var currentTime = Number(d.format('HH:mm').replace(':', ''));
+    pillData?.forEach(element => {
+      var dataTime = Number(element.time.replace(':', ''));
+      var windowOpen = Number(element.time.replace(':', '')) - 100;
+      var windowClosed = Number(element.time.replace(':', '')) + 100;
+      var takenCount = 0;
+      const pillCount = element.pills.length;
+      var pillName: [] = [];
+
+      element.pills.forEach(element => {
+        pillName.push(element.name + ' ');
+        element.daysTaken.forEach(elem => {
+          if (elem.date === d.format('ddd MMM D YYYY')) {
+            elem.time.forEach(ti => {
+              if (
+                Number(ti.replace(':', '')) > windowOpen &&
+                Number(ti.replace(':', '')) < windowClosed
+              ) {
+                takenCount += 1;
+              }
+            });
+          }
+        });
+      });
+
+      if (
+        pillCount !== takenCount &&
+        dataTime < currentTime &&
+        currentTime >= windowOpen &&
+        currentTime <= windowClosed
+      ) {
+        const notif: notificationStructure = {
+          date: d.format('ddd MMM D YYYY'),
+          tag: 'missed',
+          message: `It's not too late to take the pills you missed by ${element.time}:`,
+          sub: pillName,
+          setMyPills: {setMyPills},
+          redirect: false,
+        };
+        newNotificationData.unshift(notif);
+      } else if (pillCount !== takenCount && dataTime < currentTime) {
+        const notif: notificationStructure = {
+          date: d.format('ddd MMM D YYYY'),
+          tag: 'missed',
+          message: `Hey, You missed taking your ${element.time} pills today:`,
+          sub: pillName,
+          setMyPills: {setMyPills},
+          redirect: false,
+        };
+        newNotificationData.unshift(notif);
+      }
+    });
+    demoRemake?.forEach(element => {
+      var end = moment(new Date(element.endDate));
+      var daysLeft = end.diff(today, 'days') + 1;
+      var pillName: [] = [];
+
+      if (daysLeft <= 5 && daysLeft >= 3) {
+        pillName.push(element.name + ' ');
+        const notif: notificationStructure = {
+          date: d.format('ddd MMM D YYYY'),
+          tag: 'almost done',
+          message:
+            "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+          sub: pillName,
+          setMyPills: {setMyPills},
+          redirect: true,
+        };
+
+        newNotificationData.unshift(notif);
+      } else if (daysLeft === 0) {
+        pillName.push(element.name + ' ');
+        const notif: notificationStructure = {
+          date: d.format('ddd MMM D YYYY'),
+          tag: 'last day',
+          message:
+            "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+          sub: pillName,
+          setMyPills: {setMyPills},
+          redirect: true,
+        };
+
+        newNotificationData.unshift(notif);
+      } else if (daysLeft === 1) {
+        pillName.push(element.name + ' ');
+        const notif: notificationStructure = {
+          date: d.format('ddd MMM D YYYY'),
+          tag: 'almost done',
+          message:
+            'Hello Chibuzor, your circle ends in a day with some pills: ',
+          sub: pillName,
+          setMyPills: {setMyPills},
+          redirect: true,
+        };
+
+        newNotificationData.unshift(notif);
+      } else if (daysLeft === -1) {
+        pillName.push(element.name + ' ');
+        const notif: notificationStructure = {
+          date: d.format('ddd MMM D YYYY'),
+          tag: 'done',
+          message: 'Hello Chibuzor, your circle is done with some pills: ',
+          sub: pillName,
+          setMyPills: {setMyPills},
+          redirect: true,
+        };
+
+        newNotificationData.unshift(notif);
+      }
+    });
+
+    const clonedData = [...notificationData];
+
+    newNotificationData.forEach(ele => {
+      if (!clonedData.includes(ele)) {
+        clonedData.unshift(ele);
+      }
+    });
+    setNotificationData(clonedData);
+  }
+
+  /*  makeshift splash screen  */
   useEffect(() => {
     setTimeout(() => {
       mainDrive(d.format('ddd MMM D YYYY'));
+
       setSplash(false);
+      generateNotifications();
     }, 500);
   }, []);
 
@@ -295,6 +466,10 @@ const Home = () => {
       setShowNotif(false);
     }, 3000);
   }, [showNotif]);
+
+  /*   useEffect(() => {
+    generateNotifications();
+  }, [d.format('mm')]); */
 
   return splash ? (
     <Splash />
@@ -344,6 +519,9 @@ const Home = () => {
           <Notifications
             setNotifications={setNotifications}
             setMyPills={setMyPills}
+            notificationData={notificationData}
+            pillData={pillData}
+            setNewNotification={setNewNotification}
           />
         }
       </Modal>
@@ -441,12 +619,13 @@ const Home = () => {
                   color={'black'}
                 />
                 <Badge
-                  value={5}
+                  value={newNotificationData.length}
                   badgeStyle={{backgroundColor: 'red'}}
                   containerStyle={{
                     position: 'absolute',
                     top: -4,
                     right: 4,
+                    display: newNotificationData.length !== 0 ? 'flex' : 'none',
                   }}
                 />
               </TouchableOpacity>

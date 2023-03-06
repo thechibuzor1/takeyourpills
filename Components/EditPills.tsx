@@ -704,7 +704,7 @@ const EditPills = ({
               borderWidth: 1,
               borderColor: 'gray',
               textAlignVertical: 'top',
-              padding: 8,
+              padding: 16,
             }}
           />
 

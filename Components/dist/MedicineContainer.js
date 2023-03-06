@@ -25,8 +25,8 @@ var MedicineContainer = function (_a) {
     var pillCount = props.pills.length;
     var takenCount = 0;
     var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
-    var windowOpen = Number(props.time.replace(':', '')) - 300;
-    var windowClosed = Number(props.time.replace(':', '')) + 300;
+    var windowOpen = Number(props.time.replace(':', '')) - 100;
+    var windowClosed = Number(props.time.replace(':', '')) + 100;
     /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
        
       } */
@@ -65,13 +65,17 @@ var MedicineContainer = function (_a) {
                     ? '#69CA90'
                     : taken == 'SOME'
                         ? '#FFC600'
-                        : dataTime < currentTime
-                            ? '#ED1D24'
-                            : dataTime - currentTime < 300
-                                ? '#F9DD71'
-                                : dataTime - currentTime > 300 && dataTime - currentTime <= 600
-                                    ? '#132342'
-                                    : '#ECECEC',
+                        : currentTime >= windowOpen &&
+                            currentTime <= windowClosed &&
+                            taken !== 'ALL'
+                            ? '#FF7276'
+                            : dataTime < currentTime
+                                ? '#ED1D24'
+                                : dataTime - currentTime < 300
+                                    ? '#F9DD71'
+                                    : dataTime - currentTime > 300 && dataTime - currentTime <= 600
+                                        ? '#132342'
+                                        : '#ECECEC',
             display: 'flex',
             width: '95%',
             alignSelf: 'center',

@@ -24,8 +24,8 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
   var takenCount = 0;
 
   var currentTime = Number(d.format('HH:mm').replace(':', ''));
-  var windowOpen = Number(props.time.replace(':', '')) - 300;
-  var windowClosed = Number(props.time.replace(':', '')) + 300;
+  var windowOpen = Number(props.time.replace(':', '')) - 100;
+  var windowClosed = Number(props.time.replace(':', '')) + 100;
 
   /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
      
@@ -71,6 +71,10 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
           ? '#69CA90'
           : taken == 'SOME'
           ? '#FFC600'
+          : currentTime >= windowOpen &&
+            currentTime <= windowClosed &&
+            taken !== 'ALL'
+          ? '#FF7276'
           : dataTime < currentTime
           ? '#ED1D24'
           : dataTime - currentTime < 300

@@ -10,8 +10,8 @@ const HiddenItem = ({props, filterData, setFilterData, mainDrive}) => {
   var takenCount = 0;
 
   var currentTime = Number(d.format('HH:mm').replace(':', ''));
-  var windowOpen = Number(props.time.replace(':', '')) - 300;
-  var windowClosed = Number(props.time.replace(':', '')) + 300;
+  var windowOpen = Number(props.time.replace(':', '')) - 100;
+  var windowClosed = Number(props.time.replace(':', '')) + 100;
 
   props.pills.forEach(element => {
     element.daysTaken.forEach(elem => {

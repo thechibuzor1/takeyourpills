@@ -18,8 +18,8 @@ var HiddenItem = function (_a) {
     var pillCount = props.pills.length;
     var takenCount = 0;
     var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
-    var windowOpen = Number(props.time.replace(':', '')) - 300;
-    var windowClosed = Number(props.time.replace(':', '')) + 300;
+    var windowOpen = Number(props.time.replace(':', '')) - 100;
+    var windowClosed = Number(props.time.replace(':', '')) + 100;
     props.pills.forEach(function (element) {
         element.daysTaken.forEach(function (elem) {
             if (elem.date === Home_1.d.format('ddd MMM D YYYY')) {
