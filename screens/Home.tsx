@@ -13,6 +13,7 @@ import {
   StatusBar,
   ScrollView,
 } from 'react-native';
+import Notification from '../Notifications';
 import React, {useEffect, useMemo, useState, useRef} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {Divider, Badge} from 'react-native-elements';
@@ -63,6 +64,39 @@ const Home = () => {
   const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
   const [selectedDate, setSelectedDate] = useState(moment());
+  function setPushNotification() {
+    var todaysDuration = [];
+    var todaysTimes = [];
+    filterData?.forEach(element => {
+      if (
+        check(element.startDate, element.endDate, d.format('ddd MMM D YYYY'))
+      ) {
+        todaysDuration.push(element); //add those in range to the list
+        return;
+      }
+    });
+
+    //get their times in a day
+    todaysDuration.forEach(element => {
+      element.times.forEach(element => {
+        todaysTimes.push(element);
+      });
+    });
+    //remove repeated times
+    todaysTimes = [...new Set(todaysTimes)];
+
+    todaysTimes.sort(function (a: string, b: string) {
+      return Number(a.replace(':', '')) - Number(b.replace(':', ''));
+    });
+    var currentTime = Number(d.format('HH:mm').replace(':', ''));
+    todaysTimes.forEach(element => {
+      var dateTime = Number(element.replace(':', ''));
+      if (currentTime < dateTime) {
+        var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
+        Notification.scheduleNotification(notifDate);
+      }
+    });
+  }
   /* Check date in duration function */
 
   /*   var datefrom = '05/05/2013';
@@ -151,14 +185,14 @@ const Home = () => {
     //add pills at specific times list
     mainReturn.forEach(ele => {
       pills.forEach(element => {
-        /* const reminder = `Hey Chibuzor, Its time to take your ${element.time}` */
         if (element.time === ele.time) {
           ele.pills.push(element);
         }
       });
     });
     setPillData(mainReturn);
-
+    //notifications
+    /* setPushNotification(); */
     //set new data
   }
 
@@ -175,6 +209,10 @@ const Home = () => {
 
   useEffect(() => mainDrive(day), [filterData]);
 
+  /*   var hm = element.time; */
+  /*  var notifDate = moment(`20:1`, ['h:m a', 'H:m']).toDate();
+
+  Notification.scheduleNotification(notifDate); */
   /*   useEffect(() => {
     switch (day) {
       case 'Monday':
@@ -451,7 +489,7 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       mainDrive(d.format('ddd MMM D YYYY'));
-
+      setPushNotification();
       setSplash(false);
       generateNotifications();
     }, 500);
