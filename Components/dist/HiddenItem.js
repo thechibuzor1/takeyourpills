@@ -12,8 +12,9 @@ var react_1 = require("react");
 var Home_1 = require("../screens/Home");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
+var async_storage_1 = require("@react-native-async-storage/async-storage");
 var HiddenItem = function (_a) {
-    var props = _a.props, filterData = _a.filterData, setFilterData = _a.setFilterData, mainDrive = _a.mainDrive;
+    var props = _a.props, filterData = _a.filterData, setFilterData = _a.setFilterData, mainDrive = _a.mainDrive, setConfetti = _a.setConfetti;
     var _b = react_1.useState(false), taken = _b[0], setTaken = _b[1];
     var pillCount = props.pills.length;
     var takenCount = 0;
@@ -33,7 +34,7 @@ var HiddenItem = function (_a) {
         });
     });
     react_1.useEffect(function () {
-        if (takenCount === pillCount) {
+        if (takenCount >= pillCount) {
             setTaken(true);
         }
         else {
@@ -68,8 +69,11 @@ var HiddenItem = function (_a) {
                 }
             });
         });
-        setFilterData(clonedData);
-        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+        async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
+            setFilterData(clonedData);
+            mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+            setConfetti(true);
+        });
     }
     /* console.log(diff(props.time, d.format('HH:mm'))); */
     /*  console.log(Number(d.format('HH:mm').replace(':', ''))); */

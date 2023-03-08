@@ -31,14 +31,13 @@ class Notification {
     });
   }
 
-  scheduleNotification(date) {
+  scheduleNotification(date, message) {
     PushNotification.localNotificationSchedule({
       channelId: 'reminders',
       title: 'TAKE YOUR PILLS!',
-      message: "It's time to take your pills",
+      message: message,
       date,
-      allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
-
+      allowWhileIdle: true, // (optional) set notification to work while on doze, default: false
       /* Android Only Properties */
       repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
       repeatType: 'day',

@@ -6,8 +6,10 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var react_native_elements_1 = require("react-native-elements");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Settings = function (_a) {
-    var setSettings = _a.setSettings, setMyPills = _a.setMyPills, setLoading = _a.setLoading, setMe = _a.setMe, setDeleteAllPills = _a.setDeleteAllPills;
+    var setSettings = _a.setSettings, setMyPills = _a.setMyPills, setLoading = _a.setLoading, setMe = _a.setMe, setDeleteAllPills = _a.setDeleteAllPills, setInfo = _a.setInfo;
     return (react_1["default"].createElement(react_native_1.View, { style: styles.modalContainer },
+        react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () { return setInfo(true); }, style: { position: 'absolute', top: 40, right: 40 }, activeOpacity: 0.5 },
+            react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.regular('circle-question'), size: 30, color: 'white' })),
         react_1["default"].createElement(react_native_1.ImageBackground, { style: {
                 alignSelf: 'center',
                 marginBottom: 5

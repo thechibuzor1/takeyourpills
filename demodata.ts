@@ -335,15 +335,11 @@ export var demoRemake: MyPills[] = [
     dosage: '2',
     duration: '30',
     timesPerDay: 1,
-    times: ['9:00'],
+    times: ['13:30', '19:00'],
     startDate: 'Wed Mar 1 2023', //format('dddd MMM D')
     endDate: 'Fri Mar 13 2023',
     instructions: 'Take after a meal',
-    daysTaken: [
-      {date: 'Sat Mar 4 2023', time: ['10:00']},
-      {date: 'Wed Mar 1 2023', time: ['10:00']},
-      {date: 'Fri Mar 3 2023', time: ['10:00']},
-    ],
+    daysTaken: [{date: 'Mon Mar 6 2023', time: ['13:00', '19:00']}],
   },
   {
     id: 2,
@@ -356,9 +352,12 @@ export var demoRemake: MyPills[] = [
     startDate: 'Thu Feb 2 2023', //format('dddd MMM D')
     endDate: 'Fri Mar 3 2023',
     instructions: 'Take after a meal',
-    daysTaken: [{date: 'Wed Mar 1 2023', time: ['10:00', '13:00']}],
+    daysTaken: [
+      {date: 'Wed Mar 1 2023', time: ['9:00', '13:00']},
+      {date: 'Thu Mar 2 2023', time: ['9:00', '14:30']},
+    ],
   },
-  {
+   {
     id: 3,
     name: 'Noraphenol - JI',
     desc: 'Norenthindrone - 0.35mg',

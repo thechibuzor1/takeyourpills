@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {d} from '../screens/Home';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DeleteApill = ({
   data,
@@ -19,13 +20,16 @@ const DeleteApill = ({
     // array.splice(start_index, no_of_elements_to_remove)
     const clonedData = [...filterData];
     clonedData.splice(index, 1);
-    setFilterData(clonedData);
-    mainDrive(d.format('ddd MMM D YYYY'));
-    setPillActive(false);
-    setCurrentPill(null);
-    setIndex(null);
-    setMessage('Pills have been deleted! 🤯');
-    setShowNotif(true);
+
+    AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
+      setFilterData(clonedData);
+      mainDrive(d.format('ddd MMM D YYYY'));
+      setPillActive(false);
+      setCurrentPill(null);
+      setIndex(null);
+      setMessage('Pills have been deleted! 🤯');
+      setShowNotif(true);
+    });
   }
 
   return (

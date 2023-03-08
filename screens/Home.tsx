@@ -12,6 +12,7 @@ import {
   TextInput,
   StatusBar,
   ScrollView,
+  Image,
 } from 'react-native';
 import Notification from '../Notifications';
 import React, {useEffect, useMemo, useState, useRef} from 'react';
@@ -34,10 +35,34 @@ import MyPills from '../Components/MyPills';
 import Me from '../Components/Me';
 import DeleteAllPills from '../Components/DeleteAllPills';
 import HiddenItem from '../Components/HiddenItem';
+import AppIntroSlider from 'react-native-app-intro-slider';
+import EnterDisplayName from '../Components/EnterDisplayName';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Info from '../Components/Info';
+
 /* export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
 } */
+export function check(dF: string, dT: string, dC: string) {
+  //convert dates to 'day/month/year' format
+  var dateFrom = moment(new Date(dF)).format('DD/MM/YYYY');
+  var dateTo = moment(new Date(dT)).format('DD/MM/YYYY');
+  var dateCheck = moment(new Date(dC)).format('DD/MM/YYYY');
 
+  /*     var dateFrom = '02/05/2023';
+  var dateTo = '09/03/2023';
+  var dateCheck = '05/07/2023'; */
+
+  var d1 = dateFrom.split('/');
+  var d2 = dateTo.split('/');
+  var c = dateCheck.split('/');
+
+  var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
+  var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+  var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
+  //cheack if date is in range of two dates
+  return check >= from && check <= to;
+}
 const date = new Date();
 export var d = moment(date);
 
@@ -58,72 +83,22 @@ const Home = () => {
     '#7da19d', //gray
     '#1d9aa9', //light dark blue lol
   ];
+  const [displayName, setDisplayName] = useState<string>('');
+  const [showDisplayName, setShowDisplayName] = useState<boolean>(false);
   d.month(); // 1
   const [day, setDay] = useState(d.format('ddd MMM D YYYY'));
   const [pillData, setPillData] = useState([]);
   const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
   const [selectedDate, setSelectedDate] = useState(moment());
-  function setPushNotification() {
-    var todaysDuration = [];
-    var todaysTimes = [];
-    filterData?.forEach(element => {
-      if (
-        check(element.startDate, element.endDate, d.format('ddd MMM D YYYY'))
-      ) {
-        todaysDuration.push(element); //add those in range to the list
-        return;
-      }
-    });
 
-    //get their times in a day
-    todaysDuration.forEach(element => {
-      element.times.forEach(element => {
-        todaysTimes.push(element);
-      });
-    });
-    //remove repeated times
-    todaysTimes = [...new Set(todaysTimes)];
-
-    todaysTimes.sort(function (a: string, b: string) {
-      return Number(a.replace(':', '')) - Number(b.replace(':', ''));
-    });
-    var currentTime = Number(d.format('HH:mm').replace(':', ''));
-    todaysTimes.forEach(element => {
-      var dateTime = Number(element.replace(':', ''));
-      if (currentTime < dateTime) {
-        var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
-        Notification.scheduleNotification(notifDate);
-      }
-    });
-  }
   /* Check date in duration function */
 
   /*   var datefrom = '05/05/2013';
   var dateCurr = '05/28/2013';
   var dateTo = '05/22/2013'; */
 
-  function check(dF: string, dT: string, dC: string) {
-    //convert dates to 'day/month/year' format
-    var dateFrom = moment(new Date(dF)).format('DD/MM/YYYY');
-    var dateTo = moment(new Date(dT)).format('DD/MM/YYYY');
-    var dateCheck = moment(new Date(dC)).format('DD/MM/YYYY');
-
-    /*     var dateFrom = '02/05/2023';
-    var dateTo = '09/03/2023';
-    var dateCheck = '05/07/2023'; */
-
-    var d1 = dateFrom.split('/');
-    var d2 = dateTo.split('/');
-    var c = dateCheck.split('/');
-
-    var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]); // -1 because months are from 0 to 11
-    var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
-    var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
-    //cheack if date is in range of two dates
-    return check >= from && check <= to;
-  }
-  const [filterData, setFilterData] = useState(demoRemake);
+  const [filterData, setFilterData] = useState([]);
   function mainDrive(date) {
     //set data based on date
     var listInDuration = []; //empty list of piils in range of selected date
@@ -157,7 +132,6 @@ const Home = () => {
       const newData = {
         time: element,
         pills: [],
-        taken: false,
       };
       mainReturn.push(newData);
     });
@@ -192,10 +166,45 @@ const Home = () => {
     });
     setPillData(mainReturn);
     //notifications
-    /* setPushNotification(); */
+
     //set new data
   }
+  async function setPushNotification() {
+    var todaysDuration = [];
+    var todaysTimes = [];
+    filterData?.forEach(element => {
+      if (
+        check(element.startDate, element.endDate, d.format('ddd MMM D YYYY'))
+      ) {
+        todaysDuration.push(element); //add those in range to the list
+        return;
+      }
+    });
 
+    //get their times in a day
+    todaysDuration.forEach(element => {
+      element.times.forEach(element => {
+        todaysTimes.push(element);
+      });
+    });
+    //remove repeated times
+    todaysTimes = [...new Set(todaysTimes)];
+
+    todaysTimes.sort(function (a: string, b: string) {
+      return Number(a.replace(':', '')) - Number(b.replace(':', ''));
+    });
+    var currentTime = Number(d.format('HH:mm').replace(':', ''));
+    todaysTimes.forEach(element => {
+      var dateTime = Number(element.replace(':', ''));
+      if (currentTime < dateTime) {
+        var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
+        Notification.scheduleNotification(
+          notifDate,
+          `It's time to take your ${element} pills`,
+        );
+      }
+    });
+  }
   interface notificationStructure {
     date: string;
     tag: string;
@@ -253,6 +262,29 @@ const Home = () => {
   const [showCalendar, setShowCalendar] = useState<Boolean>(false);
 
   const pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
+  const slides = [
+    {
+      key: 1,
+      title: 'Schedule Pills',
+      text: 'Never miss\n taking your pills',
+      image: require('../assets/1.jpg'),
+      backgroundColor: '#fff',
+    },
+    {
+      key: 2,
+      title: 'Manage Pills',
+      text: 'Track pills durations, dosage and so on...',
+      image: require('../assets/2.jpg'),
+      backgroundColor: '#febe29',
+    },
+    {
+      key: 3,
+      title: 'Notifications',
+      text: 'Get notified on\n missed pills and pills due for renewal',
+      image: require('../assets/3.jpg'),
+      backgroundColor: '#22bcb5',
+    },
+  ];
   /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
   const [confetti, setConfetti] = useState<boolean>(false);
   const renderItem = data => (
@@ -271,6 +303,7 @@ const Home = () => {
       filterData={filterData}
       setFilterData={setFilterData}
       mainDrive={mainDrive}
+      setConfetti={setConfetti}
     />
   );
 
@@ -280,6 +313,7 @@ const Home = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [splash, setSplash] = useState<boolean>(true);
   const [notifications, setNotifications] = useState<boolean>(false);
+  const [info, setInfo] = useState<boolean>(false);
 
   const Loading = () => (
     <ImageBackground
@@ -334,35 +368,9 @@ const Home = () => {
   const [newNotificationData, setNewNotification] = useState([]);
   var [notificationData, setNotificationData] = useState<
     notificationStructure[]
-  >([
-    {
-      date: 'Sun Mar 5 2023',
-      tag: 'almost done',
-      message:
-        "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
-      sub: 'Phenol H - BE, Nora - BE and 5 more.',
-      setMyPills: {setMyPills},
-      redirect: true,
-    },
-    {
-      date: 'Thu Mar 1 2023',
-      tag: 'missed',
-      message: 'Hey, You missed taking your 7:00 pills today:',
-      sub: 'Phenol H - BE, Nora - BE and 1 more.',
-      setMyPills: {setMyPills},
-      redirect: false,
-    },
-    {
-      date: 'Wed Feb 13 2023',
-      tag: 'last day',
-      message:
-        "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
-      sub: 'Phenol H - BE, Nora - BE and 1 more.',
-      setMyPills: {setMyPills},
-      redirect: true,
-    },
-  ]);
-  function generateNotifications() {
+  >([]);
+
+  async function generateNotifications() {
     var today = moment(new Date());
     var currentTime = Number(d.format('HH:mm').replace(':', ''));
     pillData?.forEach(element => {
@@ -416,7 +424,7 @@ const Home = () => {
         newNotificationData.unshift(notif);
       }
     });
-    demoRemake?.forEach(element => {
+    filterData?.forEach(element => {
       var end = moment(new Date(element.endDate));
       var daysLeft = end.diff(today, 'days') + 1;
       var pillName: [] = [];
@@ -426,8 +434,7 @@ const Home = () => {
         const notif: notificationStructure = {
           date: d.format('ddd MMM D YYYY'),
           tag: 'almost done',
-          message:
-            "Hey Chibuzor, your circle is almost done with some pills. Check if you'd like to renew any:",
+          message: `Hey ${displayName}, your circle is almost done with some pills. Check if you'd like to renew any:`,
           sub: pillName,
           setMyPills: {setMyPills},
           redirect: true,
@@ -439,8 +446,7 @@ const Home = () => {
         const notif: notificationStructure = {
           date: d.format('ddd MMM D YYYY'),
           tag: 'last day',
-          message:
-            "Hey Chibuzor, today is the your last day taking some pills. Check if you'd like to renew any: ",
+          message: `Hey ${displayName}, today is the your last day taking some pills. Check if you'd like to renew any: `,
           sub: pillName,
           setMyPills: {setMyPills},
           redirect: true,
@@ -452,8 +458,7 @@ const Home = () => {
         const notif: notificationStructure = {
           date: d.format('ddd MMM D YYYY'),
           tag: 'almost done',
-          message:
-            'Hello Chibuzor, your circle ends in a day with some pills: ',
+          message: `Hello ${displayName}, your circle ends in a day with some pills: `,
           sub: pillName,
           setMyPills: {setMyPills},
           redirect: true,
@@ -465,7 +470,7 @@ const Home = () => {
         const notif: notificationStructure = {
           date: d.format('ddd MMM D YYYY'),
           tag: 'done',
-          message: 'Hello Chibuzor, your circle is done with some pills: ',
+          message: `Hello ${displayName}, your circle is done with some pills: `,
           sub: pillName,
           setMyPills: {setMyPills},
           redirect: true,
@@ -482,12 +487,49 @@ const Home = () => {
         clonedData.unshift(ele);
       }
     });
-    setNotificationData(clonedData);
+    AsyncStorage.setItem('notifications', JSON.stringify(clonedData))
+      .then(() => {
+        setNotificationData(clonedData);
+      })
+      .catch(err => console.log(err));
+  }
+
+  const [showRealApp, setShowRealApp] = useState<boolean>(false);
+
+  async function loadData() {
+    AsyncStorage.getItem('first_time').then(data => {
+      if (data !== null) {
+        JSON.parse(data) && setShowRealApp(true);
+      }
+    });
+    AsyncStorage.getItem('userName')
+      .then(data => {
+        if (data !== null) {
+          setDisplayName(JSON.parse(data));
+        }
+      })
+      .catch(err => console.log(err));
+    AsyncStorage.getItem('pillData')
+      .then(data => {
+        if (data !== null) {
+          setFilterData(JSON.parse(data));
+          setPushNotification();
+        }
+      })
+      .catch(err => console.log(err));
+    AsyncStorage.getItem('notifications')
+      .then(data => {
+        if (data !== null) {
+          setNotificationData(JSON.parse(data));
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   /*  makeshift splash screen  */
   useEffect(() => {
     setTimeout(() => {
+      loadData();
       mainDrive(d.format('ddd MMM D YYYY'));
       setPushNotification();
       setSplash(false);
@@ -509,8 +551,59 @@ const Home = () => {
     generateNotifications();
   }, [d.format('mm')]); */
 
+  const renderSlideItem = ({item}) => {
+    return (
+      <View style={styles.slide}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Image style={styles.img} source={item.image} />
+        <Text style={styles.text}>{item.text}</Text>
+      </View>
+    );
+  };
+  const onDone = () => {
+    // User finished the introduction. Show real app through
+    // navigation or simply by controlling state
+    AsyncStorage.setItem('first_time', JSON.stringify(true)).then(() => {
+      setShowRealApp(true);
+    });
+    if (!displayName.trim()) {
+      setShowDisplayName(true);
+    }
+  };
+  const renderNextButton = () => {
+    return (
+      <View style={styles.buttonCircle}>
+        <FontAwesomeIcon
+          icon={solid('chevron-right')}
+          color="rgba(255, 255, 255, .9)"
+          size={24}
+        />
+      </View>
+    );
+  };
+  const renderDoneButton = () => {
+    return (
+      <View style={[styles.buttonCircle, {backgroundColor: 'green'}]}>
+        <FontAwesomeIcon
+          icon={solid('check')}
+          color="rgba(255, 255, 255, .9)"
+          size={24}
+        />
+      </View>
+    );
+  };
+
   return splash ? (
     <Splash />
+  ) : !showRealApp ? (
+    <AppIntroSlider
+      renderItem={renderSlideItem}
+      data={slides}
+      onDone={onDone}
+      renderDoneButton={renderDoneButton}
+      renderNextButton={renderNextButton}
+      showSkipButton={true}
+    />
   ) : (
     <>
       <StatusBar barStyle="light-content" />
@@ -534,6 +627,22 @@ const Home = () => {
       <Modal
         animated
         animationType="slide"
+        visible={showDisplayName}
+        transparent
+        onRequestClose={() => setShowDisplayName(false)}>
+        {
+          <EnterDisplayName
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+            setShowDisplayName={setShowDisplayName}
+            setMessage={setMessage}
+            setShowNotif={setShowNotif}
+          />
+        }
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
         visible={settings}
         transparent
         onRequestClose={() => setSettings(false)}>
@@ -544,6 +653,7 @@ const Home = () => {
             setMyPills={setMyPills}
             setMe={setMe}
             setDeleteAllPills={setDeleteAllPills}
+            setInfo={setInfo}
           />
         }
       </Modal>
@@ -569,7 +679,13 @@ const Home = () => {
         visible={me}
         transparent
         onRequestClose={() => setMe(false)}>
-        {<Me setMe={setMe} />}
+        {
+          <Me
+            setMe={setMe}
+            displayName={displayName}
+            setDisplayName={setDisplayName}
+          />
+        }
       </Modal>
       <Modal
         animated
@@ -605,6 +721,14 @@ const Home = () => {
             message={message}
           />
         }
+      </Modal>
+      <Modal
+        animated
+        animationType="slide"
+        visible={info}
+        transparent
+        onRequestClose={() => setInfo(false)}>
+        {<Info setInfo={setInfo} />}
       </Modal>
 
       {loading ? (
@@ -716,7 +840,7 @@ const Home = () => {
             style={{marginTop: 10, width: '95%', alignSelf: 'center'}}
           />
           <View>
-            <Text style={styles.Header}>Hello Chibuzor,</Text>
+            <Text style={styles.Header}>Hello {displayName},</Text>
             <Text style={styles.SubHeader}>
               Your medicine schedule for {header}
             </Text>
@@ -872,6 +996,41 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+  img: {
+    height: '75%',
+    width: '100%',
+    alignSelf: 'center',
+    resizeMode: 'center',
+  },
+  slide: {
+    backgroundColor: '#fff',
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+  },
+  title: {
+    margin: 16,
+    color: '#000000',
+    fontSize: 32,
+    fontFamily: 'Satoshi-Bold',
+  },
+  buttonCircle: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'rgba(0, 0, 0, .2)',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    position: 'absolute',
+    bottom: 100,
+    margin: 16,
+    color: '#000000',
+    fontSize: 28,
+    fontFamily: 'Satoshi-Regular',
+  },
+
   DateConL: {display: 'flex', flexDirection: 'row'},
   noPills: {
     color: 'gray',

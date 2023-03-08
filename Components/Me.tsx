@@ -5,15 +5,27 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert,
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Me = ({setMe}) => {
+const Me = ({setMe, setDisplayName, displayName}) => {
   const [edit, setEdit] = useState<boolean>(false);
+  function handleDone() {
+    if (!displayName.trim()) {
+      Alert.alert('Umm... 😑 ', 'Dude just put a name... 😐');
+      return;
+    }
+    AsyncStorage.setItem('userName', JSON.stringify(displayName)).catch(err =>
+      console.log(err),
+    );
+    setEdit(false);
+  }
   return (
     <View
       style={{
@@ -26,7 +38,7 @@ const Me = ({setMe}) => {
         source={require('../assets/body.png')}
         style={{
           padding: 16,
-          flex: 0.6,
+          flex: 0.3,
           paddingBottom: 0,
         }}>
         <View
@@ -43,6 +55,7 @@ const Me = ({setMe}) => {
                 flexDirection: 'row',
               }}>
               <TouchableOpacity
+                onPress={handleDone}
                 activeOpacity={0.7}
                 style={{
                   padding: 16,
@@ -130,7 +143,7 @@ const Me = ({setMe}) => {
                 color: '#000000',
                 width: '80%',
               }}>
-              Chibuzor
+              {displayName}
             </Text>
           </View>
         </View>
@@ -147,14 +160,19 @@ const Me = ({setMe}) => {
           showsVerticalScrollIndicator={false}
           style={{paddingTop: 16}}>
           <View style={styles.listContainer}>
-            <Text style={styles.infoTxt}>Fullname: </Text>
+            <Text style={styles.infoTxt}>Display Name: </Text>
             {edit ? (
-              <TextInput autoFocus style={styles.textField} />
+              <TextInput
+                autoFocus
+                style={styles.textField}
+                value={displayName}
+                onChangeText={text => setDisplayName(text)}
+              />
             ) : (
-              <Text style={styles.infoTxtR}>Igbudu Chibuzor Moses</Text>
+              <Text style={styles.infoTxtR}>{displayName}</Text>
             )}
           </View>
-          <View style={styles.listContainer}>
+          {/* <View style={styles.listContainer}>
             <Text style={styles.infoTxt}> Date of birth: </Text>
             {edit ? (
               <TextInput style={styles.textField} />
@@ -177,7 +195,7 @@ const Me = ({setMe}) => {
             ) : (
               <Text style={styles.infoTxtR}>28</Text>
             )}
-          </View>
+          </View> */}
         </ScrollView>
       </ImageBackground>
     </View>

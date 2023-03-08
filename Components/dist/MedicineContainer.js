@@ -33,11 +33,15 @@ var MedicineContainer = function (_a) {
     props.pills.forEach(function (element) {
         element.daysTaken.forEach(function (elem) {
             if (elem.date === day) {
-                elem.time.forEach(function (ti) {
-                    if (Number(ti.replace(':', '')) > windowOpen &&
-                        Number(ti.replace(':', '')) < windowClosed) {
+                elem.time.every(function (element, index) {
+                    // Do your thing, then:
+                    if (Number(element.replace(':', '')) >= windowOpen &&
+                        Number(element.replace(':', '')) <= windowClosed) {
                         takenCount += 1;
+                        return false;
                     }
+                    else
+                        return true;
                 });
             }
         });
@@ -61,21 +65,28 @@ var MedicineContainer = function (_a) {
             borderRadius: 15,
             backgroundColor: new Date(day) > new Date()
                 ? '#768692'
-                : taken == 'ALL'
+                : day !== Home_1.d.format('ddd MMM D YYYY') && taken == 'ALL'
                     ? '#69CA90'
-                    : taken == 'SOME'
+                    : day !== Home_1.d.format('ddd MMM D YYYY') && taken == 'SOME'
                         ? '#FFC600'
-                        : currentTime >= windowOpen &&
-                            currentTime <= windowClosed &&
-                            taken !== 'ALL'
-                            ? '#FF7276'
-                            : dataTime < currentTime
-                                ? '#ED1D24'
-                                : dataTime - currentTime < 300
-                                    ? '#F9DD71'
-                                    : dataTime - currentTime > 300 && dataTime - currentTime <= 600
-                                        ? '#132342'
-                                        : '#ECECEC',
+                        : day !== Home_1.d.format('ddd MMM D YYYY') && taken == 'NONE'
+                            ? '#ED1D24'
+                            : day === Home_1.d.format('ddd MMM D YYYY') && taken == 'ALL'
+                                ? '#69CA90'
+                                : day === Home_1.d.format('ddd MMM D YYYY') && taken == 'SOME'
+                                    ? '#FFC600'
+                                    : currentTime >= windowOpen &&
+                                        currentTime <= windowClosed &&
+                                        taken !== 'ALL'
+                                        ? '#FF7276'
+                                        : dataTime < currentTime
+                                            ? '#ED1D24'
+                                            : dataTime - currentTime < 300
+                                                ? '#F9DD71'
+                                                : dataTime - currentTime > 300 && dataTime - currentTime <= 600
+                                                    ? '#132342'
+                                                    : /* '#ECECEC' */
+                                                        '#A5F2F3',
             display: 'flex',
             width: '95%',
             alignSelf: 'center',
@@ -99,10 +110,10 @@ var MedicineContainer = function (_a) {
     react_1.useEffect(function () {
         setTimeout(function () {
             setConfetti(false);
-        }, 500);
+        }, 1000);
     }, [confetti]);
     return (react_1["default"].createElement(react_native_1.View, { style: __assign({}, style.box) },
-        confetti && props.taken && (react_1["default"].createElement(lottie_react_native_1["default"], { style: { height: 200, position: 'absolute', right: 0, top: '25%' }, source: require('../assets/confetti.json'), autoPlay: true, speed: 2 })),
+        confetti && taken === 'ALL' && (react_1["default"].createElement(lottie_react_native_1["default"], { style: { height: 200, position: 'absolute', right: 0, top: '25%' }, source: require('../assets/confetti.json'), autoPlay: true, speed: 2 })),
         props.pills.map(function (pill) {
             return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: pill.id, style: { marginTop: 0 }, onPress: function () { return handleActive(pill); }, activeOpacity: 0.7 }, active !== pill.id ? (react_1["default"].createElement(react_native_1.View, null,
                 react_1["default"].createElement(react_native_1.Text, { style: [

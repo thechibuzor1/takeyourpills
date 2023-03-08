@@ -10,19 +10,22 @@ exports.__esModule = true;
 var react_native_1 = require("react-native");
 var react_1 = require("react");
 var Home_1 = require("../screens/Home");
+var async_storage_1 = require("@react-native-async-storage/async-storage");
 var DeleteApill = function (_a) {
     var data = _a.data, index = _a.index, setDeleteAPill = _a.setDeleteAPill, filterData = _a.filterData, setFilterData = _a.setFilterData, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage, mainDrive = _a.mainDrive, setPillActive = _a.setPillActive, setCurrentPill = _a.setCurrentPill, setIndex = _a.setIndex;
     function handleDelete() {
         // array.splice(start_index, no_of_elements_to_remove)
         var clonedData = __spreadArrays(filterData);
         clonedData.splice(index, 1);
-        setFilterData(clonedData);
-        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
-        setPillActive(false);
-        setCurrentPill(null);
-        setIndex(null);
-        setMessage('Pills have been deleted! 🤯');
-        setShowNotif(true);
+        async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
+            setFilterData(clonedData);
+            mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+            setPillActive(false);
+            setCurrentPill(null);
+            setIndex(null);
+            setMessage('Pills have been deleted! 🤯');
+            setShowNotif(true);
+        });
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',

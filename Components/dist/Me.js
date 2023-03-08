@@ -5,9 +5,20 @@ var react_1 = require("react");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_elements_1 = require("react-native-elements");
+var async_storage_1 = require("@react-native-async-storage/async-storage");
 var Me = function (_a) {
-    var setMe = _a.setMe;
+    var setMe = _a.setMe, setDisplayName = _a.setDisplayName, displayName = _a.displayName;
     var _b = react_1.useState(false), edit = _b[0], setEdit = _b[1];
+    function handleDone() {
+        if (!displayName.trim()) {
+            react_native_1.Alert.alert('Umm... 😑 ', 'Dude just put a name... 😐');
+            return;
+        }
+        async_storage_1["default"].setItem('userName', JSON.stringify(displayName))["catch"](function (err) {
+            return console.log(err);
+        });
+        setEdit(false);
+    }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',
             flex: 1,
@@ -16,7 +27,7 @@ var Me = function (_a) {
         } },
         react_1["default"].createElement(react_native_1.ImageBackground, { source: require('../assets/body.png'), style: {
                 padding: 16,
-                flex: 0.6,
+                flex: 0.3,
                 paddingBottom: 0
             } },
             react_1["default"].createElement(react_native_1.View, { style: {
@@ -28,7 +39,7 @@ var Me = function (_a) {
                     display: 'flex',
                     flexDirection: 'row'
                 } },
-                react_1["default"].createElement(react_native_1.TouchableOpacity, { activeOpacity: 0.7, style: {
+                react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: handleDone, activeOpacity: 0.7, style: {
                         padding: 16,
                         backgroundColor: 'black',
                         borderRadius: 15,
@@ -70,7 +81,7 @@ var Me = function (_a) {
                             fontFamily: 'Satoshi-Bold',
                             color: '#000000',
                             width: '80%'
-                        } }, "Chibuzor"))),
+                        } }, displayName))),
             react_1["default"].createElement(react_native_elements_1.Divider, { width: 0.5, style: {
                     width: '100%',
                     alignSelf: 'center',
@@ -78,17 +89,8 @@ var Me = function (_a) {
                 } }),
             react_1["default"].createElement(react_native_1.ScrollView, { showsVerticalScrollIndicator: false, style: { paddingTop: 16 } },
                 react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
-                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "Fullname: "),
-                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { autoFocus: true, style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "Igbudu Chibuzor Moses"))),
-                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
-                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, " Date of birth: "),
-                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "May 1, 2002"))),
-                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
-                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "Gender: "),
-                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "Male"))),
-                react_1["default"].createElement(react_native_1.View, { style: styles.listContainer },
-                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "BMI: "),
-                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { style: styles.textField })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, "28")))))));
+                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "Display Name: "),
+                    edit ? (react_1["default"].createElement(react_native_1.TextInput, { autoFocus: true, style: styles.textField, value: displayName, onChangeText: function (text) { return setDisplayName(text); } })) : (react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxtR }, displayName)))))));
 };
 exports["default"] = Me;
 var styles = react_native_1.StyleSheet.create({

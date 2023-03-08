@@ -3,14 +3,19 @@ exports.__esModule = true;
 var react_native_1 = require("react-native");
 var react_1 = require("react");
 var Home_1 = require("../screens/Home");
+var async_storage_1 = require("@react-native-async-storage/async-storage");
 var DeleteAllPills = function (_a) {
     var setDeleteAllPills = _a.setDeleteAllPills, setFilterData = _a.setFilterData, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage, mainDrive = _a.mainDrive;
     function handleDelete() {
-        setFilterData([]);
-        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
-        setDeleteAllPills(false);
-        setMessage('All Pills have been deleted! 🤯');
-        setShowNotif(true);
+        var pillData = [];
+        async_storage_1["default"].setItem('pillData', JSON.stringify(pillData))
+            .then(function () {
+            setFilterData(pillData);
+            mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+            setDeleteAllPills(false);
+            setMessage('All Pills have been deleted! 🤯');
+            setShowNotif(true);
+        })["catch"](function (err) { return console.log(err); });
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',

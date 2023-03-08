@@ -16,6 +16,7 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var react_native_elements_1 = require("react-native-elements");
+var async_storage_1 = require("@react-native-async-storage/async-storage");
 var EditPills = function (_a) {
     var setEditPill = _a.setEditPill, filterData = _a.filterData, data = _a.data, index = _a.index, setFilterData = _a.setFilterData, mainDrive = _a.mainDrive, setMessage = _a.setMessage, setShowNotif = _a.setShowNotif, setPillActive = _a.setPillActive, setCurrentPill = _a.setCurrentPill, setIndex = _a.setIndex;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
@@ -64,18 +65,20 @@ var EditPills = function (_a) {
             daysTaken: data === null || data === void 0 ? void 0 : data.daysTaken
         };
         clonedData[index] = edittedPill;
-        setFilterData(clonedData);
-        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
-        setPillName('');
-        setPillDesc('');
-        setDosage('');
-        setInstructions('');
-        setEditPill(false);
-        setPillActive(false);
-        setCurrentPill(null);
-        setIndex(null);
-        setMessage('Pills Edit Sucessful! 🥶');
-        setShowNotif(true);
+        async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
+            setFilterData(clonedData);
+            mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+            setPillName('');
+            setPillDesc('');
+            setDosage('');
+            setInstructions('');
+            setEditPill(false);
+            setPillActive(false);
+            setCurrentPill(null);
+            setIndex(null);
+            setMessage('Pills Edit Sucessful! 🥶');
+            setShowNotif(true);
+        });
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',

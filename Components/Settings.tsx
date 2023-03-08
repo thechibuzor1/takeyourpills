@@ -20,9 +20,21 @@ const Settings = ({
   setLoading,
   setMe,
   setDeleteAllPills,
+  setInfo,
 }) => {
   return (
     <View style={styles.modalContainer}>
+      <TouchableOpacity
+        onPress={() => setInfo(true)}
+        style={{position: 'absolute', top: 40, right: 40}}
+        activeOpacity={0.5}>
+        <FontAwesomeIcon
+          icon={regular('circle-question')}
+          size={30}
+          color={'white'}
+        />
+      </TouchableOpacity>
+
       <ImageBackground
         style={{
           alignSelf: 'center',

@@ -1,26 +1,31 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Alert,
+} from 'react-native';
 import React from 'react';
-import {d} from '../screens/Home';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DeleteAllPills = ({
-  setDeleteAllPills,
-  setFilterData,
-  setShowNotif,
+const EnterDisplayName = ({
+  displayName,
+  setDisplayName,
+  setShowDisplayName,
   setMessage,
-  mainDrive,
+  setShowNotif,
 }) => {
-  function handleDelete() {
-    const pillData = [];
-    AsyncStorage.setItem('pillData', JSON.stringify(pillData))
-      .then(() => {
-        setFilterData(pillData);
-        mainDrive(d.format('ddd MMM D YYYY'));
-        setDeleteAllPills(false);
-        setMessage('All Pills have been deleted! 🤯');
-        setShowNotif(true);
-      })
-      .catch(err => console.log(err));
+  function handleDone() {
+    if (!displayName.trim()) {
+      Alert.alert('Umm... 😑 ', 'Dude just put a name... 😐');
+      return;
+    }
+    AsyncStorage.setItem('userName', JSON.stringify(displayName))
+    .catch(err => console.log(err));
+    setShowDisplayName(false);
+    setMessage(`Hola! ${displayName}🥵`);
+    setShowNotif(true);
   }
 
   return (
@@ -46,66 +51,57 @@ const DeleteAllPills = ({
             marginBottom: 10,
             marginTop: 10,
           }}>
-          Delete all pill records 😧
+          What should i call you?🧐
         </Text>
         <Text
           style={{
             fontFamily: 'Satoshi-regular',
             color: 'gray',
           }}>
-          Are you sure about this?
+          set your display name.
         </Text>
         <Text
           style={{
             fontFamily: 'Satoshi-regular',
             color: 'gray',
           }}>
-          There's no going back once it's done...
+          It can always be changed in settings later but please keep it PG...
         </Text>
+
+        <View>
+          <TextInput
+            autoFocus
+            style={styles.textField}
+            onChangeText={text => setDisplayName(text)}
+          />
+        </View>
 
         <View
           style={{
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between',
             padding: 20,
             paddingLeft: 4,
             paddingRight: 4,
             marginTop: 8,
+            alignSelf: 'flex-end',
           }}>
           <TouchableOpacity
-            onPress={handleDelete}
+            onPress={handleDone}
             activeOpacity={0.7}
             style={{
               padding: 16,
               backgroundColor: 'black',
               borderRadius: 15,
+              alignSelf: 'flex-end',
             }}>
             <Text
               style={{
-                color: 'red',
+                color: 'green',
 
                 fontFamily: 'Satoshi-Bold',
               }}>
-              Yes, I'm sure 😪
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setDeleteAllPills(false)}
-            activeOpacity={0.7}
-            style={{
-              padding: 16,
-              backgroundColor: 'white',
-              borderRadius: 15,
-              borderWidth: 1,
-            }}>
-            <Text
-              style={{
-                color: 'black',
-
-                fontFamily: 'Satoshi-Bold',
-              }}>
-              No, I was feeling silly 😌
+              Confirm 😪
             </Text>
           </TouchableOpacity>
         </View>
@@ -114,6 +110,18 @@ const DeleteAllPills = ({
   );
 };
 
-export default DeleteAllPills;
+export default EnterDisplayName;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  textField: {
+    color: 'black',
+    fontSize: 20,
+    fontFamily: 'Satoshi-Bold',
+
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'gray',
+    marginTop: 16,
+    padding: 16,
+  },
+});

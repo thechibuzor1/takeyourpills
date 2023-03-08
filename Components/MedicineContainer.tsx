@@ -34,13 +34,15 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
   props.pills.forEach(element => {
     element.daysTaken.forEach(elem => {
       if (elem.date === day) {
-        elem.time.forEach(ti => {
+        elem.time.every(function (element, index) {
+          // Do your thing, then:
           if (
-            Number(ti.replace(':', '')) > windowOpen &&
-            Number(ti.replace(':', '')) < windowClosed
+            Number(element.replace(':', '')) >= windowOpen &&
+            Number(element.replace(':', '')) <= windowClosed
           ) {
             takenCount += 1;
-          }
+            return false;
+          } else return true;
         });
       }
     });
@@ -67,9 +69,15 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
       backgroundColor:
         new Date(day) > new Date()
           ? '#768692'
-          : taken == 'ALL'
+          : day !== d.format('ddd MMM D YYYY') && taken == 'ALL'
           ? '#69CA90'
-          : taken == 'SOME'
+          : day !== d.format('ddd MMM D YYYY') && taken == 'SOME'
+          ? '#FFC600'
+          : day !== d.format('ddd MMM D YYYY') && taken == 'NONE'
+          ? '#ED1D24'
+          : day === d.format('ddd MMM D YYYY') && taken == 'ALL'
+          ? '#69CA90'
+          : day === d.format('ddd MMM D YYYY') && taken == 'SOME'
           ? '#FFC600'
           : currentTime >= windowOpen &&
             currentTime <= windowClosed &&
@@ -81,7 +89,8 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
           ? '#F9DD71'
           : dataTime - currentTime > 300 && dataTime - currentTime <= 600
           ? '#132342'
-          : '#ECECEC',
+          : /* '#ECECEC' */
+            '#A5F2F3',
       display: 'flex',
       width: '95%',
       alignSelf: 'center',
@@ -109,11 +118,11 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
   useEffect(() => {
     setTimeout(() => {
       setConfetti(false);
-    }, 500);
+    }, 1000);
   }, [confetti]);
   return (
     <View style={{...style.box}}>
-      {confetti && props.taken && (
+      {confetti && taken === 'ALL' && (
         <AnimatedLottieView
           style={{height: 200, position: 'absolute', right: 0, top: '25%'}}
           source={require('../assets/confetti.json')}

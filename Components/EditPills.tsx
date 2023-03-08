@@ -17,6 +17,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {d} from '../screens/Home';
 import {Divider} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const EditPills = ({
   setEditPill,
@@ -88,19 +89,20 @@ const EditPills = ({
     };
 
     clonedData[index] = edittedPill;
-    setFilterData(clonedData);
-    mainDrive(d.format('ddd MMM D YYYY'));
-
-    setPillName('');
-    setPillDesc('');
-    setDosage('');
-    setInstructions('');
-    setEditPill(false);
-    setPillActive(false);
-    setCurrentPill(null);
-    setIndex(null);
-    setMessage('Pills Edit Sucessful! 🥶');
-    setShowNotif(true);
+    AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
+      setFilterData(clonedData);
+      mainDrive(d.format('ddd MMM D YYYY'));
+      setPillName('');
+      setPillDesc('');
+      setDosage('');
+      setInstructions('');
+      setEditPill(false);
+      setPillActive(false);
+      setCurrentPill(null);
+      setIndex(null);
+      setMessage('Pills Edit Sucessful! 🥶');
+      setShowNotif(true);
+    });
   }
 
   return (

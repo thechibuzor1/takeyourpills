@@ -3,8 +3,15 @@ import React, {useState, useEffect} from 'react';
 import {d} from '../screens/Home';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HiddenItem = ({props, filterData, setFilterData, mainDrive}) => {
+const HiddenItem = ({
+  props,
+  filterData,
+  setFilterData,
+  mainDrive,
+  setConfetti,
+}) => {
   const [taken, setTaken] = useState<boolean>(false);
   const pillCount = props.pills.length;
   var takenCount = 0;
@@ -29,7 +36,7 @@ const HiddenItem = ({props, filterData, setFilterData, mainDrive}) => {
   });
 
   useEffect(() => {
-    if (takenCount === pillCount) {
+    if (takenCount >= pillCount) {
       setTaken(true);
     } else {
       setTaken(false);
@@ -64,8 +71,11 @@ const HiddenItem = ({props, filterData, setFilterData, mainDrive}) => {
       });
     });
 
-    setFilterData(clonedData);
-    mainDrive(d.format('ddd MMM D YYYY'));
+    AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
+      setFilterData(clonedData);
+      mainDrive(d.format('ddd MMM D YYYY'));
+      setConfetti(true);
+    });
   }
 
   /* console.log(diff(props.time, d.format('HH:mm'))); */

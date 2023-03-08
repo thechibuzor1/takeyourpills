@@ -16,6 +16,8 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var react_native_elements_1 = require("react-native-elements");
+var Notifications_1 = require("../Notifications");
+var async_storage_1 = require("@react-native-async-storage/async-storage");
 var NewPill = function (_a) {
     var setPillModal = _a.setPillModal, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage, mainDrive = _a.mainDrive, filterData = _a.filterData, setFilterData = _a.setFilterData;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
@@ -39,40 +41,67 @@ var NewPill = function (_a) {
     var _r = react_1.useState(Home_1.d.format('ddd MMM D YYYY')), startDate = _r[0], setStartDate = _r[1];
     var _s = react_1.useState(false), startDatePicker = _s[0], setStartDatePicker = _s[1];
     function handleSave() {
+        var clonedData = __spreadArrays(filterData);
         if (!pillName.trim() || !dosage.trim() || !duration.trim()) {
             react_native_1.Alert.alert('Umm... 😑 ', 'Please fill all fields with "*" at the end... 😐');
             return;
         }
-        var clonedData = __spreadArrays(filterData);
-        var endDate = new Date(startDate);
-        endDate.setDate(endDate.getDate() + Number(duration));
-        var newPills = {
-            id: clonedData.length === 0 ? 1 : clonedData[clonedData.length - 1].id + 1,
-            name: pillName,
-            desc: pillDesc,
-            dosage: dosage,
-            duration: duration,
-            timesPerDay: value,
-            times: value === 1
-                ? [morningTime]
-                : value === 2
-                    ? [morningTime, afternoonTime]
-                    : [morningTime, afternoonTime, eveningTime],
-            startDate: startDate,
-            endDate: moment_1["default"](endDate).format('ddd MMM D YYYY'),
-            instructions: instructions,
-            daysTaken: []
-        };
-        clonedData.push(newPills);
-        setFilterData(clonedData);
-        mainDrive(Home_1.d.format('ddd MMM D YYYY'));
-        setPillName('');
-        setPillDesc('');
-        setDosage('');
-        setInstructions('');
-        setPillModal(false);
-        setMessage('New Pills Added! 🥵');
-        setShowNotif(true);
+        var exists = false;
+        clonedData.forEach(function (element) {
+            if (element.name.toLowerCase().trim() === pillName.toLowerCase().trim()) {
+                exists = true;
+                return;
+            }
+        });
+        if (!exists) {
+            var endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + Number(duration));
+            var newPills_1 = {
+                id: clonedData.length === 0
+                    ? 1
+                    : clonedData[clonedData.length - 1].id + 1,
+                name: pillName,
+                desc: pillDesc,
+                dosage: dosage,
+                duration: duration,
+                timesPerDay: value,
+                times: value === 1
+                    ? [morningTime]
+                    : value === 2
+                        ? [morningTime, afternoonTime]
+                        : [morningTime, afternoonTime, eveningTime],
+                startDate: startDate,
+                endDate: moment_1["default"](endDate).format('ddd MMM D YYYY'),
+                instructions: instructions,
+                daysTaken: []
+            };
+            clonedData.push(newPills_1);
+            setFilterData(clonedData);
+            async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
+                mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+                if (Home_1.check(newPills_1.startDate, newPills_1.endDate, Home_1.d.format('ddd MMM D YYYY'))) {
+                    var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
+                    newPills_1.times.forEach(function (element) {
+                        var dateTime = Number(element.replace(':', ''));
+                        if (currentTime < dateTime) {
+                            var notifDate = moment_1["default"](element, ['h:m a', 'H:m']).toDate();
+                            Notifications_1["default"].scheduleNotification(notifDate, "It's time to take your " + element + " pills");
+                        }
+                    });
+                }
+                setPillName('');
+                setPillDesc('');
+                setDosage('');
+                setInstructions('');
+                setPillModal(false);
+                setMessage('New Pills Added! 🥵');
+                setShowNotif(true);
+            });
+            mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+        }
+        else {
+            react_native_1.Alert.alert('Pills Already Exist 😑 ', 'Now that could make things confusing... Try another name or updating the existing one😐');
+        }
     }
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),

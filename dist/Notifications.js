@@ -26,13 +26,13 @@ var Notification = /** @class */ (function () {
             console.log('SN --- ', rn);
         });
     }
-    Notification.prototype.scheduleNotification = function (date) {
+    Notification.prototype.scheduleNotification = function (date, message) {
         react_native_push_notification_1["default"].localNotificationSchedule({
             channelId: 'reminders',
             title: 'TAKE YOUR PILLS!',
-            message: "It's time to take your pills",
+            message: message,
             date: date,
-            allowWhileIdle: false,
+            allowWhileIdle: true,
             /* Android Only Properties */
             repeatTime: 1,
             repeatType: 'day'

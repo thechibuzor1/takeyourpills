@@ -15,8 +15,10 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {d} from '../screens/Home';
+import {check, d} from '../screens/Home';
 import {Divider} from 'react-native-elements';
+import Notification from '../Notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NewPill = ({
   setPillModal,
@@ -55,6 +57,7 @@ const NewPill = ({
   const [startDatePicker, setStartDatePicker] = useState<boolean>(false);
 
   function handleSave() {
+    const clonedData = [...filterData];
     if (!pillName.trim() || !dosage.trim() || !duration.trim()) {
       Alert.alert(
         'Umm... 😑 ',
@@ -62,41 +65,79 @@ const NewPill = ({
       );
       return;
     }
-    const clonedData = [...filterData];
-    var endDate = new Date(startDate);
-    endDate.setDate(endDate.getDate() + Number(duration));
+    var exists = false;
+    clonedData.forEach(element => {
+      if (element.name.toLowerCase().trim() === pillName.toLowerCase().trim()) {
+        exists = true;
+        return;
+      }
+    });
 
-    const newPills = {
-      id:
-        clonedData.length === 0 ? 1 : clonedData[clonedData.length - 1].id + 1,
-      name: pillName,
-      desc: pillDesc,
-      dosage: dosage,
-      duration: duration,
-      timesPerDay: value,
-      times:
-        value === 1
-          ? [morningTime]
-          : value === 2
-          ? [morningTime, afternoonTime]
-          : [morningTime, afternoonTime, eveningTime],
-      startDate: startDate,
-      endDate: moment(endDate).format('ddd MMM D YYYY'),
-      instructions: instructions,
-      daysTaken: [],
-    };
+    if (!exists) {
+      var endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + Number(duration));
 
-    clonedData.push(newPills);
-    setFilterData(clonedData);
-    mainDrive(d.format('ddd MMM D YYYY'));
+      const newPills = {
+        id:
+          clonedData.length === 0
+            ? 1
+            : clonedData[clonedData.length - 1].id + 1,
+        name: pillName,
+        desc: pillDesc,
+        dosage: dosage,
+        duration: duration,
+        timesPerDay: value,
+        times:
+          value === 1
+            ? [morningTime]
+            : value === 2
+            ? [morningTime, afternoonTime]
+            : [morningTime, afternoonTime, eveningTime],
+        startDate: startDate,
+        endDate: moment(endDate).format('ddd MMM D YYYY'),
+        instructions: instructions,
+        daysTaken: [],
+      };
 
-    setPillName('');
-    setPillDesc('');
-    setDosage('');
-    setInstructions('');
-    setPillModal(false);
-    setMessage('New Pills Added! 🥵');
-    setShowNotif(true);
+      clonedData.push(newPills);
+      setFilterData(clonedData);
+      AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
+        mainDrive(d.format('ddd MMM D YYYY'));
+        if (
+          check(
+            newPills.startDate,
+            newPills.endDate,
+            d.format('ddd MMM D YYYY'),
+          )
+        ) {
+          var currentTime = Number(d.format('HH:mm').replace(':', ''));
+          newPills.times.forEach(element => {
+            var dateTime = Number(element.replace(':', ''));
+            if (currentTime < dateTime) {
+              var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
+              Notification.scheduleNotification(
+                notifDate,
+                `It's time to take your ${element} pills`,
+              );
+            }
+          });
+        }
+
+        setPillName('');
+        setPillDesc('');
+        setDosage('');
+        setInstructions('');
+        setPillModal(false);
+        setMessage('New Pills Added! 🥵');
+        setShowNotif(true);
+      });
+      mainDrive(d.format('ddd MMM D YYYY'));
+    } else {
+      Alert.alert(
+        'Pills Already Exist 😑 ',
+        'Now that could make things confusing... Try another name or updating the existing one😐',
+      );
+    }
   }
 
   return (
