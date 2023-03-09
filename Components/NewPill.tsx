@@ -736,6 +736,8 @@ const NewPill = ({
               multiline={true}
               value={instructions}
               onChangeText={text => setInstructions(text)}
+              placeholder="Take after a meal"
+              placeholderTextColor={'gray'}
               style={{
                 marginTop: 15,
                 color: 'black',

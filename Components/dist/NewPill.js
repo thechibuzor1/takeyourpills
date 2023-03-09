@@ -428,7 +428,7 @@ var NewPill = function (_a) {
                             fontFamily: 'Satoshi-Bold',
                             color: 'black'
                         } }, "You can add intructions here"),
-                    react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: instructions, onChangeText: function (text) { return setInstructions(text); }, style: {
+                    react_1["default"].createElement(react_native_1.TextInput, { multiline: true, value: instructions, onChangeText: function (text) { return setInstructions(text); }, placeholder: "Take after a meal", placeholderTextColor: 'gray', style: {
                             marginTop: 15,
                             color: 'black',
                             height: 90,

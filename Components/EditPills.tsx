@@ -693,6 +693,8 @@ const EditPills = ({
           <TextInput
             value={instructions}
             onChangeText={text => setInstructions(text)}
+            placeholder="Take after a meal"
+            placeholderTextColor={'gray'}
             multiline={true}
             style={{
               marginTop: 15,

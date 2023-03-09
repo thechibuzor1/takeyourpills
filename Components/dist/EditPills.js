@@ -399,7 +399,7 @@ var EditPills = function (_a) {
                         fontFamily: 'Satoshi-Bold',
                         color: 'black'
                     } }, "You can add intructions here"),
-                react_1["default"].createElement(react_native_1.TextInput, { value: instructions, onChangeText: function (text) { return setInstructions(text); }, multiline: true, style: {
+                react_1["default"].createElement(react_native_1.TextInput, { value: instructions, onChangeText: function (text) { return setInstructions(text); }, placeholder: "Take after a meal", placeholderTextColor: 'gray', multiline: true, style: {
                         marginTop: 15,
                         color: 'black',
                         height: 90,
