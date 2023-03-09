@@ -10,10 +10,12 @@ var EnterDisplayName = function (_a) {
             react_native_1.Alert.alert('Umm... 😑 ', 'Dude just put a name... 😐');
             return;
         }
-        async_storage_1["default"].setItem('userName', JSON.stringify(displayName))["catch"](function (err) { return console.log(err); });
-        setShowDisplayName(false);
-        setMessage("Hola! " + displayName + "\uD83E\uDD75");
-        setShowNotif(true);
+        async_storage_1["default"].setItem('userName', JSON.stringify(displayName))
+            .then(function () {
+            setShowDisplayName(false);
+            setMessage("Hola! " + displayName + "\uD83E\uDD75");
+            setShowNotif(true);
+        })["catch"](function (err) { return console.log(err); });
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',

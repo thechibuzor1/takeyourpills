@@ -17,8 +17,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {check, d} from '../screens/Home';
 import {Divider} from 'react-native-elements';
-import Notification from '../Notifications';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Notifications from '../Notifications';
 
 const NewPill = ({
   setPillModal,
@@ -100,8 +100,9 @@ const NewPill = ({
       };
 
       clonedData.push(newPills);
-      setFilterData(clonedData);
+
       AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
+        setFilterData(clonedData);
         mainDrive(d.format('ddd MMM D YYYY'));
         if (
           check(
@@ -115,10 +116,11 @@ const NewPill = ({
             var dateTime = Number(element.replace(':', ''));
             if (currentTime < dateTime) {
               var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
-              Notification.scheduleNotification(
-                notifDate,
-                `It's time to take your ${element} pills`,
-              );
+              var text = `It's time to take your ${element} pills`;
+              Notifications.scheduleNotification({
+                reminder: text,
+                date: notifDate,
+              });
             }
           });
         }

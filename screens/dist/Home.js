@@ -49,7 +49,6 @@ exports.d = exports.check = void 0;
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 var react_native_1 = require("react-native");
-var Notifications_1 = require("../Notifications");
 var react_1 = require("react");
 var react_native_calendars_1 = require("react-native-calendars");
 var react_native_elements_1 = require("react-native-elements");
@@ -62,7 +61,7 @@ var NewPill_1 = require("../Components/NewPill");
 var Settings_1 = require("../Components/Settings");
 var MedicineContainer_1 = require("../Components/MedicineContainer");
 var lottie_react_native_1 = require("lottie-react-native");
-var Notifications_2 = require("../Components/Notifications");
+var Notifications_1 = require("../Components/Notifications");
 var NotificationBar_1 = require("../Components/NotificationBar");
 var MyPills_1 = require("../Components/MyPills");
 var Me_1 = require("../Components/Me");
@@ -72,6 +71,7 @@ var react_native_app_intro_slider_1 = require("react-native-app-intro-slider");
 var EnterDisplayName_1 = require("../Components/EnterDisplayName");
 var async_storage_1 = require("@react-native-async-storage/async-storage");
 var Info_1 = require("../Components/Info");
+var Notifications_2 = require("../Notifications");
 /* export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
 } */
@@ -213,7 +213,8 @@ var Home = function () {
                     var dateTime = Number(element.replace(':', ''));
                     if (currentTime < dateTime) {
                         var notifDate = moment_1["default"](element, ['h:m a', 'H:m']).toDate();
-                        Notifications_1["default"].scheduleNotification(notifDate, "It's time to take your " + element + " pills");
+                        var text = "It's time to take your " + element + " pills";
+                        Notifications_2["default"].scheduleNotification({ reminder: text, date: notifDate });
                     }
                 });
                 return [2 /*return*/];
@@ -464,7 +465,7 @@ var Home = function () {
                     .then(function (data) {
                     if (data !== null) {
                         setFilterData(JSON.parse(data));
-                        setPushNotification();
+                        /*  setPushNotification(); */
                     }
                 })["catch"](function (err) { return console.log(err); });
                 async_storage_1["default"].getItem('notifications')
@@ -485,7 +486,7 @@ var Home = function () {
             setPushNotification();
             setSplash(false);
             generateNotifications();
-        }, 500);
+        }, 1000);
     }, []);
     var _w = react_1.useState(false), showNotif = _w[0], setShowNotif = _w[1];
     var _x = react_1.useState(false), me = _x[0], setMe = _x[1];
@@ -529,7 +530,7 @@ var Home = function () {
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, filterData: filterData, setFilterData: setFilterData })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: showDisplayName, transparent: true, onRequestClose: function () { return setShowDisplayName(false); } }, react_1["default"].createElement(EnterDisplayName_1["default"], { displayName: displayName, setDisplayName: setDisplayName, setShowDisplayName: setShowDisplayName, setMessage: setMessage, setShowNotif: setShowNotif })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: settings, transparent: true, onRequestClose: function () { return setSettings(false); } }, react_1["default"].createElement(Settings_1["default"], { setSettings: setSettings, setLoading: setLoading, setMyPills: setMyPills, setMe: setMe, setDeleteAllPills: setDeleteAllPills, setInfo: setInfo })),
-        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_2["default"], { setNotifications: setNotifications, setMyPills: setMyPills, notificationData: notificationData, pillData: pillData, setNewNotification: setNewNotification })),
+        react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: notifications, transparent: true, onRequestClose: function () { return setNotifications(false); } }, react_1["default"].createElement(Notifications_1["default"], { setNotifications: setNotifications, setMyPills: setMyPills, notificationData: notificationData, pillData: pillData, setNewNotification: setNewNotification })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: me, transparent: true, onRequestClose: function () { return setMe(false); } }, react_1["default"].createElement(Me_1["default"], { setMe: setMe, displayName: displayName, setDisplayName: setDisplayName })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: deleteAllPills, transparent: true, onRequestClose: function () { return setDeleteAllPills(false); } }, react_1["default"].createElement(DeleteAllPills_1["default"], { setDeleteAllPills: setDeleteAllPills, setFilterData: setFilterData, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: myPills, transparent: true, onRequestClose: function () { return setMyPills(false); } }, react_1["default"].createElement(MyPills_1["default"], { setMyPills: setMyPills, filterData: filterData, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, setFilterData: setFilterData, showNotif: showNotif, message: message })),

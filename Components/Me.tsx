@@ -21,10 +21,9 @@ const Me = ({setMe, setDisplayName, displayName}) => {
       Alert.alert('Umm... 😑 ', 'Dude just put a name... 😐');
       return;
     }
-    AsyncStorage.setItem('userName', JSON.stringify(displayName)).catch(err =>
-      console.log(err),
-    );
-    setEdit(false);
+    AsyncStorage.setItem('userName', JSON.stringify(displayName))
+      .then(() => setEdit(false))
+      .catch(err => console.log(err));
   }
   return (
     <View

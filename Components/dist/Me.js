@@ -14,10 +14,8 @@ var Me = function (_a) {
             react_native_1.Alert.alert('Umm... 😑 ', 'Dude just put a name... 😐');
             return;
         }
-        async_storage_1["default"].setItem('userName', JSON.stringify(displayName))["catch"](function (err) {
-            return console.log(err);
-        });
-        setEdit(false);
+        async_storage_1["default"].setItem('userName', JSON.stringify(displayName))
+            .then(function () { return setEdit(false); })["catch"](function (err) { return console.log(err); });
     }
     return (react_1["default"].createElement(react_native_1.View, { style: {
             display: 'flex',

@@ -1,17 +1,105 @@
-var datefrom = '12/05/2013';
-var dateCurr = '17/05/2013';
-var dateTo = '20/05/2013';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  SafeAreaView,
+  Pressable,
+  Button,
+} from 'react-native';
+import notifee, {
+  AuthorizationStatus,
+  EventType,
+  Notification,
+  TimestampTrigger,
+  TriggerType,
+} from '@notifee/react-native';
 
-function check(d1, d2, d3) {
-  d1.split('/');
-  d2.split('/');
-  d3.split('/');
+import React, {useState} from 'react';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import Notifications from '../Notifications';
+import moment from 'moment';
 
-  var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]);
-  var check = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
-  var to = new Date(d3[2], parseInt(d3[1]) - 1, d3[0]);
+const Test = () => {
+  const [date, setDate] = useState(new Date());
+  const [reminder, setReminder] = useState('');
+  const [open, setOpen] = useState(false);
 
-  return check >= from && check <= to;
-}
+  const saveReminder = async () => {
+    Notifications.scheduleNotification({reminder, date: date});
+  };
+  async function onDisplayNotification() {
+    // Request permissions (required for iOS)
+    await notifee.requestPermission();
 
-check(datefrom, dateCurr, dateTo);
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: 'Notification Title',
+      body: 'Main body content of the notification',
+      android: {
+        channelId,
+
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter a reminder"
+        onChangeText={text => setReminder(text)}
+        placeholderTextColor="black"
+      />
+      <Pressable
+        onPress={() => setOpen(true)}
+        style={[styles.input, {marginTop: 0}]}>
+        <Text>{date ? date.toString() : 'Enter time'}</Text>
+      </Pressable>
+
+      <Button title="Save" onPress={saveReminder} />
+
+      <Pressable style={{padding: 20}}></Pressable>
+
+      <DateTimePickerModal
+        isVisible={open}
+        mode="datetime"
+        onConfirm={d => {
+          setDate(d);
+          console.log(d);
+          setOpen(false);
+        }}
+        onCancel={() => setOpen(false)}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default Test;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    fontSize: 20,
+    paddingBottom: 10,
+  },
+  input: {
+    height: 40,
+    margin: 25,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: 'gray',
+  },
+});

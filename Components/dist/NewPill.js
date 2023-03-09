@@ -16,8 +16,8 @@ var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome"
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var react_native_elements_1 = require("react-native-elements");
-var Notifications_1 = require("../Notifications");
 var async_storage_1 = require("@react-native-async-storage/async-storage");
+var Notifications_1 = require("../Notifications");
 var NewPill = function (_a) {
     var setPillModal = _a.setPillModal, setShowNotif = _a.setShowNotif, setMessage = _a.setMessage, mainDrive = _a.mainDrive, filterData = _a.filterData, setFilterData = _a.setFilterData;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
@@ -76,8 +76,8 @@ var NewPill = function (_a) {
                 daysTaken: []
             };
             clonedData.push(newPills_1);
-            setFilterData(clonedData);
             async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
+                setFilterData(clonedData);
                 mainDrive(Home_1.d.format('ddd MMM D YYYY'));
                 if (Home_1.check(newPills_1.startDate, newPills_1.endDate, Home_1.d.format('ddd MMM D YYYY'))) {
                     var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
@@ -85,7 +85,11 @@ var NewPill = function (_a) {
                         var dateTime = Number(element.replace(':', ''));
                         if (currentTime < dateTime) {
                             var notifDate = moment_1["default"](element, ['h:m a', 'H:m']).toDate();
-                            Notifications_1["default"].scheduleNotification(notifDate, "It's time to take your " + element + " pills");
+                            var text = "It's time to take your " + element + " pills";
+                            Notifications_1["default"].scheduleNotification({
+                                reminder: text,
+                                date: notifDate
+                            });
                         }
                     });
                 }

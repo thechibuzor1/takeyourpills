@@ -1132,6 +1132,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@notifee/react-native@^7.5.0":
+  version "7.5.0"
+  resolved "https://registry.yarnpkg.com/@notifee/react-native/-/react-native-7.5.0.tgz#3d846b6a607a6352e798a3440cd3880c005a7d56"
+  integrity sha512-FR1xzQI2KpMyLuM7YZyHHjCcOXbjAcBWMeRlarro8peujr6gJZSg4j2Aw4o8O4ifMHDopFrovwyK1uYBaB9MUg==
+
 "@react-native-async-storage/async-storage@^1.17.11":
   version "1.17.11"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.17.11.tgz#7ec329c1b9f610e344602e806b04d7c928a2341d"
@@ -5972,11 +5977,6 @@ react-native-modal-datetime-picker@^14.0.1:
   integrity sha512-wQt4Pjxt2jiTsVhLMG0E7WrRTYBEQx2d/nUrFVCbRqJ7lrXocXaT5UZsyMpV93TnKcyut62OprbO88wYq/vh0g==
   dependencies:
     prop-types "^15.7.2"
-
-react-native-push-notification@^8.1.1:
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-8.1.1.tgz#a41d20c70ea5a7709417e96261b225461f8dc73a"
-  integrity sha512-XpBtG/w+a6WXTxu6l1dNYyTiHnbgnvjoc3KxPTxYkaIABRmvuJZkFxqruyGvfCw7ELAlZEAJO+dthdTabCe1XA==
 
 react-native-ratings@8.0.4:
   version "8.0.4"

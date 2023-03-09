@@ -14,7 +14,6 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import Notification from '../Notifications';
 import React, {useEffect, useMemo, useState, useRef} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {Divider, Badge} from 'react-native-elements';
@@ -39,6 +38,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import EnterDisplayName from '../Components/EnterDisplayName';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Info from '../Components/Info';
+import Notification from '../Notifications';
 
 /* export function dateDifference(startDate, endDate) {
   return moment(startDate).diff(moment(endDate), 'hours');
@@ -198,10 +198,8 @@ const Home = () => {
       var dateTime = Number(element.replace(':', ''));
       if (currentTime < dateTime) {
         var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
-        Notification.scheduleNotification(
-          notifDate,
-          `It's time to take your ${element} pills`,
-        );
+        var text = `It's time to take your ${element} pills`;
+        Notification.scheduleNotification({reminder: text, date: notifDate});
       }
     });
   }
@@ -513,7 +511,7 @@ const Home = () => {
       .then(data => {
         if (data !== null) {
           setFilterData(JSON.parse(data));
-          setPushNotification();
+          /*  setPushNotification(); */
         }
       })
       .catch(err => console.log(err));
@@ -534,7 +532,7 @@ const Home = () => {
       setPushNotification();
       setSplash(false);
       generateNotifications();
-    }, 500);
+    }, 1000);
   }, []);
 
   const [showNotif, setShowNotif] = useState<boolean>(false);

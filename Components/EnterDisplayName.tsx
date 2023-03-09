@@ -22,10 +22,12 @@ const EnterDisplayName = ({
       return;
     }
     AsyncStorage.setItem('userName', JSON.stringify(displayName))
-    .catch(err => console.log(err));
-    setShowDisplayName(false);
-    setMessage(`Hola! ${displayName}🥵`);
-    setShowNotif(true);
+      .then(() => {
+        setShowDisplayName(false);
+        setMessage(`Hola! ${displayName}🥵`);
+        setShowNotif(true);
+      })
+      .catch(err => console.log(err));
   }
 
   return (
