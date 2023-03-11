@@ -1,20 +1,10 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ImageBackground,
-  StyleSheet,
-  Modal,
-  TextInput,
-  StatusBar,
-  ScrollView,
-} from 'react-native';
-import React, {useEffect, useMemo, useState, useRef} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
+import {solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {d} from '../screens/Home';
-import EditPills from './EditPills';
+
 import AnimatedLottieView from 'lottie-react-native';
 
 const MedicineContainer = ({props, confetti, setConfetti, day}) => {
@@ -26,10 +16,6 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
   var currentTime = Number(d.format('HH:mm').replace(':', ''));
   var windowOpen = Number(props.time.replace(':', '')) - 100;
   var windowClosed = Number(props.time.replace(':', '')) + 100;
-
-  /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
-     
-    } */
 
   props.pills.forEach(element => {
     element.daysTaken.forEach(elem => {
@@ -177,7 +163,7 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
                       ? '#FFFFFF'
                       : dataTime - currentTime > 300 &&
                         dataTime - currentTime <= 600
-                      ? '#FF66CC'
+                      ? '#FF66CC' || '#EF6F3A'
                       : '#EF6F3A'
                   }
                 />
@@ -203,18 +189,6 @@ const MedicineContainer = ({props, confetti, setConfetti, day}) => {
                     ]}>
                     {pill.name}
                   </Text>
-                  {/*  <TouchableOpacity
-                      activeOpacity={0.5}
-                      onPress={() => setEditPill(true)}>
-                      <FontAwesomeIcon
-                        icon={regular('pen-to-square')}
-                        style={{marginRight: 15}}
-                        size={24}
-                        color={
-                          timeDiff > 3 && timeDiff <= 6 ? 'white' : 'black'
-                        }
-                      />
-                    </TouchableOpacity> */}
                 </View>
 
                 <Text

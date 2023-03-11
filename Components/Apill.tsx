@@ -29,6 +29,7 @@ const Apill = ({
 }) => {
   const [editPill, setEditPill] = useState<boolean>(false);
   const [deleteAPill, setDeleteAPill] = useState<boolean>(false);
+
   return (
     <>
       <Modal
@@ -76,6 +77,7 @@ const Apill = ({
         }
       </Modal>
       <View
+        key={data.id}
         style={{
           display: 'flex',
           flex: 1,
@@ -224,10 +226,15 @@ const Apill = ({
                 {data.timesPerDay}
               </Text>
             </Text>
-            <Text style={styles.infoTxt}>
-              Times:{' '}
-              <Text style={{fontFamily: 'Satoshi-Regular'}}>{data.times}</Text>
-            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={styles.infoTxt}>Times: </Text>
+              {data.times.map((time: string) => (
+                <Text key={time} style={styles.times}>
+                  {time}
+                </Text>
+              ))}
+            </View>
+
             <Text style={styles.infoTxt}>
               Start date:{' '}
               <Text style={{fontFamily: 'Satoshi-Regular'}}>
@@ -261,5 +268,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Satoshi-Bold',
     marginBottom: 10,
+  },
+  times: {
+    fontFamily: 'Satoshi-Regular',
+    color: 'black',
+    fontSize: 18,
+    marginBottom: 10,
+    marginRight: 10,
   },
 });

@@ -49,6 +49,7 @@ exports.d = exports.check = void 0;
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 var react_native_1 = require("react-native");
+var react_native_2 = require("@notifee/react-native");
 var react_1 = require("react");
 var react_native_calendars_1 = require("react-native-calendars");
 var react_native_elements_1 = require("react-native-elements");
@@ -57,6 +58,7 @@ var moment_1 = require("moment");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_swipe_list_view_1 = require("react-native-swipe-list-view");
+var react_native_background_fetch_1 = require("react-native-background-fetch");
 var NewPill_1 = require("../Components/NewPill");
 var Settings_1 = require("../Components/Settings");
 var MedicineContainer_1 = require("../Components/MedicineContainer");
@@ -72,9 +74,6 @@ var EnterDisplayName_1 = require("../Components/EnterDisplayName");
 var async_storage_1 = require("@react-native-async-storage/async-storage");
 var Info_1 = require("../Components/Info");
 var Notifications_2 = require("../Notifications");
-/* export function dateDifference(startDate, endDate) {
-  return moment(startDate).diff(moment(endDate), 'hours');
-} */
 function check(dF, dT, dC) {
     //convert dates to 'day/month/year' format
     var dateFrom = moment_1["default"](new Date(dF)).format('DD/MM/YYYY');
@@ -96,19 +95,6 @@ exports.check = check;
 var date = new Date();
 exports.d = moment_1["default"](date);
 var Home = function () {
-    var colors = [
-        '#4D4DFF',
-        '#E5E1E6',
-        '#FFAD00',
-        '#ED1D24',
-        '#00958A',
-        '#00C0A3',
-        '#26D07C',
-        '#fede29',
-        '#055a87',
-        '#7da19d',
-        '#1d9aa9',
-    ];
     var _a = react_1.useState(''), displayName = _a[0], setDisplayName = _a[1];
     var _b = react_1.useState(false), showDisplayName = _b[0], setShowDisplayName = _b[1];
     exports.d.month(); // 1
@@ -117,10 +103,56 @@ var Home = function () {
     var _e = react_1.useState(exports.d.format('dddd MMM D')), fullDate = _e[0], setFullDate = _e[1];
     var _f = react_1.useState('today'), header = _f[0], setHeader = _f[1];
     var _g = react_1.useState(moment_1["default"]()), selectedDate = _g[0], setSelectedDate = _g[1];
-    /* Check date in duration function */
-    /*   var datefrom = '05/05/2013';
-    var dateCurr = '05/28/2013';
-    var dateTo = '05/22/2013'; */
+    var initBackgroundFetch = function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, react_native_background_fetch_1["default"].configure({
+                        minimumFetchInterval: 15,
+                        stopOnTerminate: false,
+                        enableHeadless: true,
+                        startOnBoot: true,
+                        // Android options
+                        forceAlarmManager: true,
+                        requiredNetworkType: react_native_background_fetch_1["default"].NETWORK_TYPE_NONE,
+                        requiresCharging: false,
+                        requiresDeviceIdle: false,
+                        requiresBatteryNotLow: false,
+                        requiresStorageNotLow: false
+                    }, function (taskId) { return __awaiter(void 0, void 0, void 0, function () {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    console.log('Received background-fetch event: ', taskId);
+                                    return [4 /*yield*/, loadData().then(function () {
+                                            mainDrive(exports.d.format('ddd MMM D YYYY'));
+                                            setPushNotification();
+                                            generateNotifications();
+                                        })];
+                                case 1:
+                                    _a.sent();
+                                    react_native_background_fetch_1["default"].finish(taskId);
+                                    return [2 /*return*/];
+                            }
+                        });
+                    }); }, function (taskId) {
+                        // Oh No!  Our task took too long to complete and the OS has signalled
+                        // that this task must be finished immediately.
+                        console.log('[Fetch] TIMEOUT taskId:', taskId);
+                        react_native_background_fetch_1["default"].finish(taskId);
+                    })];
+                case 1:
+                    _a.sent();
+                    react_native_background_fetch_1["default"].start();
+                    react_native_background_fetch_1["default"].scheduleTask({
+                        taskId: 'com.foo.customtask',
+                        delay: 5000,
+                        forceAlarmManager: true,
+                        periodic: true
+                    });
+                    return [2 /*return*/];
+            }
+        });
+    }); };
     var _h = react_1.useState([]), filterData = _h[0], setFilterData = _h[1];
     function mainDrive(date) {
         //set data based on date
@@ -221,40 +253,7 @@ var Home = function () {
             });
         });
     }
-    /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
     react_1.useEffect(function () { return mainDrive(day); }, [filterData]);
-    /*   var hm = element.time; */
-    /*  var notifDate = moment(`20:1`, ['h:m a', 'H:m']).toDate();
-  
-    Notification.scheduleNotification(notifDate); */
-    /*   useEffect(() => {
-      switch (day) {
-        case 'Monday':
-          setPillData(monPills);
-          break;
-        case 'Tuesday':
-          setPillData(tuePills);
-          break;
-        case 'Wednesday':
-          setPillData(wedPills);
-          break;
-        case 'Thursday':
-          setPillData(thuPills);
-          break;
-        case 'Friday':
-          setPillData(friPills);
-          break;
-        case 'Saturday':
-          setPillData(satPills);
-          break;
-        case 'Sunday':
-          setPillData(sunPills);
-          break;
-        default:
-          setPillData([]);
-      }
-    }, [day]);
-   */
     react_1.useEffect(function () {
         if (fullDate === exports.d.format('dddd MMM D')) {
             setHeader('today');
@@ -264,12 +263,11 @@ var Home = function () {
         }
     }, [fullDate]);
     var _j = react_1.useState(false), showCalendar = _j[0], setShowCalendar = _j[1];
-    var pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
     var slides = [
         {
             key: 1,
             title: 'Schedule Pills',
-            text: 'Never miss\n taking your pills',
+            text: 'Never miss\ntaking your pills',
             image: require('../assets/1.jpg'),
             backgroundColor: '#fff'
         },
@@ -283,8 +281,22 @@ var Home = function () {
         {
             key: 3,
             title: 'Notifications',
-            text: 'Get notified on\n missed pills and pills due for renewal',
+            text: 'Get notified on\nmissed pills and pills due for renewal',
             image: require('../assets/3.jpg'),
+            backgroundColor: '#22bcb5'
+        },
+        {
+            key: 4,
+            title: 'Calendar',
+            text: 'View your pills schedule\nmonths ahead or behind.',
+            image: require('../assets/4.jpg'),
+            backgroundColor: '#22bcb5'
+        },
+        {
+            key: 5,
+            title: 'Strict Scheduling',
+            text: 'Pills have to be taken\nwithin an hour before or after \nspecified time.',
+            image: require('../assets/5.jpg'),
             backgroundColor: '#22bcb5'
         },
     ];
@@ -316,15 +328,6 @@ var Home = function () {
             alignItems: 'center'
         } },
         react_1["default"].createElement(lottie_react_native_1["default"], { style: { height: 200 }, source: require('../assets/medicine-pills.json'), autoPlay: true, speed: 2 }))); };
-    /*  interface pillModalData {
-      edit: boolean;
-      data: {};
-    }
-  */
-    /*  const addPillModalData = {
-      edit: false,
-      data: {},
-    }; */
     var _t = react_1.useState([]), newNotificationData = _t[0], setNewNotification = _t[1];
     var _u = react_1.useState([]), notificationData = _u[0], setNotificationData = _u[1];
     function generateNotifications() {
@@ -452,7 +455,7 @@ var Home = function () {
             return __generator(this, function (_a) {
                 async_storage_1["default"].getItem('first_time').then(function (data) {
                     if (data !== null) {
-                        JSON.parse(data) && setShowRealApp(true);
+                        setShowRealApp(true);
                     }
                 });
                 async_storage_1["default"].getItem('userName')
@@ -478,14 +481,96 @@ var Home = function () {
             });
         });
     }
+    function checkPermission() {
+        return __awaiter(this, void 0, void 0, function () {
+            var hasPermissions, batteryOptimizationEnabled, powerManagerInfo;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, Notifications_2["default"].checkPermissions()];
+                    case 1:
+                        hasPermissions = _a.sent();
+                        if (!hasPermissions) {
+                            react_native_1.Alert.alert('Permission Declined', 'To ensure notifications are delivered, please enable notifications for the app.', [
+                                // 3. launch intent to navigate the user to the appropriate screen
+                                {
+                                    text: 'OK, open settings',
+                                    onPress: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4 /*yield*/, react_native_2["default"].openNotificationSettings()];
+                                            case 1: return [2 /*return*/, _a.sent()];
+                                        }
+                                    }); }); }
+                                },
+                                {
+                                    text: 'Cancel',
+                                    onPress: function () { return console.log('Cancel Pressed'); },
+                                    style: 'cancel'
+                                },
+                            ], { cancelable: false });
+                        }
+                        return [4 /*yield*/, react_native_2["default"].isBatteryOptimizationEnabled()];
+                    case 2:
+                        batteryOptimizationEnabled = _a.sent();
+                        if (batteryOptimizationEnabled) {
+                            // 2. ask your users to disable the feature
+                            react_native_1.Alert.alert('Restrictions Detected', 'To ensure notifications are delivered, please disable battery optimization for the app.', [
+                                // 3. launch intent to navigate the user to the appropriate screen
+                                {
+                                    text: 'OK, open settings',
+                                    onPress: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4 /*yield*/, react_native_2["default"].openBatteryOptimizationSettings()];
+                                            case 1: return [2 /*return*/, _a.sent()];
+                                        }
+                                    }); }); }
+                                },
+                                {
+                                    text: 'Cancel',
+                                    onPress: function () { return console.log('Cancel Pressed'); },
+                                    style: 'cancel'
+                                },
+                            ], { cancelable: false });
+                        }
+                        return [4 /*yield*/, react_native_2["default"].getPowerManagerInfo()];
+                    case 3:
+                        powerManagerInfo = _a.sent();
+                        if (powerManagerInfo.activity) {
+                            // 2. ask your users to adjust their settings
+                            react_native_1.Alert.alert('Restrictions Detected', 'To ensure notifications are delivered, please adjust your settings to prevent the app from being killed', [
+                                // 3. launch intent to navigate the user to the appropriate screen
+                                {
+                                    text: 'OK, open settings',
+                                    onPress: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4 /*yield*/, react_native_2["default"].openPowerManagerSettings()];
+                                            case 1: return [2 /*return*/, _a.sent()];
+                                        }
+                                    }); }); }
+                                },
+                                {
+                                    text: 'Cancel',
+                                    onPress: function () { return console.log('Cancel Pressed'); },
+                                    style: 'cancel'
+                                },
+                            ], { cancelable: false });
+                        }
+                        return [2 /*return*/];
+                }
+            });
+        });
+    }
     /*  makeshift splash screen  */
     react_1.useEffect(function () {
         setTimeout(function () {
-            loadData();
-            mainDrive(exports.d.format('ddd MMM D YYYY'));
-            setPushNotification();
-            setSplash(false);
-            generateNotifications();
+            loadData().then(function () {
+                mainDrive(exports.d.format('ddd MMM D YYYY'));
+                setPushNotification();
+                generateNotifications();
+                initBackgroundFetch();
+                checkPermission();
+                setSplash(false);
+            });
         }, 1000);
     }, []);
     var _w = react_1.useState(false), showNotif = _w[0], setShowNotif = _w[1];
@@ -502,7 +587,7 @@ var Home = function () {
     }, [d.format('mm')]); */
     var renderSlideItem = function (_a) {
         var item = _a.item;
-        return (react_1["default"].createElement(react_native_1.View, { style: styles.slide },
+        return (react_1["default"].createElement(react_native_1.View, { key: item.key, style: styles.slide },
             react_1["default"].createElement(react_native_1.Text, { style: styles.title }, item.title),
             react_1["default"].createElement(react_native_1.Image, { style: styles.img, source: item.image }),
             react_1["default"].createElement(react_native_1.Text, { style: styles.text }, item.text)));
@@ -525,7 +610,9 @@ var Home = function () {
         return (react_1["default"].createElement(react_native_1.View, { style: [styles.buttonCircle, { backgroundColor: 'green' }] },
             react_1["default"].createElement(react_native_fontawesome_1.FontAwesomeIcon, { icon: import_macro_1.solid('check'), color: "rgba(255, 255, 255, .9)", size: 24 })));
     };
-    return splash ? (react_1["default"].createElement(Splash, null)) : !showRealApp ? (react_1["default"].createElement(react_native_app_intro_slider_1["default"], { renderItem: renderSlideItem, data: slides, onDone: onDone, renderDoneButton: renderDoneButton, renderNextButton: renderNextButton, showSkipButton: true })) : (react_1["default"].createElement(react_1["default"].Fragment, null,
+    return splash ? (react_1["default"].createElement(Splash, null)) : !showRealApp ? (react_1["default"].createElement(react_native_app_intro_slider_1["default"], { renderItem: renderSlideItem, data: slides, onDone: onDone, renderDoneButton: renderDoneButton, renderNextButton: renderNextButton, showSkipButton: true, activeDotStyle: {
+            backgroundColor: '#000000'
+        } })) : (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.StatusBar, { barStyle: "light-content" }),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: newPill, transparent: true, onRequestClose: function () { return setPillModal(false); } }, react_1["default"].createElement(NewPill_1["default"], { setPillModal: setPillModal, setShowNotif: setShowNotif, setMessage: setMessage, mainDrive: mainDrive, filterData: filterData, setFilterData: setFilterData })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: showDisplayName, transparent: true, onRequestClose: function () { return setShowDisplayName(false); } }, react_1["default"].createElement(EnterDisplayName_1["default"], { displayName: displayName, setDisplayName: setDisplayName, setShowDisplayName: setShowDisplayName, setMessage: setMessage, setShowNotif: setShowNotif })),
@@ -675,10 +762,10 @@ var Home = function () {
 exports["default"] = Home;
 var styles = react_native_1.StyleSheet.create({
     img: {
-        height: '75%',
+        height: '65%',
         width: '100%',
         alignSelf: 'center',
-        resizeMode: 'center'
+        resizeMode: 'contain'
     },
     slide: {
         backgroundColor: '#fff',
@@ -687,7 +774,7 @@ var styles = react_native_1.StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        margin: 16,
+        marginTop: 50,
         color: '#000000',
         fontSize: 32,
         fontFamily: 'Satoshi-Bold'

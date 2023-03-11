@@ -4,12 +4,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   StyleSheet,
-  Modal,
-  TextInput,
-  StatusBar,
-  ScrollView,
 } from 'react-native';
-import React, {useEffect, useMemo, useState, useRef} from 'react';
+import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {Divider} from 'react-native-elements';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -25,7 +21,10 @@ const Settings = ({
   return (
     <View style={styles.modalContainer}>
       <TouchableOpacity
-        onPress={() => setInfo(true)}
+        onPress={() => {
+          setSettings(false);
+          setInfo(true);
+        }}
         style={{position: 'absolute', top: 40, right: 40}}
         activeOpacity={0.5}>
         <FontAwesomeIcon

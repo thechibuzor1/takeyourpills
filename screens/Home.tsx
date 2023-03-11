@@ -9,12 +9,12 @@ import {
   ImageBackground,
   StyleSheet,
   Modal,
-  TextInput,
   StatusBar,
-  ScrollView,
   Image,
+  Alert,
 } from 'react-native';
-import React, {useEffect, useMemo, useState, useRef} from 'react';
+import notifee from '@notifee/react-native';
+import React, {useEffect, useState} from 'react';
 import {Calendar} from 'react-native-calendars';
 import {Divider, Badge} from 'react-native-elements';
 import CalendarStrip from 'react-native-calendar-strip';
@@ -23,7 +23,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {SwipeListView} from 'react-native-swipe-list-view';
 
-import {demoRemake} from '../demodata';
+import BackgroundFetch from 'react-native-background-fetch';
 import NewPill from '../Components/NewPill';
 import Settings from '../Components/Settings';
 import MedicineContainer from '../Components/MedicineContainer';
@@ -40,9 +40,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Info from '../Components/Info';
 import Notification from '../Notifications';
 
-/* export function dateDifference(startDate, endDate) {
-  return moment(startDate).diff(moment(endDate), 'hours');
-} */
 export function check(dF: string, dT: string, dC: string) {
   //convert dates to 'day/month/year' format
   var dateFrom = moment(new Date(dF)).format('DD/MM/YYYY');
@@ -67,22 +64,6 @@ const date = new Date();
 export var d = moment(date);
 
 const Home = () => {
-  const colors = [
-    '#4D4DFF',
-    '#E5E1E6',
-
-    '#FFAD00', //orange. pill almost late to take
-    '#ED1D24', //red. pill is late to be taken
-
-    '#00958A', // dark green
-    '#00C0A3', // green
-    '#26D07C', //green. use it to show pill has been taken
-    '#fede29', //yellow. approaching orange
-
-    '#055a87', //dark blue
-    '#7da19d', //gray
-    '#1d9aa9', //light dark blue lol
-  ];
   const [displayName, setDisplayName] = useState<string>('');
   const [showDisplayName, setShowDisplayName] = useState<boolean>(false);
   d.month(); // 1
@@ -92,11 +73,45 @@ const Home = () => {
   const [header, setHeader] = useState<string>('today');
   const [selectedDate, setSelectedDate] = useState(moment());
 
-  /* Check date in duration function */
-
-  /*   var datefrom = '05/05/2013';
-  var dateCurr = '05/28/2013';
-  var dateTo = '05/22/2013'; */
+  const initBackgroundFetch = async () => {
+    await BackgroundFetch.configure(
+      {
+        minimumFetchInterval: 15, // <-- minutes (15 is minimum allowed)
+        stopOnTerminate: false,
+        enableHeadless: true,
+        startOnBoot: true,
+        // Android options
+        forceAlarmManager: true, // <-- Set true to bypass JobScheduler.
+        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE, // Default
+        requiresCharging: false, // Default
+        requiresDeviceIdle: false, // Default
+        requiresBatteryNotLow: false, // Default
+        requiresStorageNotLow: false,
+      },
+      async (taskId: string) => {
+        console.log('Received background-fetch event: ', taskId);
+        await loadData().then(() => {
+          mainDrive(d.format('ddd MMM D YYYY'));
+          setPushNotification();
+          generateNotifications();
+        });
+        BackgroundFetch.finish(taskId);
+      },
+      (taskId: string) => {
+        // Oh No!  Our task took too long to complete and the OS has signalled
+        // that this task must be finished immediately.
+        console.log('[Fetch] TIMEOUT taskId:', taskId);
+        BackgroundFetch.finish(taskId);
+      },
+    );
+    BackgroundFetch.start();
+    BackgroundFetch.scheduleTask({
+      taskId: 'com.foo.customtask',
+      delay: 5000, // milliseconds
+      forceAlarmManager: true,
+      periodic: true,
+    });
+  };
 
   const [filterData, setFilterData] = useState([]);
   function mainDrive(date) {
@@ -212,42 +227,7 @@ const Home = () => {
     redirect: boolean;
   }
 
-  /*   const medicineConColor = ['#F9DD71', '#ECECEC', '#132342']; */
-
   useEffect(() => mainDrive(day), [filterData]);
-
-  /*   var hm = element.time; */
-  /*  var notifDate = moment(`20:1`, ['h:m a', 'H:m']).toDate();
-
-  Notification.scheduleNotification(notifDate); */
-  /*   useEffect(() => {
-    switch (day) {
-      case 'Monday':
-        setPillData(monPills);
-        break;
-      case 'Tuesday':
-        setPillData(tuePills);
-        break;
-      case 'Wednesday':
-        setPillData(wedPills);
-        break;
-      case 'Thursday':
-        setPillData(thuPills);
-        break;
-      case 'Friday':
-        setPillData(friPills);
-        break;
-      case 'Saturday':
-        setPillData(satPills);
-        break;
-      case 'Sunday':
-        setPillData(sunPills);
-        break;
-      default:
-        setPillData([]);
-    }
-  }, [day]);
- */
 
   useEffect(() => {
     if (fullDate === d.format('dddd MMM D')) {
@@ -259,12 +239,11 @@ const Home = () => {
 
   const [showCalendar, setShowCalendar] = useState<Boolean>(false);
 
-  const pillColors = ['#FF66CC', '#EF6F3A', '#FFFFFF'];
   const slides = [
     {
       key: 1,
       title: 'Schedule Pills',
-      text: 'Never miss\n taking your pills',
+      text: 'Never miss\ntaking your pills',
       image: require('../assets/1.jpg'),
       backgroundColor: '#fff',
     },
@@ -278,8 +257,22 @@ const Home = () => {
     {
       key: 3,
       title: 'Notifications',
-      text: 'Get notified on\n missed pills and pills due for renewal',
+      text: 'Get notified on\nmissed pills and pills due for renewal',
       image: require('../assets/3.jpg'),
+      backgroundColor: '#22bcb5',
+    },
+    {
+      key: 4,
+      title: 'Calendar',
+      text: 'View your pills schedule\nmonths ahead or behind.',
+      image: require('../assets/4.jpg'),
+      backgroundColor: '#22bcb5',
+    },
+    {
+      key: 5,
+      title: 'Strict Scheduling',
+      text: 'Pills have to be taken\nwithin an hour before or after \nspecified time.',
+      image: require('../assets/5.jpg'),
       backgroundColor: '#22bcb5',
     },
   ];
@@ -352,16 +345,6 @@ const Home = () => {
       />
     </ImageBackground>
   );
-
-  /*  interface pillModalData {
-    edit: boolean;
-    data: {};
-  }
-*/
-  /*  const addPillModalData = {
-    edit: false,
-    data: {},
-  }; */
 
   const [newNotificationData, setNewNotification] = useState([]);
   var [notificationData, setNotificationData] = useState<
@@ -497,7 +480,7 @@ const Home = () => {
   async function loadData() {
     AsyncStorage.getItem('first_time').then(data => {
       if (data !== null) {
-        JSON.parse(data) && setShowRealApp(true);
+        setShowRealApp(true);
       }
     });
     AsyncStorage.getItem('userName')
@@ -523,15 +506,84 @@ const Home = () => {
       })
       .catch(err => console.log(err));
   }
+  async function checkPermission() {
+    const hasPermissions = await Notification.checkPermissions();
+    if (!hasPermissions) {
+      Alert.alert(
+        'Permission Declined',
+        'To ensure notifications are delivered, please enable notifications for the app.',
+        [
+          // 3. launch intent to navigate the user to the appropriate screen
+          {
+            text: 'OK, open settings',
+            onPress: async () => await notifee.openNotificationSettings(),
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+    const batteryOptimizationEnabled =
+      await notifee.isBatteryOptimizationEnabled();
+    if (batteryOptimizationEnabled) {
+      // 2. ask your users to disable the feature
+      Alert.alert(
+        'Restrictions Detected',
+        'To ensure notifications are delivered, please disable battery optimization for the app.',
+        [
+          // 3. launch intent to navigate the user to the appropriate screen
+          {
+            text: 'OK, open settings',
+            onPress: async () =>
+              await notifee.openBatteryOptimizationSettings(),
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+    const powerManagerInfo = await notifee.getPowerManagerInfo();
+    if (powerManagerInfo.activity) {
+      // 2. ask your users to adjust their settings
+      Alert.alert(
+        'Restrictions Detected',
+        'To ensure notifications are delivered, please adjust your settings to prevent the app from being killed',
+        [
+          // 3. launch intent to navigate the user to the appropriate screen
+          {
+            text: 'OK, open settings',
+            onPress: async () => await notifee.openPowerManagerSettings(),
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        {cancelable: false},
+      );
+    }
+  }
 
   /*  makeshift splash screen  */
   useEffect(() => {
     setTimeout(() => {
-      loadData();
-      mainDrive(d.format('ddd MMM D YYYY'));
-      setPushNotification();
-      setSplash(false);
-      generateNotifications();
+      loadData().then(() => {
+        mainDrive(d.format('ddd MMM D YYYY'));
+        setPushNotification();
+        generateNotifications();
+        initBackgroundFetch();
+        checkPermission();
+        setSplash(false);
+      });
     }, 1000);
   }, []);
 
@@ -551,7 +603,7 @@ const Home = () => {
 
   const renderSlideItem = ({item}) => {
     return (
-      <View style={styles.slide}>
+      <View key={item.key} style={styles.slide}>
         <Text style={styles.title}>{item.title}</Text>
         <Image style={styles.img} source={item.image} />
         <Text style={styles.text}>{item.text}</Text>
@@ -601,6 +653,9 @@ const Home = () => {
       renderDoneButton={renderDoneButton}
       renderNextButton={renderNextButton}
       showSkipButton={true}
+      activeDotStyle={{
+        backgroundColor: '#000000',
+      }}
     />
   ) : (
     <>
@@ -995,10 +1050,10 @@ export default Home;
 
 const styles = StyleSheet.create({
   img: {
-    height: '75%',
+    height: '65%',
     width: '100%',
     alignSelf: 'center',
-    resizeMode: 'center',
+    resizeMode: 'contain',
   },
   slide: {
     backgroundColor: '#fff',
@@ -1007,7 +1062,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    margin: 16,
+    marginTop: 50,
     color: '#000000',
     fontSize: 32,
     fontFamily: 'Satoshi-Bold',

@@ -13,9 +13,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {regular, solid} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {Divider} from 'react-native-elements';
 import Apill from './Apill';
-import {demoRemake} from '../demodata';
 import moment from 'moment';
-import {d} from '../screens/Home';
 import NotificationBar from './NotificationBar';
 
 const MyPills = ({
@@ -114,6 +112,7 @@ const MyPills = ({
     }
     return (
       <TouchableOpacity
+        key={props.id}
         onPress={() => {
           setIndex(filterData.indexOf(props));
           setCurrentPill(props);

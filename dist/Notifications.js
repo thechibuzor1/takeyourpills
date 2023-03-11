@@ -105,7 +105,14 @@ var Notifications = /** @class */ (function () {
             var settings;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, react_native_1["default"].requestPermission()];
+                    case 0: return [4 /*yield*/, react_native_1["default"].requestPermission({
+                            sound: false,
+                            announcement: true,
+                            badge: true,
+                            criticalAlert: true,
+                            alert: true,
+                            provisional: true
+                        })];
                     case 1:
                         settings = _a.sent();
                         if (settings.authorizationStatus >= react_native_1.AuthorizationStatus.AUTHORIZED) {
@@ -124,7 +131,7 @@ var Notifications = /** @class */ (function () {
     Notifications.prototype.scheduleNotification = function (_a) {
         var reminder = _a.reminder, date = _a.date;
         return __awaiter(this, void 0, void 0, function () {
-            var channelId, hasPermissions, trigger, batteryOptimizationEnabled;
+            var channelId, hasPermissions, trigger, batteryOptimizationEnabled, powerManagerInfo;
             var _this = this;
             return __generator(this, function (_b) {
                 switch (_b.label) {
@@ -149,45 +156,70 @@ var Notifications = /** @class */ (function () {
                         return [4 /*yield*/, react_native_1["default"].isBatteryOptimizationEnabled()];
                     case 3:
                         batteryOptimizationEnabled = _b.sent();
-                        if (!batteryOptimizationEnabled) return [3 /*break*/, 4];
-                        // 2. ask your users to disable the feature
-                        react_native_2.Alert.alert('Restrictions Detected', 'To ensure notifications are delivered, please disable battery optimization for the app.', [
-                            // 3. launch intent to navigate the user to the appropriate screen
-                            {
-                                text: 'OK, open settings',
-                                onPress: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0: return [4 /*yield*/, react_native_1["default"].openBatteryOptimizationSettings()];
-                                        case 1: return [2 /*return*/, _a.sent()];
-                                    }
-                                }); }); }
-                            },
-                            {
-                                text: 'Cancel',
-                                onPress: function () { return console.log('Cancel Pressed'); },
-                                style: 'cancel'
-                            },
-                        ], { cancelable: false });
-                        return [3 /*break*/, 6];
-                    case 4: return [4 /*yield*/, react_native_1["default"].createTriggerNotification({
-                            id: '1',
-                            title: "TAKE YOUR PILLS!",
-                            body: "" + reminder,
-                            android: {
-                                channelId: channelId,
-                                pressAction: {
-                                    id: 'default'
-                                }
-                            },
-                            data: {
+                        if (batteryOptimizationEnabled) {
+                            // 2. ask your users to disable the feature
+                            react_native_2.Alert.alert('Restrictions Detected', 'To ensure notifications are delivered, please disable battery optimization for the app.', [
+                                // 3. launch intent to navigate the user to the appropriate screen
+                                {
+                                    text: 'OK, open settings',
+                                    onPress: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4 /*yield*/, react_native_1["default"].openBatteryOptimizationSettings()];
+                                            case 1: return [2 /*return*/, _a.sent()];
+                                        }
+                                    }); }); }
+                                },
+                                {
+                                    text: 'Cancel',
+                                    onPress: function () { return console.log('Cancel Pressed'); },
+                                    style: 'cancel'
+                                },
+                            ], { cancelable: false });
+                        }
+                        return [4 /*yield*/, react_native_1["default"].getPowerManagerInfo()];
+                    case 4:
+                        powerManagerInfo = _b.sent();
+                        if (powerManagerInfo.activity) {
+                            // 2. ask your users to adjust their settings
+                            react_native_2.Alert.alert('Restrictions Detected', 'To ensure notifications are delivered, please adjust your settings to prevent the app from being killed', [
+                                // 3. launch intent to navigate the user to the appropriate screen
+                                {
+                                    text: 'OK, open settings',
+                                    onPress: function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0: return [4 /*yield*/, react_native_1["default"].openPowerManagerSettings()];
+                                            case 1: return [2 /*return*/, _a.sent()];
+                                        }
+                                    }); }); }
+                                },
+                                {
+                                    text: 'Cancel',
+                                    onPress: function () { return console.log('Cancel Pressed'); },
+                                    style: 'cancel'
+                                },
+                            ], { cancelable: false });
+                        }
+                        return [4 /*yield*/, react_native_1["default"].createTriggerNotification({
                                 id: '1',
-                                action: 'reminder',
-                                details: {
-                                    name: reminder,
-                                    date: date.toString()
+                                title: "TAKE YOUR PILLS!",
+                                body: "" + reminder,
+                                android: {
+                                    channelId: channelId,
+                                    pressAction: {
+                                        id: 'default'
+                                    },
+                                    lightUpScreen: true,
+                                    importance: react_native_1.AndroidImportance.HIGH
+                                },
+                                data: {
+                                    id: '1',
+                                    action: 'reminder',
+                                    details: {
+                                        name: reminder,
+                                        date: date.toString()
+                                    }
                                 }
-                            }
-                        }, trigger)];
+                            }, trigger)];
                     case 5:
                         _b.sent();
                         _b.label = 6;

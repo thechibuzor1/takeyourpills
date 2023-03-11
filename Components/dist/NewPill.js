@@ -68,7 +68,7 @@ var NewPill = function (_a) {
                 times: value === 1
                     ? [morningTime]
                     : value === 2
-                        ? [morningTime, afternoonTime]
+                        ? [morningTime, eveningTime]
                         : [morningTime, afternoonTime, eveningTime],
                 startDate: startDate,
                 endDate: moment_1["default"](endDate).format('ddd MMM D YYYY'),
@@ -79,20 +79,18 @@ var NewPill = function (_a) {
             async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
                 setFilterData(clonedData);
                 mainDrive(Home_1.d.format('ddd MMM D YYYY'));
-                if (Home_1.check(newPills_1.startDate, newPills_1.endDate, Home_1.d.format('ddd MMM D YYYY'))) {
-                    var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
-                    newPills_1.times.forEach(function (element) {
-                        var dateTime = Number(element.replace(':', ''));
-                        if (currentTime < dateTime) {
-                            var notifDate = moment_1["default"](element, ['h:m a', 'H:m']).toDate();
-                            var text = "It's time to take your " + element + " pills";
-                            Notifications_1["default"].scheduleNotification({
-                                reminder: text,
-                                date: notifDate
-                            });
-                        }
-                    });
-                }
+                var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
+                newPills_1.times.forEach(function (element) {
+                    var dateTime = Number(element.replace(':', ''));
+                    if (currentTime < dateTime) {
+                        var notifDate = moment_1["default"](element, ['h:m a', 'H:m']).toDate();
+                        var text = "It's time to take your " + element + " pills";
+                        Notifications_1["default"].scheduleNotification({
+                            reminder: text,
+                            date: notifDate
+                        });
+                    }
+                });
                 setPillName('');
                 setPillDesc('');
                 setDosage('');

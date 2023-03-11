@@ -81,7 +81,7 @@ var MyPills = function (_a) {
         if (daysLeft <= 0) {
             daysLeft = 0;
         }
-        return (react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
+        return (react_1["default"].createElement(react_native_1.TouchableOpacity, { key: props.id, onPress: function () {
                 setIndex(filterData.indexOf(props));
                 setCurrentPill(props);
                 setPillActive(true);

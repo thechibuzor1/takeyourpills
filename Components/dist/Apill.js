@@ -15,7 +15,7 @@ var Apill = function (_a) {
     return (react_1["default"].createElement(react_1["default"].Fragment, null,
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: editPill, transparent: true, onRequestClose: function () { return setEditPill(false); } }, react_1["default"].createElement(EditPills_1["default"], { setEditPill: setEditPill, data: data, index: index, setShowNotif: setShowNotif, setMessage: setMessage, filterData: filterData, mainDrive: mainDrive, setFilterData: setFilterData, setPillActive: setPillActive, setCurrentPill: setCurrentPill, setIndex: setIndex })),
         react_1["default"].createElement(react_native_1.Modal, { animated: true, animationType: "slide", visible: deleteAPill, transparent: true, onRequestClose: function () { return setDeleteAPill(false); } }, react_1["default"].createElement(DeleteApill_1["default"], { setDeleteAPill: setDeleteAPill, data: data, index: index, setShowNotif: setShowNotif, setMessage: setMessage, filterData: filterData, mainDrive: mainDrive, setFilterData: setFilterData, setPillActive: setPillActive, setCurrentPill: setCurrentPill, setIndex: setIndex })),
-        react_1["default"].createElement(react_native_1.View, { style: {
+        react_1["default"].createElement(react_native_1.View, { key: data.id, style: {
                 display: 'flex',
                 flex: 1,
                 justifyContent: 'flex-end',
@@ -106,10 +106,9 @@ var Apill = function (_a) {
                         "Time in a day:",
                         ' ',
                         react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.timesPerDay)),
-                    react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
-                        "Times:",
-                        ' ',
-                        react_1["default"].createElement(react_native_1.Text, { style: { fontFamily: 'Satoshi-Regular' } }, data.times)),
+                    react_1["default"].createElement(react_native_1.View, { style: { flexDirection: 'row', alignItems: 'center' } },
+                        react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt }, "Times: "),
+                        data.times.map(function (time) { return (react_1["default"].createElement(react_native_1.Text, { key: time, style: styles.times }, time)); })),
                     react_1["default"].createElement(react_native_1.Text, { style: styles.infoTxt },
                         "Start date:",
                         ' ',
@@ -132,5 +131,12 @@ var styles = react_native_1.StyleSheet.create({
         fontSize: 18,
         fontFamily: 'Satoshi-Bold',
         marginBottom: 10
+    },
+    times: {
+        fontFamily: 'Satoshi-Regular',
+        color: 'black',
+        fontSize: 18,
+        marginBottom: 10,
+        marginRight: 10
     }
 });

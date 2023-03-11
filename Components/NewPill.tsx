@@ -91,7 +91,7 @@ const NewPill = ({
           value === 1
             ? [morningTime]
             : value === 2
-            ? [morningTime, afternoonTime]
+            ? [morningTime, eveningTime]
             : [morningTime, afternoonTime, eveningTime],
         startDate: startDate,
         endDate: moment(endDate).format('ddd MMM D YYYY'),
@@ -104,26 +104,19 @@ const NewPill = ({
       AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
         setFilterData(clonedData);
         mainDrive(d.format('ddd MMM D YYYY'));
-        if (
-          check(
-            newPills.startDate,
-            newPills.endDate,
-            d.format('ddd MMM D YYYY'),
-          )
-        ) {
-          var currentTime = Number(d.format('HH:mm').replace(':', ''));
-          newPills.times.forEach(element => {
-            var dateTime = Number(element.replace(':', ''));
-            if (currentTime < dateTime) {
-              var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
-              var text = `It's time to take your ${element} pills`;
-              Notifications.scheduleNotification({
-                reminder: text,
-                date: notifDate,
-              });
-            }
-          });
-        }
+
+        var currentTime = Number(d.format('HH:mm').replace(':', ''));
+        newPills.times.forEach(element => {
+          var dateTime = Number(element.replace(':', ''));
+          if (currentTime < dateTime) {
+            var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
+            var text = `It's time to take your ${element} pills`;
+            Notifications.scheduleNotification({
+              reminder: text,
+              date: notifDate,
+            });
+          }
+        });
 
         setPillName('');
         setPillDesc('');

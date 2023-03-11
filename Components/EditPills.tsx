@@ -15,9 +15,10 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
-import {d} from '../screens/Home';
+import {check, d} from '../screens/Home';
 import {Divider} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Notifications from '../Notifications';
 
 const EditPills = ({
   setEditPill,
@@ -80,7 +81,7 @@ const EditPills = ({
         value === 1
           ? [morningTime]
           : value === 2
-          ? [morningTime, afternoonTime]
+          ? [morningTime, eveningTime]
           : [morningTime, afternoonTime, eveningTime],
       startDate: startDate,
       endDate: moment(endDate).format('ddd MMM D YYYY'),
@@ -92,6 +93,20 @@ const EditPills = ({
     AsyncStorage.setItem('pillData', JSON.stringify(clonedData)).then(() => {
       setFilterData(clonedData);
       mainDrive(d.format('ddd MMM D YYYY'));
+
+      var currentTime = Number(d.format('HH:mm').replace(':', ''));
+      edittedPill.times.forEach(element => {
+        var dateTime = Number(element.replace(':', ''));
+        if (currentTime < dateTime) {
+          var notifDate = moment(element, ['h:m a', 'H:m']).toDate();
+          var text = `It's time to take your ${element} pills`;
+          Notifications.scheduleNotification({
+            reminder: text,
+            date: notifDate,
+          });
+        }
+      });
+
       setPillName('');
       setPillDesc('');
       setDosage('');

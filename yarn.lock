@@ -5900,6 +5900,11 @@ react-native-app-intro-slider@^4.0.4:
   resolved "https://registry.yarnpkg.com/react-native-app-intro-slider/-/react-native-app-intro-slider-4.0.4.tgz#fa5cda7057db62c448ac975ffd2ba0cff94cc8d8"
   integrity sha512-Zkjaol6X3BbZkHUpVDj2LjdidpS6rCgKi0fx80xgGKa0pHxBRd4swWTv2bHnnvu5k1/HXwYk0mY2TbK+2jHl5w==
 
+react-native-background-fetch@^4.1.8:
+  version "4.1.8"
+  resolved "https://registry.yarnpkg.com/react-native-background-fetch/-/react-native-background-fetch-4.1.8.tgz#a21858e5d876de8d9d15a37f40714b244f73713c"
+  integrity sha512-/qe86laa0n4AbD6mrLL8SCGR+K5693URX95e02/bTJh3UkdS3+sU1Jyc/XTlz4MQwlquI929/lm5EZh8AOUqzQ==
+
 react-native-calendar-strip@^2.2.6:
   version "2.2.6"
   resolved "https://registry.npmjs.org/react-native-calendar-strip/-/react-native-calendar-strip-2.2.6.tgz"

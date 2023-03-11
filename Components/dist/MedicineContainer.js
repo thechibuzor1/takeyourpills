@@ -27,9 +27,6 @@ var MedicineContainer = function (_a) {
     var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
     var windowOpen = Number(props.time.replace(':', '')) - 100;
     var windowClosed = Number(props.time.replace(':', '')) + 100;
-    /* if (element.daysTaken.includes(d.format('ddd MMM D YYYY'))) {
-       
-      } */
     props.pills.forEach(function (element) {
         element.daysTaken.forEach(function (elem) {
             if (elem.date === day) {
@@ -140,7 +137,7 @@ var MedicineContainer = function (_a) {
                         ? '#FFFFFF'
                         : dataTime - currentTime > 300 &&
                             dataTime - currentTime <= 600
-                            ? '#FF66CC'
+                            ? '#FF66CC' || '#EF6F3A'
                             : '#EF6F3A' }))) : (react_1["default"].createElement(react_native_1.View, null,
                 react_1["default"].createElement(react_native_1.View, { style: {
                         display: 'flex',

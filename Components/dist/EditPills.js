@@ -17,6 +17,7 @@ var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var Home_1 = require("../screens/Home");
 var react_native_elements_1 = require("react-native-elements");
 var async_storage_1 = require("@react-native-async-storage/async-storage");
+var Notifications_1 = require("../Notifications");
 var EditPills = function (_a) {
     var setEditPill = _a.setEditPill, filterData = _a.filterData, data = _a.data, index = _a.index, setFilterData = _a.setFilterData, mainDrive = _a.mainDrive, setMessage = _a.setMessage, setShowNotif = _a.setShowNotif, setPillActive = _a.setPillActive, setCurrentPill = _a.setCurrentPill, setIndex = _a.setIndex;
     var _b = react_1.useState(false), open = _b[0], setOpen = _b[1];
@@ -57,7 +58,7 @@ var EditPills = function (_a) {
             times: value === 1
                 ? [morningTime]
                 : value === 2
-                    ? [morningTime, afternoonTime]
+                    ? [morningTime, eveningTime]
                     : [morningTime, afternoonTime, eveningTime],
             startDate: startDate,
             endDate: moment_1["default"](endDate).format('ddd MMM D YYYY'),
@@ -68,6 +69,18 @@ var EditPills = function (_a) {
         async_storage_1["default"].setItem('pillData', JSON.stringify(clonedData)).then(function () {
             setFilterData(clonedData);
             mainDrive(Home_1.d.format('ddd MMM D YYYY'));
+            var currentTime = Number(Home_1.d.format('HH:mm').replace(':', ''));
+            edittedPill.times.forEach(function (element) {
+                var dateTime = Number(element.replace(':', ''));
+                if (currentTime < dateTime) {
+                    var notifDate = moment_1["default"](element, ['h:m a', 'H:m']).toDate();
+                    var text = "It's time to take your " + element + " pills";
+                    Notifications_1["default"].scheduleNotification({
+                        reminder: text,
+                        date: notifDate
+                    });
+                }
+            });
             setPillName('');
             setPillDesc('');
             setDosage('');
