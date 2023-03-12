@@ -58,7 +58,6 @@ var moment_1 = require("moment");
 var react_native_fontawesome_1 = require("@fortawesome/react-native-fontawesome");
 var import_macro_1 = require("@fortawesome/fontawesome-svg-core/import.macro");
 var react_native_swipe_list_view_1 = require("react-native-swipe-list-view");
-var react_native_background_fetch_1 = require("react-native-background-fetch");
 var NewPill_1 = require("../Components/NewPill");
 var Settings_1 = require("../Components/Settings");
 var MedicineContainer_1 = require("../Components/MedicineContainer");
@@ -103,56 +102,6 @@ var Home = function () {
     var _e = react_1.useState(exports.d.format('dddd MMM D')), fullDate = _e[0], setFullDate = _e[1];
     var _f = react_1.useState('today'), header = _f[0], setHeader = _f[1];
     var _g = react_1.useState(moment_1["default"]()), selectedDate = _g[0], setSelectedDate = _g[1];
-    var initBackgroundFetch = function () { return __awaiter(void 0, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, react_native_background_fetch_1["default"].configure({
-                        minimumFetchInterval: 15,
-                        stopOnTerminate: false,
-                        enableHeadless: true,
-                        startOnBoot: true,
-                        // Android options
-                        forceAlarmManager: true,
-                        requiredNetworkType: react_native_background_fetch_1["default"].NETWORK_TYPE_NONE,
-                        requiresCharging: false,
-                        requiresDeviceIdle: false,
-                        requiresBatteryNotLow: false,
-                        requiresStorageNotLow: false
-                    }, function (taskId) { return __awaiter(void 0, void 0, void 0, function () {
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0:
-                                    console.log('Received background-fetch event: ', taskId);
-                                    return [4 /*yield*/, loadData().then(function () {
-                                            mainDrive(exports.d.format('ddd MMM D YYYY'));
-                                            setPushNotification();
-                                            generateNotifications();
-                                        })];
-                                case 1:
-                                    _a.sent();
-                                    react_native_background_fetch_1["default"].finish(taskId);
-                                    return [2 /*return*/];
-                            }
-                        });
-                    }); }, function (taskId) {
-                        // Oh No!  Our task took too long to complete and the OS has signalled
-                        // that this task must be finished immediately.
-                        console.log('[Fetch] TIMEOUT taskId:', taskId);
-                        react_native_background_fetch_1["default"].finish(taskId);
-                    })];
-                case 1:
-                    _a.sent();
-                    react_native_background_fetch_1["default"].start();
-                    react_native_background_fetch_1["default"].scheduleTask({
-                        taskId: 'com.foo.customtask',
-                        delay: 5000,
-                        forceAlarmManager: true,
-                        periodic: true
-                    });
-                    return [2 /*return*/];
-            }
-        });
-    }); };
     var _h = react_1.useState([]), filterData = _h[0], setFilterData = _h[1];
     function mainDrive(date) {
         //set data based on date
@@ -300,7 +249,6 @@ var Home = function () {
             backgroundColor: '#22bcb5'
         },
     ];
-    /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
     var _k = react_1.useState(false), confetti = _k[0], setConfetti = _k[1];
     var renderItem = function (data) { return (react_1["default"].createElement(react_native_1.View, { style: styles.rowFront },
         react_1["default"].createElement(MedicineContainer_1["default"], { props: data.item, confetti: confetti, setConfetti: setConfetti, day: day }))); };
@@ -567,7 +515,6 @@ var Home = function () {
                 mainDrive(exports.d.format('ddd MMM D YYYY'));
                 setPushNotification();
                 generateNotifications();
-                initBackgroundFetch();
                 checkPermission();
                 setSplash(false);
             });
@@ -582,9 +529,6 @@ var Home = function () {
             setShowNotif(false);
         }, 3000);
     }, [showNotif]);
-    /*   useEffect(() => {
-      generateNotifications();
-    }, [d.format('mm')]); */
     var renderSlideItem = function (_a) {
         var item = _a.item;
         return (react_1["default"].createElement(react_native_1.View, { key: item.key, style: styles.slide },

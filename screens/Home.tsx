@@ -22,8 +22,6 @@ import moment from 'moment';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {solid, regular} from '@fortawesome/fontawesome-svg-core/import.macro';
 import {SwipeListView} from 'react-native-swipe-list-view';
-
-import BackgroundFetch from 'react-native-background-fetch';
 import NewPill from '../Components/NewPill';
 import Settings from '../Components/Settings';
 import MedicineContainer from '../Components/MedicineContainer';
@@ -72,46 +70,6 @@ const Home = () => {
   const [fullDate, setFullDate] = useState(d.format('dddd MMM D'));
   const [header, setHeader] = useState<string>('today');
   const [selectedDate, setSelectedDate] = useState(moment());
-
-  const initBackgroundFetch = async () => {
-    await BackgroundFetch.configure(
-      {
-        minimumFetchInterval: 15, // <-- minutes (15 is minimum allowed)
-        stopOnTerminate: false,
-        enableHeadless: true,
-        startOnBoot: true,
-        // Android options
-        forceAlarmManager: true, // <-- Set true to bypass JobScheduler.
-        requiredNetworkType: BackgroundFetch.NETWORK_TYPE_NONE, // Default
-        requiresCharging: false, // Default
-        requiresDeviceIdle: false, // Default
-        requiresBatteryNotLow: false, // Default
-        requiresStorageNotLow: false,
-      },
-      async (taskId: string) => {
-        console.log('Received background-fetch event: ', taskId);
-        await loadData().then(() => {
-          mainDrive(d.format('ddd MMM D YYYY'));
-          setPushNotification();
-          generateNotifications();
-        });
-        BackgroundFetch.finish(taskId);
-      },
-      (taskId: string) => {
-        // Oh No!  Our task took too long to complete and the OS has signalled
-        // that this task must be finished immediately.
-        console.log('[Fetch] TIMEOUT taskId:', taskId);
-        BackgroundFetch.finish(taskId);
-      },
-    );
-    BackgroundFetch.start();
-    BackgroundFetch.scheduleTask({
-      taskId: 'com.foo.customtask',
-      delay: 5000, // milliseconds
-      forceAlarmManager: true,
-      periodic: true,
-    });
-  };
 
   const [filterData, setFilterData] = useState([]);
   function mainDrive(date) {
@@ -276,7 +234,7 @@ const Home = () => {
       backgroundColor: '#22bcb5',
     },
   ];
-  /*   const color = colors[Math.floor(Math.random() * colors.length)]; */
+   
   const [confetti, setConfetti] = useState<boolean>(false);
   const renderItem = data => (
     <View style={styles.rowFront}>
@@ -580,7 +538,7 @@ const Home = () => {
         mainDrive(d.format('ddd MMM D YYYY'));
         setPushNotification();
         generateNotifications();
-        initBackgroundFetch();
+
         checkPermission();
         setSplash(false);
       });
@@ -596,10 +554,6 @@ const Home = () => {
       setShowNotif(false);
     }, 3000);
   }, [showNotif]);
-
-  /*   useEffect(() => {
-    generateNotifications();
-  }, [d.format('mm')]); */
 
   const renderSlideItem = ({item}) => {
     return (
